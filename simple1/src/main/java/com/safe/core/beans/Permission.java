@@ -1,18 +1,36 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
-import java.util.List;
 
-public class Permission implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
 
-    private Integer parentId;
-    private String pathUrl;
+public class Permission extends CreatorBean {
 
-    private String name;
+	    private Integer menuId;
 
-    private String desc;
-    private static final long serialVersionUID = 1L;
+	    private String pathUrl;
+
+	    private String name;
+
+	    private String orderNum;
+	    private String description;
+	    
+    public Integer getMenuId() {
+			return menuId;
+		}
+
+		public void setMenuId(Integer menuId) {
+			this.menuId = menuId;
+		}
+
+		public String getOrderNum() {
+			return orderNum;
+		}
+
+		public void setOrderNum(String orderNum) {
+			this.orderNum = orderNum;
+		}
+
+	private static final long serialVersionUID = 1L;
 
     public String getPathUrl() {
 		return pathUrl;
@@ -22,21 +40,7 @@ public class Permission implements Serializable {
 		this.pathUrl = pathUrl;
 	}
 
-	public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
 
     public String getName() {
         return name;
@@ -46,11 +50,12 @@ public class Permission implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDesc() {
-        return desc;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }

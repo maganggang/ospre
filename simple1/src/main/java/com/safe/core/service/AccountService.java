@@ -9,13 +9,16 @@ import com.safe.core.beans.Account;
 public interface AccountService {
 	public List<Account> selectAll();
 
-	public Account selectByPrimaryKey(Integer id);
+	public Account select(Integer id);
 
-	public Boolean deleteAccount(Integer id);
+	public Boolean delete(Integer id);
 
-	public Account updateAccount(Account account);
+	public Account update(Account account);
 
-	public Account insertAccount(Account account);
+	public Account insert(Account account);
 
 	public Account login(String username,String password);
+
+
+	public List<Integer> getAllRoleIds(Integer accountId);
 }

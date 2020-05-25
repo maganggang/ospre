@@ -17,11 +17,11 @@ private AccountMapper accountMapper;
 		return accountMapper.findAll();
 	}
 
-	public Account selectByPrimaryKey(Integer id) {
+	public Account select(Integer id) {
 		return accountMapper.selectByPrimaryKey(id);
 	}
 
-	public Boolean deleteAccount(Integer id) {
+	public Boolean delete(Integer id) {
 		int i=accountMapper.deleteByPrimaryKey(id);
 		if(i>0){
 			return true;
@@ -29,7 +29,7 @@ private AccountMapper accountMapper;
 		return false;
 	}
 
-	public Account updateAccount(Account account) {
+	public Account update(Account account) {
 		int i=accountMapper.updateByPrimaryKeySelective(account);
 		if(i>0){
 			return account;
@@ -37,7 +37,7 @@ private AccountMapper accountMapper;
 		return null;
 	}
 
-	public Account insertAccount(Account account) {
+	public Account insert(Account account) {
 		int i=accountMapper.insertSelectiveReturnKey(account);
 		if(i>0){
 			return account;
@@ -51,6 +51,14 @@ private AccountMapper accountMapper;
 			return a;
 		}
 		return null;
+	}
+/**
+ * 查询账号的所有角色id
+ */
+	@Override
+	public List<Integer> getAllRoleIds(Integer accountId) {
+		List<Integer> list=accountMapper.selectAllRoleId(accountId);
+		return list;
 	}
 
 

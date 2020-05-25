@@ -58,7 +58,22 @@
         <!--                 <bean class="com.xiaochangwei.web.interceptor.MybatisRWSplitInterceptor" /> -->
         <!--             </array> -->
         <!--         </property> -->
-    </bean>
+        <!-- sql拦截器 -->        
+        <property name="plugins">
+			<array>
+				<bean class="com.safe.core.filter.SqlInterceptor">
+					<!-- <property name="properties">
+						<props>
+							<prop key="createTime">create_time</prop>
+							<prop key="createUser">create_user</prop>
+							<prop key="updateTime">update_time</prop>
+							<prop key="updateUser">update_user</prop>
+						</props>
+					</property> -->
+				</bean>
+			</array>
+</property>
+   </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.safe.core.mapper" />
@@ -67,6 +82,6 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
 </beans>

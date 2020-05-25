@@ -8,7 +8,7 @@ public interface UserService {
 
 	List<User> selectAll(User user);
 
-	User selectByPrimaryKey(Integer id);
+	User select(Integer id);
 
 	Boolean deleteByPrimaryKey(Integer id);
 
@@ -21,5 +21,15 @@ public interface UserService {
 	List<User> findAllByOrg(int orgId, User user);
 
 	Boolean deleteList(List<String> ids);
+/**
+ * 删除用户 同时删除账号
+* @Title: deleteUser 
+* @param id
+* @return
+* @return: Boolean 
+* @author mgg
+* @date 2020年5月22日
+ */
+	Boolean delete(Integer id);
 
 }

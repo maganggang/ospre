@@ -1,13 +1,14 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 
-public class AccountRoleRef implements Serializable {
-    private Integer accountId;
+import com.safe.core.base.bean.CreatorBean;
 
-    private Integer roleId;
+public class AccountRoleRef extends CreatorBean{
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
+		private Integer accountId;
+
+	    private Integer roleId;
 
     public Integer getAccountId() {
         return accountId;

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.safe.core.mapper.GridMapper">
+  <resultMap id="BaseResultMap" type="com.safe.core.beans.Grid">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="position_id" jdbcType="INTEGER" property="positionId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="radius" jdbcType="VARCHAR" property="radius" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, position_id, type, radius, area_id, createtime, creator_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from grid
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from grid
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safe.core.beans.Grid">
+    insert into grid (id, position_id, type, 
+      radius, area_id, createtime, 
+      creator_id)
+    values (#{id,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{radius,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{creatorId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safe.core.beans.Grid">
+    insert into grid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="positionId != null">
+        position_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="radius != null">
+        radius,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="positionId != null">
+        #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="radius != null">
+        #{radius,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.Grid">
+    update grid
+    <set>
+      <if test="positionId != null">
+        position_id = #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="radius != null">
+        radius = #{radius,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Grid">
+    update grid
+    set position_id = #{positionId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      radius = #{radius,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

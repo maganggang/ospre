@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.Account;
 import com.safe.core.beans.Authority;
-import com.safe.core.beans.ResultBean;
+import com.safe.core.beans.Menu;
 import com.safe.core.service.AuthorityService;
+import com.safe.core.utils.BaseUserInfo;
 
 @Controller
 @RequestMapping("/authority")
@@ -50,10 +52,21 @@ public class AuthorityController {
 	}
 	@RequestMapping("/selectMyAuth")
 	@ResponseBody
-	public Account SelectOne(HttpServletRequest req){
+	public List<Menu> SelectOne(HttpServletRequest req){
+		if(req.getSession().getAttribute("userInfo")!=null){
+			BaseUserInfo userInfo =(BaseUserInfo) req.getSession().getAttribute("userInfo");
+			Integer i=userInfo.getId();
+			List<Menu> result=authorityService.selectAuthority(i);
+			return result;
+		}
+		return null;
+	}
+	@RequestMapping("/selectMyAuthById")
+	@ResponseBody
+	public List<Menu> selectMyFirstAuth(HttpServletRequest req,Integer parentId){
 		if(req.getSession().getAttribute("accountId")!=null){
 			Integer i=Integer.parseInt(req.getSession().getAttribute("accountId").toString());
-			Account result=authorityService.selectAuthority(i);
+			List<Menu> result=authorityService.selectAuthorityById(i, parentId);
 			return result;
 		}
 		return null;

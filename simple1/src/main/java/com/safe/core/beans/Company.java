@@ -1,26 +1,26 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
-import java.util.Date;
 
-public class Company implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
+
+public class Company extends CreatorBean {
 
     private String name;
 
     private String desc;
 
-    private Date createtime;
+    private Integer areaId;
 
-    private static final long serialVersionUID = 1L;
+	public Integer getAreaId() {
+		return areaId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setAreaId(Integer areaId) {
+		this.areaId = areaId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private static final long serialVersionUID = 1L;
+
 
     public String getName() {
         return name;
@@ -38,11 +38,4 @@ public class Company implements Serializable {
         this.desc = desc == null ? null : desc.trim();
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
 }

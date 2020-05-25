@@ -141,7 +141,7 @@
               		console.log("返回值在",result);
               		if(result&&result.id){
               			for(x in result){
-              				if($("input[name='"+x+"'][type!='radio']").length>0){
+              				if($("input[name='"+x+"'][type!='radio']").length>0&&x!="postId"){
               					$("input[name='"+x+"']").val(result[x]);
               				}else if(x=="postId"){
               					//$("select[name='"+x+"']").val(result[x]);

@@ -2,7 +2,7 @@ package com.safe.core.service;
 
 import java.util.List;
 
-import com.safe.core.beans.ListMapVo;
+import com.safe.core.base.bean.ListMapVo;
 import com.safe.core.beans.Post;
 
 public interface PostService {

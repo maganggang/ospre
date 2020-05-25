@@ -1,32 +1,27 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
-import java.util.Date;
 
-public class Item implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
 
-    private String name;
+public class Item extends CreatorBean {
 
-    private String desc;
+	    private String name;
 
-    private Date createtime;
+	    private String desc;
 
-    private Integer departId;
+	    private Integer areaPositionId;
 
-    private Integer companyId;
 
-    private Integer areaId;
+		public Integer getAreaPositionId() {
+			return areaPositionId;
+		}
 
-    private static final long serialVersionUID = 1L;
+		public void setAreaPositionId(Integer areaPositionId) {
+			this.areaPositionId = areaPositionId;
+		}
 
-    public Integer getId() {
-        return id;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -44,35 +39,4 @@ public class Item implements Serializable {
         this.desc = desc == null ? null : desc.trim();
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public Integer getDepartId() {
-        return departId;
-    }
-
-    public void setDepartId(Integer departId) {
-        this.departId = departId;
-    }
-
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-    }
-
-    public Integer getAreaId() {
-        return areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
-    }
 }

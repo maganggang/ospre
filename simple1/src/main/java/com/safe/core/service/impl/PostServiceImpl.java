@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safe.core.beans.ListMapVo;
+import com.safe.core.base.bean.ListMapVo;
 import com.safe.core.beans.Post;
 import com.safe.core.mapper.PostMapper;
 import com.safe.core.service.PostService;

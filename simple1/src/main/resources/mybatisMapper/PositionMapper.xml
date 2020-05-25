@@ -1,118 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.safe.core.mapper.PositionMapper">
-  <resultMap id="BaseResultMap" type="com.safe.core.beans.Position">
+  <resultMap id="BaseResultMap" type="com.safe.core.beans.Post">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="lng" jdbcType="DOUBLE" property="lng" />
-    <result column="lat" jdbcType="DOUBLE" property="lat" />
-    <result column="height" jdbcType="DOUBLE" property="height" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="post_card" jdbcType="VARCHAR" property="postCard" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, lng, lat, height
+    id, org_id, name, desc, createtime, creator_id, post_card
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from position
+    from post
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safe.core.beans.Post">
+    insert into post (id, org_id, name, 
+      desc, createtime, creator_id, 
+      post_card)
+    values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, 
+      #{postCard,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safe.core.beans.Post">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="postCard != null">
+        post_card,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="postCard != null">
+        #{postCard,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.Post">
+    update post
+    <set>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="postCard != null">
+        post_card = #{postCard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Post">
+    update post
+    set org_id = #{orgId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      desc = #{desc,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      post_card = #{postCard,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
     <select id="findAll" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from position
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from position
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.safe.core.beans.Position">
-    insert into position (id, lng, lat, height
-      )
-    values (#{id,jdbcType=INTEGER}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{height,jdbcType=DOUBLE}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.safe.core.beans.Position">
-    insert into position
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="lng != null">
-        lng,
-      </if>
-      <if test="lat != null">
-        lat,
-      </if>
-      <if test="height != null">
-        height,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="lng != null">
-        #{lng,jdbcType=DOUBLE},
-      </if>
-      <if test="lat != null">
-        #{lat,jdbcType=DOUBLE},
-      </if>
-      <if test="height != null">
-        #{height,jdbcType=DOUBLE},
-      </if>
-    </trim>
-  </insert>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id" parameterType="com.safe.core.beans.Position">
-    insert into position
+     insert into post
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="lng != null">
-        lng,
+      <if test="orgId != null">
+        org_id,
       </if>
-      <if test="lat != null">
-        lat,
+      <if test="name != null">
+        name,
       </if>
-      <if test="height != null">
-        height,
+      <if test="desc != null">
+        desc,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="postCard != null">
+        post_card,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="lng != null">
-        #{lng,jdbcType=DOUBLE},
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
       </if>
-      <if test="lat != null">
-        #{lat,jdbcType=DOUBLE},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="height != null">
-        #{height,jdbcType=DOUBLE},
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="postCard != null">
+        #{postCard,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.Position">
-    update position
-    <set>
-      <if test="lng != null">
-        lng = #{lng,jdbcType=DOUBLE},
-      </if>
-      <if test="lat != null">
-        lat = #{lat,jdbcType=DOUBLE},
-      </if>
-      <if test="height != null">
-        height = #{height,jdbcType=DOUBLE},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Position">
-    update position
-    set lng = #{lng,jdbcType=DOUBLE},
-      lat = #{lat,jdbcType=DOUBLE},
-      height = #{height,jdbcType=DOUBLE}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 </mapper>

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.Permission;
-import com.safe.core.beans.ResultBean;
 import com.safe.core.beans.Role;
 import com.safe.core.service.PermissionService;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.safe.core.beans.ResultBean;
+import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.User;
 import com.safe.core.service.UserService;
 import com.safe.core.utils.BaseUserInfo;
@@ -55,7 +55,7 @@ public class UserController extends BaseUserInfo{
 	@RequestMapping("/user/{id}")
 	@ResponseBody
 	public User findOne(@PathVariable Integer id){
-		return userService.selectByPrimaryKey(id);
+		return userService.select(id);
 	}
 	/**
 	 * µÇÂ¼ÈË¸öÈËÏêÏ¸
@@ -71,7 +71,7 @@ public class UserController extends BaseUserInfo{
 	public User findMyInfo(){
 		Integer userId=this.getUserId();
 		if(userId!=null){
-			return userService.selectByPrimaryKey(userId); 
+			return userService.select(userId); 
 		}else{
 			return null;
 		}
@@ -79,7 +79,7 @@ public class UserController extends BaseUserInfo{
 	@RequestMapping("/delete/{id}")
 	@ResponseBody
 	public Boolean deleteOne(@PathVariable Integer id){
-		return userService.deleteByPrimaryKey(id);
+		return userService.delete(id);
 	}
 	@RequestMapping("/deleteList")
 	@ResponseBody

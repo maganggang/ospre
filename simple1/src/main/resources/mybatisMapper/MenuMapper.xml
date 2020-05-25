@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.safe.core.mapper.MenuMapper">
+ <resultMap id="BaseResultMap" type="com.safe.core.beans.Menu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="icon_name" jdbcType="VARCHAR" property="iconName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+  </resultMap>
+   <resultMap id="BaseAuthMap" type="com.safe.core.beans.Menu">
+	      <id column="menu_id" jdbcType="INTEGER" property="id" />
+	    <result column="name" jdbcType="VARCHAR" property="name" />
+	    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+	    <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
+	    <result column="icon_name" jdbcType="VARCHAR" property="iconName" />
+	    <result column="url" jdbcType="VARCHAR" property="url" />
+	    <collection property="permissionList" ofType="com.safe.core.beans.Permission">
+		    <id column="btn_id" jdbcType="INTEGER" property="id" />
+		    <result column="btn_name" jdbcType="VARCHAR" property="name" />
+		    <result column="path_url" jdbcType="VARCHAR" property="pathUrl" />
+		  </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, parent_id, icon_name, url, order_num, createtime, creator_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.safe.core.beans.Menu">
+    insert into menu (id, name, parent_id, 
+      icon_name, url, order_num, 
+      createtime, creator_id)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{iconName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.safe.core.beans.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="iconName != null">
+        icon_name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="iconName != null">
+        #{iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id" parameterType="com.safe.core.beans.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="iconName != null">
+        icon_name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="iconName != null">
+        #{iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.Menu">
+    update menu
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="iconName != null">
+        icon_name = #{iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Menu">
+    update menu
+    set name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      icon_name = #{iconName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      creator_id = #{creatorId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="findAll" parameterType="com.safe.core.beans.Menu" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    <where>
+         <if test="name != null and name!=''">
+        name like CONCAT('%',#{name},'%')
+       </if>
+    </where>
+  </select>
+    <select id="selectMyMenu" resultMap="BaseResultMap">
+		select * from (
+		select 
+		 c.id,c.name,c.parent_id,c.icon_name,c.url, c.desc
+		 from account f
+		left join account_role_ref e on f.id=e.role_id
+		left join authority_role_ref b on b.role_id=e.role_id
+		left join authority a on a.id=b.authority_id
+		left join menu c on c.id=a.module_id
+		left join permission d on d.id=a.permission_id
+		where f.id=#{accountId} 
+			<if test="parentId != null">
+			   and c.parent_id= #{parentId}
+			</if>
+			<if  test="parentId == null">
+			      and c.parent_id is null
+			</if>
+		UNION 
+		select 
+		 c.id,c.name,c.parent_id,c.icon_name,c.url, c.desc
+		from account f
+		left join user e on f.user_id=e.id
+		left join post_role_ref g on e.post_id=g.post_id
+		left join authority_role_ref b on b.role_id=g.role_id
+		left join authority a on a.id=b.authority_id
+		left join menu c on c.id=a.module_id
+		left join permission d on d.id=a.permission_id
+		where f.id=#{accountId}
+		<if test="parentId != null">
+			   and c.parent_id= #{parentId}
+			</if>
+			<if  test="parentId == null">
+			      and c.parent_id is null
+			</if>
+		) a
+  </select>
+<select id="selectMyAuth" parameterType="java.lang.Integer" resultMap="BaseAuthMap">
+		select
+*
+		from (
+		select DISTINCT 
+		 d.path_url,d.name btn_name,d.id btn_id,e.id menu_id,e.name,e.parent_id,e.icon_name,e.url
+		 from account a
+		left join account_role_ref b on a.id=b.role_id
+		left join authority c on c.role_id=b.role_id
+		left join permission d on d.id=c.permission_id
+		left join menu e on d.menu_id=e.id
+		where a.id=#{accountId}
+		UNION 
+		select DISTINCT
+		 e.path_url,e.name btn_name,e.id btn_id,f.id menu_id,f.name,f.parent_id,f.icon_name,f.url
+		from account a
+		left join user b on a.user_id=b.id
+		left join post_role_ref c on b.post_id=c.post_id
+		left join authority d on d.role_id=d.role_id
+		left join permission e on e.id=d.permission_id
+		left join menu f on f.id=e.menu_id
+		where f.id=#{accountId}
+		) a
+  </select>
+</mapper>

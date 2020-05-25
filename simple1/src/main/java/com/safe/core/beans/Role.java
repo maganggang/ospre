@@ -1,30 +1,43 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Role implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
+
+public class Role extends CreatorBean{
 
     private String name;
 
-    private String desc;
+    private String description;
 
-    private Integer parentId;
-    private List<String> moduleIds;
+
+    private Date operatetime;
+
+    private Integer operatorId;
+    
+
+	public Date getOperatetime() {
+		return operatetime;
+	}
+
+	public void setOperatetime(Date operatetime) {
+		this.operatetime = operatetime;
+	}
+
+	public Integer getOperatorId() {
+		return operatorId;
+	}
+
+	public void setOperatorId(Integer operatorId) {
+		this.operatorId = operatorId;
+	}
+
+	private List<String> moduleIds;
 	private List<String> authorityIds;
-    private Date createtime;
     private List<Authority> authorityList; 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -32,30 +45,6 @@ public class Role implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
     }
 
 	public List<Authority> getAuthorityList() {
@@ -80,5 +69,13 @@ public class Role implements Serializable {
 
 	public void setAuthorityIds(List<String> authorityIds) {
 		this.authorityIds = authorityIds;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

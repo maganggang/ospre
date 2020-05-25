@@ -7,12 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safe.core.base.bean.ListMapVo;
 import com.safe.core.beans.Account;
 import com.safe.core.beans.Authority;
-import com.safe.core.beans.ListMapVo;
+import com.safe.core.beans.Menu;
 import com.safe.core.mapper.AccountMapper;
 import com.safe.core.mapper.AuthorityMapper;
-import com.safe.core.mapper.ModuleMapper;
+import com.safe.core.mapper.MenuMapper;
 import com.safe.core.service.AuthorityService;
 import com.safe.core.utils.TreeUtils;
 @Service
@@ -20,7 +21,9 @@ public class AuthorityServiceImpl implements AuthorityService{
 	@Autowired
 	private AuthorityMapper authorityMapper;
 	@Autowired
-	private AccountMapper accountMapper;
+	private MenuMapper menuMapper;
+	@Autowired
+	private MenuMapper moduleMapper;
 		public List<Authority> selectAll() {
 			return authorityMapper.findAll();
 		}
@@ -53,12 +56,17 @@ public class AuthorityServiceImpl implements AuthorityService{
 			return null;
 		}
 
-		public Account selectAuthority(Integer id) {
-			Account account=accountMapper.selectMyAuth(id);
-			List<ListMapVo> list=account.getModuleMapList();
+		public List<Menu> selectAuthority(Integer id) {
+			List<Menu> menus=menuMapper.selectMyAuth(id);
 			//list=TreeUtils.toTree(list, "id", "parentId");
 			//System.out.println(TreeUtils.toTree(list, "id", "parentId"));
-			account.setModuleMapList(TreeUtils.toTree(list, "id", "parentId"));
-			return account;
+			TreeUtils.MenutoTree(menus);
+			return menus;
+		}
+
+		@Override
+		public List<Menu> selectAuthorityById(Integer accountId, Integer parentId) {
+			List<Menu> list=moduleMapper.selectMyMenu(accountId, parentId);
+			return list;
 		}
 }

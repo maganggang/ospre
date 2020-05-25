@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.safe.core.beans.User;
 
+import config.InterceptAnnotation;
+
 public interface UserMapper {
     int insert(User record);
 
@@ -18,7 +20,7 @@ public interface UserMapper {
 	int insertSelectiveReturnKey(User user);
 
 	int updateByPrimaryKeySelective(User user);
-
+	@InterceptAnnotation(flag=true)
 	List<User> findAll(User user);
 
 	User selectUserInfo(Integer userId);

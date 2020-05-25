@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.Account;
-import com.safe.core.beans.Module;
 import com.safe.core.beans.Permission;
-import com.safe.core.beans.ResultBean;
 import com.safe.core.beans.Role;
 import com.safe.core.service.RoleService;
 
@@ -24,10 +25,12 @@ public class RoleController {
 	private RoleService roleService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public ResultBean<Role> allRole(){
+	public ResultBean<Role> allRole(Page<Role> page,Role role){
+		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
 		ResultBean<Role> b=new ResultBean<Role>();
-		List<Role> sList= roleService.selectAll();
-		b.setData(sList);
+		List<Role> result= roleService.selectAll();
+		b.setData(result);
+		b.setCount(page.getTotal());
 		return b;
 	}
 	@RequestMapping("/role/{id}")

@@ -1,31 +1,18 @@
 package com.safe.core.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-public class Authority implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
 
-    private Integer moduleId;
+public class Authority extends CreatorBean {
+	    private Integer roleId;
 
-    private Integer permissionId;
-    private String permissionName;
+	    private Integer permissionId;
+	private String permissionName;
     private static final long serialVersionUID = 1L;
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getModuleId() {
-        return moduleId;
-    }
-
-    public void setModuleId(Integer moduleId) {
-        this.moduleId = moduleId;
-    }
 
     public Integer getPermissionId() {
         return permissionId;
@@ -42,5 +29,13 @@ public class Authority implements Serializable {
 
 	public void setPermissionName(String permissionName) {
 		this.permissionName = permissionName;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 }

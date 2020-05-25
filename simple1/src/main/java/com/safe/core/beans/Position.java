@@ -3,7 +3,7 @@ package com.safe.core.beans;
 import java.io.Serializable;
 
 public class Position implements Serializable {
-    private Integer id;
+	private Integer id;
 
     private Double lng;
 

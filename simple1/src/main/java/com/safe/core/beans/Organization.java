@@ -1,27 +1,29 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 
-public class Organization implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
+
+public class Organization extends CreatorBean {
 
     private Byte type;
 
     private Integer value;
 
-    private Integer postId;
-
     private String name;
 
-    private static final long serialVersionUID = 1L;
+    private Integer parentId;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	private static final long serialVersionUID = 1L;
+
 
     public Byte getType() {
         return type;
@@ -38,15 +40,6 @@ public class Organization implements Serializable {
     public void setValue(Integer value) {
         this.value = value;
     }
-
-    public Integer getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Integer postId) {
-        this.postId = postId;
-    }
-
     public String getName() {
         return name;
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.safe.core.beans.Account;
 import com.safe.core.beans.Authority;
+import com.safe.core.beans.Menu;
 
 public interface AuthorityService {
 
@@ -17,6 +18,8 @@ public interface AuthorityService {
 
 	Authority insert(Authority authority);
 
-	Account selectAuthority(Integer i);
+	List<Menu> selectAuthority(Integer accountId);
+
+	List<Menu> selectAuthorityById(Integer i, Integer parentId);
 
 }

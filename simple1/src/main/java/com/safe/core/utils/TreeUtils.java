@@ -2,10 +2,14 @@ package com.safe.core.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.safe.core.beans.ListMapVo;
+import org.springframework.context.support.StaticApplicationContext;
+
+import com.safe.core.base.bean.ListMapVo;
+import com.safe.core.beans.Menu;
 
 public class TreeUtils {
 private static boolean isLastChildern(List<ListMapVo>  list,Map<String,Object> map,String key,String parentKey){
@@ -47,8 +51,49 @@ private static boolean isLastChildern(List<ListMapVo>  list,Map<String,Object> m
 		}
 		return list;
 	}
+	public static List<Menu> MenutoTree( List<Menu> menus){
+		List<Menu> old=new ArrayList<>();
+		old.addAll(menus);
+		for(int i=0,j=old.size();i<j;i++){
+		Menu removedMenu=menus.remove(0);
+		Menu parentMenu=contaionsInList(removedMenu,menus);
+		if(parentMenu!=null){
+			if(parentMenu.getChildren()!=null&&parentMenu.getChildren().size()>0){
+				parentMenu.getChildren().add(removedMenu);
+			}else{
+				List<Menu> childernList=new ArrayList<>();
+				childernList.add(removedMenu);
+				parentMenu.setChildren(childernList);
+			}
+			return MenutoTree( menus);
+		}else{
+			menus.add(removedMenu);
+		}
+		}
+		return menus;
+	}
+	/**
+	 * 我与数组仍然有父子关联 
+	* @Title: contaionsInList 
+	* @param removedMenu
+	* @param menus
+	* @return
+	* @return: boolean 
+	* @author mgg
+	* @date 2020年5月25日
+	 */
+private static Menu contaionsInList(Menu removedMenu, List<Menu> menus) {
+	Iterator<Menu> it = menus.iterator();
+	while(it.hasNext()){
+		Menu temp=it.next();
+		if(temp.getId().equals(removedMenu.getParentId())){
+			return temp;
+		}
+	}
+		return null;
+	}
 public static void main(String[] args) {
-	List<ListMapVo> newList=new ArrayList<ListMapVo>();
+/*	List<ListMapVo> newList=new ArrayList<ListMapVo>();
 	ListMapVo m1=new ListMapVo();
 	m1.put("id", 1);
 	m1.put("parentId", null);
@@ -70,6 +115,27 @@ public static void main(String[] args) {
 	newList.add(m4);
 	System.out.println(newList);
 	List l1=toTree(newList, "id", "parentId");
+	System.out.println(l1);*/
+	List<Menu> newList=new ArrayList<Menu>();
+	Menu m1=new Menu();
+	m1.setId(1);
+	newList.add( m1);
+	
+	Menu m2=new Menu();
+	m2.setId(2);
+	newList.add(m2);
+	
+	Menu m3=new Menu();
+	m3.setId(3);
+	m3.setParentId(1);
+	newList.add(m3);
+	
+	Menu m4=new Menu();
+	m4.setId(4);
+	m4.setParentId(3);
+	newList.add(m4);
+	System.out.println(newList);
+	List l1=MenutoTree(newList);
 	System.out.println(l1);
 }
 }

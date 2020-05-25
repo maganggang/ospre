@@ -1,10 +1,11 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class User  extends TimeBean implements Serializable{
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
+import com.safe.core.base.bean.TimeBean;
+
+public class User   extends CreatorBean{
 
     private String name;
 
@@ -15,18 +16,42 @@ public class User  extends TimeBean implements Serializable{
     private String phone;
 
     private String email;
-    private Date createtime;
+
+    private Integer orgId;
+
+
+    private Date opreatetime;
+
+    private Integer opreatorId;
+    private TimeBean timeBean;
     private Integer postId;
-    private Post post;
+    public Integer getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
+
+
+	public Date getOpreatetime() {
+		return opreatetime;
+	}
+
+	public void setOpreatetime(Date opreatetime) {
+		this.opreatetime = opreatetime;
+	}
+
+	public Integer getOpreatorId() {
+		return opreatorId;
+	}
+
+	public void setOpreatorId(Integer opreatorId) {
+		this.opreatorId = opreatorId;
+	}
+
+	private Post post;
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -84,12 +109,12 @@ public class User  extends TimeBean implements Serializable{
 		this.post = post;
 	}
 
-	public Date getCreatetime() {
-		return createtime;
+	public TimeBean getTimeBean() {
+		return timeBean;
 	}
 
-	public void setCreatetime(Date createtime) {
-		this.createtime = createtime;
+	public void setTimeBean(TimeBean timeBean) {
+		this.timeBean = timeBean;
 	}
 
 }

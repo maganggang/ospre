@@ -1,29 +1,29 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 
-public class Dict implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
 
-    private String dictType;
+public class Dict extends CreatorBean {
 
-    private String dictValue;
+	    private String dictType;
 
-    private String dictGroupName;
+	    private String dictValue;
 
-    private String dictGroupValue;
+	    private Integer parentId;
 
-    private String desc;
+	    private String desc;
 
-    private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getParentId() {
+			return parentId;
+		}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+		public void setParentId(Integer parentId) {
+			this.parentId = parentId;
+		}
+
+	private static final long serialVersionUID = 1L;
+
 
     public String getDictType() {
         return dictType;
@@ -40,23 +40,6 @@ public class Dict implements Serializable {
     public void setDictValue(String dictValue) {
         this.dictValue = dictValue == null ? null : dictValue.trim();
     }
-
-    public String getDictGroupName() {
-        return dictGroupName;
-    }
-
-    public void setDictGroupName(String dictGroupName) {
-        this.dictGroupName = dictGroupName == null ? null : dictGroupName.trim();
-    }
-
-    public String getDictGroupValue() {
-        return dictGroupValue;
-    }
-
-    public void setDictGroupValue(String dictGroupValue) {
-        this.dictGroupValue = dictGroupValue == null ? null : dictGroupValue.trim();
-    }
-
     public String getDesc() {
         return desc;
     }

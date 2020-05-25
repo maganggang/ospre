@@ -239,9 +239,8 @@
     	})
         $.get('/simple1/authority/selectMyAuth', function (result) {
           	console.log(result);
-          	if(result&&result.moduleMapList){
-          		$("username").html(result.username);
-          		var data=result.moduleMapList;
+          	if(result){
+          		var data=result;
           		var menu=$("#nav");
           		for(var i=0;i<data.length;i++){
           		var li_a_i_2=$("<i class='iconfont nav_right'>&#xe697;</i>");

@@ -52,13 +52,6 @@
             </bean>  
         </mvc:message-converters> 
     </mvc:annotation-driven> 
-    <!-- 激活基于注解的配置 -->
-    <mvc:annotation-driven>
-        <!-- json返回时默认的转换器，如果不需要返回json結果，可以不用配置 -->
-        <mvc:message-converters register-defaults="true">
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
     <!-- 静态资源配置 -->
     <mvc:resources location="/assets/" mapping="/assets/**"></mvc:resources>
 
@@ -78,8 +71,17 @@
 <!-- 拦截器 -->
 
 <!-- 可以同时使用多个拦截器，在这里引入拦截器 JAVA文件 -->
-		<mvc:interceptors> 
-		<bean class="com.safe.core.filter.SessionInterceptor"/> 
+		 	<mvc:interceptors>
+		 	     <bean class="com.safe.core.filter.SessionInterceptor"/> 
+		        <mvc:interceptor>  
+	            <!-- 拦截所有的请求，这个必须写在前面，也就是写在【不拦截】的上面 -->
+	            <mvc:mapping path="/**" />
+	            <!-- 但是排除下面这些，也就是不拦截请求 -->
+	            <mvc:exclude-mapping path="/assets/login.jsp" />
+	            <mvc:exclude-mapping path="/account/getGifCode" />
+	            <mvc:exclude-mapping path="/account/login" />
+				<bean class="com.safe.core.filter.MyInterceptor"/> 
+			</mvc:interceptor>  
 		</mvc:interceptors>
 
 </beans>

@@ -1,28 +1,31 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
-import java.util.Date;
 
-public class Post implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
 
-    private Integer orgId;
+public class Post extends CreatorBean {
 
-    private String name;
+	    private Integer orgId;
 
-    private String desc;
+	    private String name;
 
-    private Date createtime;
-    private Organization organization;
+	    private String description;
+
+
+	    private String postCard;
+	    
+
+		public String getPostCard() {
+			return postCard;
+		}
+
+		public void setPostCard(String postCard) {
+			this.postCard = postCard;
+		}
+
+	private Organization organization;
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getOrgId() {
         return orgId;
@@ -40,21 +43,7 @@ public class Post implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDesc() {
-        return desc;
-    }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
 
 	public Organization getOrganization() {
 		return organization;
@@ -62,6 +51,14 @@ public class Post implements Serializable {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

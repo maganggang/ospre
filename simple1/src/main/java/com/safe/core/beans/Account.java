@@ -1,39 +1,37 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-public class Account implements Serializable {
-    private Integer id;
+import org.springframework.format.annotation.DateTimeFormat;
 
-    private String username;
+import com.safe.core.base.bean.CreatorBean;
+import com.safe.core.base.bean.ListMapVo;
 
-    private String password;
+public class Account extends CreatorBean{
+	private static final long serialVersionUID = 1L;
 
-    private String nickname;
+		private String username;
 
-    private String mobile;
+	    private String password;
 
-    private String email;
+	    private String nickname;
 
-    private Date createtime;
+	    private String mobile;
 
-    private Date loginTime;
+	    private String email;
+	    private Date loginTime;
+	    private Date lastLoginTime;
+	    private Integer count;
 
-    private Date lastLoginTime;
+	    private Integer userId;
 
-    private Integer count;
 
-    private Integer userId;
     private Integer postId;
     private Integer orgId;
-    private Integer creatorId;
     private List<Role> roleList;
-    private List<Module> moduleList;
+    private List<Menu> moduleList;
     private List<ListMapVo> moduleMapList;
-    private static final long serialVersionUID = 1L;
 
     public List<Role> getRoleList() {
 		return roleList;
@@ -42,14 +40,6 @@ public class Account implements Serializable {
 	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
-
-	public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -91,14 +81,6 @@ public class Account implements Serializable {
         this.email = email == null ? null : email.trim();
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
     public Date getLoginTime() {
         return loginTime;
     }
@@ -131,13 +113,6 @@ public class Account implements Serializable {
         this.userId = userId;
     }
 
-	public List<Module> getModuleList() {
-		return moduleList;
-	}
-
-	public void setModuleList(List<Module> moduleList) {
-		this.moduleList = moduleList;
-	}
 
 	public List<ListMapVo> getModuleMapList() {
 		return moduleMapList;
@@ -147,13 +122,6 @@ public class Account implements Serializable {
 		this.moduleMapList = moduleMapList;
 	}
 
-	public Integer getCreatorId() {
-		return creatorId;
-	}
-
-	public void setCreatorId(Integer creatorId) {
-		this.creatorId = creatorId;
-	}
 
 	public Integer getPostId() {
 		return postId;
@@ -169,6 +137,14 @@ public class Account implements Serializable {
 
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
+	}
+
+	public List<Menu> getModuleList() {
+		return moduleList;
+	}
+
+	public void setModuleList(List<Menu> moduleList) {
+		this.moduleList = moduleList;
 	}
 
 

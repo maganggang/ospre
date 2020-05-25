@@ -1,13 +1,16 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 
-public class PostRoleRef implements Serializable {
-    private Integer roleId;
+import com.safe.core.base.bean.CreatorBean;
 
-    private Integer postId;
+public class PostRoleRef extends CreatorBean {
 
-    private static final long serialVersionUID = 1L;
+	    private Integer roleId;
+
+	    private Integer postId;
+
+
+	private static final long serialVersionUID = 1L;
 
     public Integer getRoleId() {
         return roleId;
