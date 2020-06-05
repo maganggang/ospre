@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.safe.core.base.bean.ResultBean;
+import com.safe.core.beans.Department;
 import com.safe.core.beans.Item;
 import com.safe.core.service.ItemService;
 
@@ -18,8 +22,13 @@ public class ItemController {
 	private ItemService itemService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public List<Item> allItem(){
-		return itemService.selectAll();
+	public ResultBean<Item> allItem(Page<Item> page, Item item){
+		ResultBean<Item> b = new ResultBean<Item>();
+		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
+		List<Item> result = itemService.selectAll();
+		b.setData(result);
+		b.setCount(page.getTotal());
+		return b;
 	}
 	@RequestMapping("/item/{id}")
 	@ResponseBody

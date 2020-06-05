@@ -4,13 +4,13 @@
   <resultMap id="BaseResultMap" type="com.safe.core.beans.Company">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, desc, createtime, creator_id, area_id
+    id, name, description, createtime, creator_id, area_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,10 +23,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.safe.core.beans.Company">
-    insert into company (id, name, desc, 
+    insert into company (id, name, description, 
       createtime, creator_id, area_id
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}
       )
   </insert>
@@ -39,8 +39,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="desc != null">
-        desc,
+      <if test="description != null">
+        description,
       </if>
       <if test="createtime != null">
         createtime,
@@ -59,8 +59,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        #{desc,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -79,8 +79,8 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        desc = #{desc,jdbcType=VARCHAR},
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=TIMESTAMP},
@@ -97,7 +97,7 @@
   <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Company">
     update company
     set name = #{name,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       creator_id = #{creatorId,jdbcType=INTEGER},
       area_id = #{areaId,jdbcType=INTEGER}
@@ -117,8 +117,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="desc != null">
-        desc,
+      <if test="description != null">
+        description,
       </if>
       <if test="createtime != null">
         createtime,
@@ -137,8 +137,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null">
-        #{desc,jdbcType=VARCHAR},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},

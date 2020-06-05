@@ -14,6 +14,7 @@ import com.safe.core.base.bean.ApplicationContextHelper;
 import com.safe.core.beans.Post;
 import com.safe.core.service.PostService;
 import com.safe.core.utils.BaseUserInfo;
+import com.safe.core.utils.SqlFactory;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -45,7 +46,6 @@ import config.InterceptAnnotation;
 		原文链接：https://blog.csdn.net/tanqian351/java/article/details/84700890
  *
  */
-@Component
 @Intercepts({
 
 
@@ -81,7 +81,7 @@ public class SqlInterceptor implements Interceptor {
         //sql语句类型 select、delete、insert、update
         String sqlCommandType = mappedStatement.getSqlCommandType().toString();
         BoundSql boundSql = statementHandler.getBoundSql();
-        System.err.println(sqlCommandType);
+        System.out.println(sqlCommandType);
         //获取到原始sql语句
         String sql = boundSql.getSql();
         String mSql = sql;
@@ -96,7 +96,7 @@ public class SqlInterceptor implements Interceptor {
                 InterceptAnnotation interceptorAnnotation = method.getAnnotation(InterceptAnnotation.class);
                 if (interceptorAnnotation.flag()) {
                    // mSql = sql + " limit 2";
-                    System.err.println(mSql);
+                    System.out.println(mSql);
                  // 获取request信息，得到当前登录用户信息
             		RequestAttributes req = RequestContextHolder.getRequestAttributes();
             		if (req == null) {
@@ -113,19 +113,21 @@ public class SqlInterceptor implements Interceptor {
             			//账号无人员的可以认为是管理员
             			String sql2=null;
             			if(userInfo.getPostId()==null){
-            				 sql2="   creator_id="+userInfo.getId();
+            				if(userInfo.getRoleIds().contains(1)){
+            					sql2=" 1=1 ";
+            				}else{
+            					sql2="   creator_id="+userInfo.getId();
+            				}
             			}else{
             				//初始化bean
             				this.loadService();
             				Post post=postService.selectByPrimaryKey(userInfo.getPostId());
             				 sql2="   org_id="+post.getOrgId();
             			}
-            			if(sql.toUpperCase().contains("WHERE")){
-            				sql = sql + " AND " + sql2;
-            			}else{
-            				sql = sql + " WHERE " + sql2;
-            			}
-            			System.out.println(sql);
+            			mSql=SqlFactory.makeSql(sql, sql2);
+            			System.out.println(mSql);
+                }else{
+                	System.out.println("不知道不进入分页");
                 }
             }
         }

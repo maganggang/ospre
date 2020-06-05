@@ -11,7 +11,7 @@ public class Dict extends CreatorBean {
 
 	    private Integer parentId;
 
-	    private String desc;
+	    private String description;
 
 
     public Integer getParentId() {
@@ -37,14 +37,13 @@ public class Dict extends CreatorBean {
         return dictValue;
     }
 
-    public void setDictValue(String dictValue) {
-        this.dictValue = dictValue == null ? null : dictValue.trim();
-    }
-    public String getDesc() {
-        return desc;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
 }

@@ -60,7 +60,9 @@ public class AuthorityServiceImpl implements AuthorityService{
 			List<Menu> menus=menuMapper.selectMyAuth(id);
 			//list=TreeUtils.toTree(list, "id", "parentId");
 			//System.out.println(TreeUtils.toTree(list, "id", "parentId"));
-			TreeUtils.MenutoTree(menus);
+			if(menus!=null&&menus.size()>0){
+				TreeUtils.MenutoTree(menus);
+			}
 			return menus;
 		}
 

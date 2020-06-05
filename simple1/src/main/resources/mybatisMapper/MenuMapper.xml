@@ -257,10 +257,11 @@
 		from account a
 		left join user b on a.user_id=b.id
 		left join post_role_ref c on b.post_id=c.post_id
-		left join authority d on d.role_id=d.role_id
+		left join authority d on c.role_id=d.role_id
 		left join permission e on e.id=d.permission_id
 		left join menu f on f.id=e.menu_id
-		where f.id=#{accountId}
-		) a
+		where a.id=#{accountId}
+		) a 
+		where a.menu_id is not null
   </select>
 </mapper>

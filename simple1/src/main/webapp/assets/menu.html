@@ -72,10 +72,11 @@
             ,url: '/simple1/menu/all'
             ,loading:true
               ,method:'post'
-            ,request: {
-                    pageName: 'pageNum' //页码的参数名称，默认：page
-                     ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
-                 }
+            	  ,request: {
+                      pageName: 'pageNum' //页码的参数名称，默认：page
+                       ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+             }
+            ,where:param
             	,parseData:function(res){
              	   console.log(res);
              	   return res;

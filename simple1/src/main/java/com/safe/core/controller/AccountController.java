@@ -1,6 +1,5 @@
 package com.safe.core.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.safe.core.base.bean.ResultBean;
-import com.safe.core.base.bean.SessionContext;
 import com.safe.core.beans.Account;
 import com.safe.core.beans.User;
 import com.safe.core.filter.SessionListener;
@@ -114,6 +112,8 @@ public class AccountController {
 			BaseUserInfo userInfo=new BaseUserInfo();
 			userInfo.setId(account.getId());
 			userInfo.setName(account.getUsername());
+			List<Integer> roleIds=accountService.getAllRoleIds(account.getId());
+			userInfo.setRoleIds(roleIds);
 			if (account.getUserId() != null) {
 				User user = UserService.select(account.getUserId());
 				if (user != null) {
@@ -121,8 +121,6 @@ public class AccountController {
 					userInfo.setOrgId(user.getOrgId());
 					userInfo.setPostId(user.getPostId());
 					userInfo.setUsername(user.getName());
-					List<Integer> roleIds=accountService.getAllRoleIds(account.getId());
-					userInfo.setRoleIds(roleIds);
 				}
 			}
 			session.setAttribute("userInfo", userInfo);

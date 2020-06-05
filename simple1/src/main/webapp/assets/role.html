@@ -66,16 +66,18 @@
       layui.use(['laydate','table'], function(){
         var laydate = layui.laydate;
         var table = layui.table;
+        var  param={};
         //方法级渲染
          table.render({
             elem: '#LAY_table_user'
             ,url: '/simple1/role/all'
             ,loading:true
              ,method:'post'
-             ,request: {
+            	 ,request: {
                      pageName: 'pageNum' //页码的参数名称，默认：page
-                     ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
-                }
+                      ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+           ,where:param
              ,parseData:function(res){
               	   console.log(res);
               	   return res;

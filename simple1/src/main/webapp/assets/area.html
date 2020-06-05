@@ -36,16 +36,41 @@
         <form class="layui-form layui-col-md12 x-so">
           <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option>支付状态</option>
+              <option>已支付</option>
+              <option>未支付</option>
+            </select>
+          </div>
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option>支付方式</option>
+              <option>支付宝</option>
+              <option>微信</option>
+              <option>货到付款</option>
+            </select>
+          </div>
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option value="">订单状态</option>
+              <option value="0">待确认</option>
+              <option value="1">已确认</option>
+              <option value="2">已收货</option>
+              <option value="3">已取消</option>
+              <option value="4">已完成</option>
+              <option value="5">已作废</option>
+            </select>
+          </div>
+          <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','./account_edit.html')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加</button>
       </xblock>
-     <script type="text/html" id="barDemo">
+           <script type="text/html" id="barDemo">
    <div class="layui-btn-container">
     <a  onclick="view(this)" href="javascript:;"  title="查看">
                 <i class="layui-icon">&#xe705;</i>
@@ -57,52 +82,50 @@
                 <i class="layui-icon">&#xe640;</i>
               </a>
   </div>
-</script>
-      <table class="layui-table" id="LAY_table_user" lay-filter="useruv">
+	</script>
+      <table class="layui-table"  id="LAY_table_user" lay-filter="useruv">
       </table>
     </div>
     <script>
       layui.use(['laydate','table'], function(){
         var laydate = layui.laydate;
         var table = layui.table;
-        var  param={};
-        //方法级渲染
-         table.render({
-            elem: '#LAY_table_user'
-            ,url: '/simple1/account/all'
-             ,request: {
-                     pageName: 'pageNum' //页码的参数名称，默认：page
-                      ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            }
-           ,where:param
-            ,cols: [[
-                {checkbox: true, fixed: true}
-                ,{field:'id', title: 'ID', width:80}
-                ,{field:'username', title: '用户名', width:100}
-                ,{field:'nickname', title: '名称', width:100}
-                ,{field:'mobile', title: '手机', width:180}
-                ,{field:'email', title: 'Email', width:180}
-                ,{field:'createtime', title: '日期', width:200}
-                ,{field:'opreate', title: '操作',width:220,toolbar:"#barDemo"}
-                ,{field:'status', title: '弃用'}
-            ]]
-            ,id: 'testReload'
-            ,page: true
-            ,limits:[5,10, 20, 30, 40, 50]
-            ,height: 600
-        }); 
-
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
         });
-
         //执行一个laydate实例
         laydate.render({
           elem: '#end' //指定元素
         });
+        var  param={};
+      //方法级渲染
+      table.render({
+         elem: '#LAY_table_user'
+         ,url: '/simple1/area/all'
+           ,request: {
+                 pageName: 'pageNum' //页码的参数名称，默认：page
+                  ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
+       ,where:param     
+         ,cols: [[
+             {checkbox: true, fixed: true}
+             ,{field:'id', title: 'ID', width:80}
+             ,{field:'code', title: '字典code', width:100}
+             ,{field:'name', title: '字典值', width:100}
+             ,{field:'level', title: '级别', width:180}
+             ,{field:'cityCode', title: 'code', width:180}
+             ,{field:'center', title: '中心', width:200}
+             ,{field:'parentId', title: '父', width:200}
+             ,{field:'opreate', title: '操作',width:220,toolbar:"#barDemo"}
+             ,{field:'status', title: '弃用'}
+         ]]
+         ,id: 'testReload'
+         ,page: true
+         ,height: 600
+     }); 
       });
-//-1
+    //-1
       function view(obj){
     	  	 var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
     	  	  x_admin_show('查看','./account_edit.html?id='+id,600,400)
@@ -125,45 +148,6 @@
     	          });
     	      }
 
-
-    	      function delAll (argument) {
-
-    	        var data = tableCheck.getData();
-    	  
-    	        layer.confirm('确认要恢复吗？'+data,function(index){
-    	            //捉到所有被选中的，发异步进行删除
-    	            layer.msg('恢复成功', {icon: 1});
-    	            $(".layui-form-checked").not('.header').parents('tr').remove();
-    	        });
-    	      }
-      /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
-          });
-      }
-
-
-
-      function delAll (argument) {
-
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-      }
-      function deleteAccount(obj){
-    	  console.log($(obj).parent().parent().parent().parent().find("td[data-field='id'] div").html());
-          var id=$(obj).parent().parent().parent().parent().find("td[data-field='id'] div").html();
-    	  $.get('/simple1/account/delete/'+id,function (result) {
-        	  console.log(result);
-          })
-      }
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

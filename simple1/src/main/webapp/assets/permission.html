@@ -44,64 +44,40 @@
       </xblock>
       <script type="text/html" id="barDemo">
    <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="add">查看</button>
-    <button class="layui-btn layui-btn-sm" lay-event="delete" onclick="deleteAccount(this)">删除</button>
-    <button class="layui-btn layui-btn-sm" lay-event="update">编辑</button>
+     <a  onclick="view(this)" href="javascript:;"  title="查看">
+                <i class="layui-icon">&#xe705;</i>
+              </a>
+              <a title="编辑"  onclick="edit(this)" href="javascript:;">
+                <i class="layui-icon">&#xe642;</i>
+              </a>
+              <a title="删除" onclick="remove(this)" href="javascript:;">
+                <i class="layui-icon">&#xe640;</i>
+              </a>
   </div>
 </script>
       <table class="layui-table" id="LAY_table_user" lay-filter="useruv">
-        <!-- <thead>
-          <tr>
-            <th>
-              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-            </th>
-            <th>ID</th>
-            <th>分类名</th>
-            <th>操作</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>1</td>
-            <td>会员相关</td>
-            <td class="td-manage">
-              <a title="编辑"  onclick="x_admin_show('编辑','admin-edit.html')" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
-            </td>
-          </tr>
-        </tbody> -->
+        
       </table>
-      <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
-      </div>
-
     </div>
     <script>
       layui.use(['laydate','table'], function(){
         var laydate = layui.laydate;
         var table = layui.table;
+        var  param={};
         //方法级渲染
          table.render({
             elem: '#LAY_table_user'
             ,url: '/simple1/permission/all'
+            	,request: {
+                    pageName: 'pageNum' //页码的参数名称，默认：page
+                     ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+           }
+          ,where:param
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id', title: 'ID', width:80}
                 ,{field:'name', title: '用户名', width:100}
-                ,{field:'desc', title: '名称', width:100}
+                ,{field:'menuId', title: '菜单id', width:100}
                 ,{field:'opreate', title: '操作',width:220,toolbar:"#barDemo"}
                 ,{field:'status', title: '弃用'}
             ]]
@@ -109,62 +85,29 @@
             ,page: true
             ,height: 600
         }); 
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
+       //-1
+         function view(obj){
+       	  	 var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+       	  	  x_admin_show('查看','./permission_edit.html?id='+id,600,400)
+       	    }
+       	    //-1
+       	    function edit(obj){
+       	  	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+       	  	  x_admin_show('编辑','permission_edit.html?editType=1&id='+id,600,400)
+       	    }
+       	      function remove(obj){
+       	    	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+       	          layer.confirm('确认要删除吗？',function(index){
+       	              //发异步删除数据
+       	              $.get("/simple1/permission/delete/"+id,function(data){
+       			            if(data){
+       			            	 layer.msg('已删除!',{icon:1,time:1000});
+       			            	    $(obj).parents("tr").remove();
+       			            }
+       	              })
+       	          });
+       	      }
       });
-
-       /*用户-停用*/
-      function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
-              if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-              
-          });
-      }
-
-      /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
-          });
-      }
-
-
-
-      function delAll (argument) {
-
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-      }
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

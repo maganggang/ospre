@@ -1,5 +1,7 @@
 package com.safe.core.mapper;
 
+import java.util.List;
+
 import com.safe.core.beans.Area;
 
 public interface AreaMapper {
@@ -14,4 +16,6 @@ public interface AreaMapper {
     int updateByPrimaryKeySelective(Area record);
 
     int updateByPrimaryKey(Area record);
+
+	List<Area> findAll();
 }

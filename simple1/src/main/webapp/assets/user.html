@@ -74,6 +74,11 @@
          table.render({
             elem: '#LAY_table_user'
             ,url: '/simple1/user/all'
+            ,request: {
+                       pageName: 'pageNum' //页码的参数名称，默认：page
+                        ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+              }
+             ,where:param
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id', title: 'ID', width:80}
@@ -87,6 +92,7 @@
             ]]
             ,id: 'testReload'
             ,page: true
+            ,limits:[5,10,20,30]
             ,height: 600
         }); 
         //执行一个laydate实例

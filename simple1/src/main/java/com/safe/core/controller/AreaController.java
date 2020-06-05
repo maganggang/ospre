@@ -11,43 +11,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.safe.core.base.bean.ResultBean;
+import com.safe.core.beans.Account;
 import com.safe.core.beans.Area;
-import com.safe.core.beans.Position;
-import com.safe.core.service.PositionService;
-
+import com.safe.core.beans.Company;
+import com.safe.core.service.AreaService;
 @Controller
-@RequestMapping("/position")
-public class PositionController {
+@RequestMapping("/area")
+public class AreaController {
 	@Autowired
-	private PositionService positionService;
+	private AreaService areaService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public ResultBean<Position> allPosition(Page<Position> page, Position position){
-		ResultBean<Position> b = new ResultBean<Position>();
+	public ResultBean<Area> allPosition(Page<Area> page, Area area){
+		ResultBean<Area> b = new ResultBean<Area>();
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Position> result = positionService.selectAll();
+		List<Area> result = areaService.selectAll();
 		b.setData(result);
 		b.setCount(page.getTotal());
 		return b;
 	}
-	@RequestMapping("/position/{id}")
+	@RequestMapping("/area/{id}")
 	@ResponseBody
-	public Position findOne(@PathVariable Integer id){
-		return positionService.selectByPrimaryKey(id);
+	public Area findOne(@PathVariable Integer id){
+		return areaService.selectByPrimaryKey(id);
 	}
 	@RequestMapping("/delete/{id}")
 	@ResponseBody
 	public Boolean deleteOne(@PathVariable Integer id){
-		return positionService.deleteByPrimaryKey(id);
+		return areaService.deleteByPrimaryKey(id);
 	}
 	@RequestMapping("/update")
 	@ResponseBody
-	public Position updateOne(Position position){
-		return positionService.update(position);
+	public Area updateOne(Area area){
+		return areaService.update(area);
 	}
 	@RequestMapping("/insert")
 	@ResponseBody
-	public Position createOne(Position position){
-		return positionService.insert(position);
+	public Area createOne(Area area){
+		return areaService.insert(area);
 	}
 }

@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.safe.core.base.bean.ResultBean;
+import com.safe.core.beans.Account;
+import com.safe.core.beans.Company;
 import com.safe.core.beans.Department;
 import com.safe.core.service.DepartmentService;
 
@@ -18,8 +23,13 @@ public class DepartmentController {
 	private DepartmentService departService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public List<Department> allDepartment(){
-		return departService.selectAll();
+	public ResultBean<Department> allDepartment(Page<Department> page, Department department){
+		ResultBean<Department> b = new ResultBean<Department>();
+		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
+		List<Department> result = departService.selectAll();
+		b.setData(result);
+		b.setCount(page.getTotal());
+		return b;
 	}
 	@RequestMapping("/dept/{id}")
 	@ResponseBody

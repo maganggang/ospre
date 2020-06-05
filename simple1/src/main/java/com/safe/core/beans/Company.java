@@ -7,7 +7,7 @@ public class Company extends CreatorBean {
 
     private String name;
 
-    private String desc;
+    private String description;
 
     private Integer areaId;
 
@@ -30,12 +30,13 @@ public class Company extends CreatorBean {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDesc() {
-        return desc;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 
 }
