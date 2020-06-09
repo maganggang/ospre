@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.Permission;
+import com.safe.core.beans.Post;
 import com.safe.core.beans.Role;
 import com.safe.core.service.PermissionService;
 
@@ -20,10 +23,12 @@ public class PermissionController {
 	private PermissionService permissionService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public ResultBean<Permission> allPermission(){
+	public ResultBean<Permission> allPermission(Page<Permission> page,Permission permission){
 		ResultBean<Permission> b=new ResultBean<Permission>();
+		page=PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
 		List<Permission> sList= permissionService.selectAll();
 		b.setData(sList);
+		b.setCount(page.getTotal());
 		return b;
 	}
 	@RequestMapping("/permission/{id}")

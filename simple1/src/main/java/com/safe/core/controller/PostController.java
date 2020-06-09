@@ -29,8 +29,13 @@ public class PostController {
 	
 	@RequestMapping("/all")
 	@ResponseBody
-	public List<Post> allPost(){
-		return postService.selectAll();
+	public ResultBean<Post> allPost(Page<Post> page,Post post){
+		ResultBean<Post> b=new ResultBean<Post>();
+		page=PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
+		List<Post> result= postService.selectAll();
+		b.setData(result);
+		b.setCount(page.getTotal());
+		return b;
 	}
 	/**
 	 * 查询所有的岗位
