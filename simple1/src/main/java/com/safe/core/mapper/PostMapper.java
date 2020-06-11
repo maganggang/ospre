@@ -22,5 +22,5 @@ public interface PostMapper {
 
 	List<Post> findAll();
 
-	List<ListMapVo> findTreeAll();
+	List<ListMapVo> findTreeAll(Integer parentId);
 }

@@ -139,6 +139,85 @@
       </if>
     </trim>
     </insert>
+  <insert id="insertSelectiveReturnKey"  useGeneratedKeys="true"  keyProperty="id" parameterType="com.safe.core.beans.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="creatorId != null">
+        creator_id,
+      </if>
+      <if test="opreatetime != null">
+        opreatetime,
+      </if>
+      <if test="opreatorId != null">
+        opreator_id,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="opreatetime != null">
+        #{opreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opreatorId != null">
+        #{opreatorId,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+    </trim>
+    </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.User">
     update user
     <set>
@@ -199,11 +278,39 @@
       from user
       <where>
               <if test="name!= null and name!=''">
-       			name like CONCAT('%',#{name},'%') 
+       			and name like CONCAT('%',#{name},'%') 
           </if>
-          <if test="timeBean!=null and timeBean.startTime!=null and timeBean.endTime!=null">
-              createtime between #{startTime} and #{endTime}
+          <if test="startTime!=null and endTime!=null">
+             and  createtime between #{startTime} and #{endTime}
           </if>
+
+      <if test="sex != null">
+        and sex = #{sex,jdbcType=BIT}
+      </if>
+      <if test="idCard != null">
+           and id_card like CONCAT('%',#{idCard},'%') 
+      </if>
+      <if test="phone != null">
+        and   phone like CONCAT('%',#{phone},'%') 
+      </if>
+      <if test="email != null">
+          and email  like CONCAT('%',#{email},'%')
+      </if>
+      <if test="orgId != null">
+        and   org_id = #{orgId,jdbcType=INTEGER}
+      </if>
+      <if test="creatorId != null">
+        and   creator_id = #{creatorId,jdbcType=INTEGER}
+      </if>
+      <if test="opreatetime != null">
+          and  opreatetime = #{opreatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="opreatorId != null">
+          and  opreator_id = #{opreatorId,jdbcType=INTEGER}
+      </if>
+      <if test="postId != null">
+         and  post_id = #{postId,jdbcType=INTEGER}
+      </if>
       </where>
   </select>
   <select id="selectUserInfo" resultMap="UserInfoMap"  parameterType="java.lang.Integer" >

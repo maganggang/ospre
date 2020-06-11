@@ -79,6 +79,7 @@
 	            <!-- 但是排除下面这些，也就是不拦截请求 -->
 	            <mvc:exclude-mapping path="/assets/login.jsp" />
 	            <mvc:exclude-mapping path="/account/getGifCode" />
+	            <mvc:exclude-mapping path="/account/qrcode" />
 	            <mvc:exclude-mapping path="/account/login" />
 				<bean class="com.safe.core.filter.MyInterceptor"/> 
 			</mvc:interceptor>  

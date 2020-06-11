@@ -13,7 +13,6 @@ public class Organization extends CreatorBean {
 
     private Integer parentId;
 
-
     public Integer getParentId() {
 		return parentId;
 	}
@@ -47,4 +46,5 @@ public class Organization extends CreatorBean {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
+
 }

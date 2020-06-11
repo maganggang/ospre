@@ -17,6 +17,6 @@ public interface PostService {
 
 	Post insert(Post post);
 
-	List<ListMapVo> selectTreeAll();
+	List<ListMapVo> selectTreeAll(Integer parentId);
 
 }

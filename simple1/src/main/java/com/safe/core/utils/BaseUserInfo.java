@@ -7,8 +7,8 @@ public class BaseUserInfo {
 	private  String name;//用户名
     private  Integer userId;//人员id
     private  String username;//人员中文名
-    private  Integer postId;//岗位id
-    private  Integer orgId;//组织id
+    private  Integer postId;//岗位id 挂载的数据权限
+    private  Integer orgId;//组织id 我的组织id
     private  List<Integer> roleIds;
 	public Integer getId() {
 		return id;

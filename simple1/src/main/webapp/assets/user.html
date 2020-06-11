@@ -35,14 +35,14 @@
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
           <input class="layui-input" placeholder="开始日" name="startTime" id="start">
-          <input class="layui-input" placeholder="截止日" name="endTime" id="end">
+          <input class="layui-input" placeholder="截止日" name="endTime"  id="end">
           <input type="text" name="name"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
-        <button class="layui-btn layui-btn-danger" id=“delAll”><i class="layui-icon"></i>批量删除</button>
-         <button class="layui-btn" id="addOrgMember" onclick="x_admin_show('添加人员','./member-add.html',600,400)"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn layui-btn-danger" id="delAll"><i class="layui-icon"></i>批量删除</button>
+         <button class="layui-btn" onclick="x_admin_show('添加人员','./user_add.html',600,400)"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px"></span>
       </xblock>
        <script type="text/html" id="barDemo">
@@ -83,12 +83,20 @@
                 {checkbox: true, fixed: true}
                 ,{field:'id', title: 'ID', width:80}
                 ,{field:'name', title: '用户名', width:100}
-                ,{field:'sex', title: '名称', width:100}
-                ,{field:'idCard', title: '手机', width:180}
+                ,{field:'sex', title: '性别', width:100,templet: function (d) {
+                    if (d.sex==true){
+                        return '男'
+                    }else {
+                        return '女'
+                    }
+                }}
+                ,{field:'idCard', title: '身份证号', width:180}
                 ,{field:'email', title: 'Email', width:180}
-                ,{field:'phone', title: '日期', width:200}
-                ,{field:'opreate', title: '操作',width:120,toolbar:"#barDemo"}
+                ,{field:'phone', title: '手机号', width:200}
+                ,{field:'orgId', title: '所属组织', width:100}
+                ,{field:'createtime', title: '创建时间', width:200}
                 ,{field:'postId', title: '岗位id'}
+                ,{field:'opreate', title: '操作',width:120,toolbar:"#barDemo"}
             ]]
             ,id: 'testReload'
             ,page: true
@@ -161,15 +169,16 @@
     
     function viewUser(obj){
   	 var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-  	  x_admin_show('查看','./member-add.html?id='+id,600,400)
+  	  x_admin_show('查看','./user_add.html?id='+id,600,400)
     }
     function editUser(obj){
   	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-  	  x_admin_show('编辑','member-add.html?editType=1&id='+id,600,400)
+  	  x_admin_show('编辑','./user_add.html?editType=1&id='+id,600,400)
     }
     function addAccount(obj){
   	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-  	  x_admin_show('添加账号','member-edit.html?userid='+id,600,400);
+  	  console.log("添加账号",id);
+  	  x_admin_show('编辑','./account_edit.html?userId='+id,600,400);
     }
       /*用户-删除*/
       function member_del(obj,id){

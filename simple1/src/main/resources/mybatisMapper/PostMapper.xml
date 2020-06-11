@@ -3,12 +3,10 @@
 <mapper namespace="com.safe.core.mapper.PostMapper">
   <resultMap id="BaseTreeMap" type="com.safe.core.base.bean.ListMapVo">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="parent_id" jdbcType="INTEGER" property="orgParentId" />
+     <result column="org_id" jdbcType="INTEGER" property="orgId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="org_name" jdbcType="VARCHAR" property="orgName" />
-    <result column="parent_id" jdbcType="VARCHAR" property="orgParentId" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <resultMap id="BaseResultMap" type="com.safe.core.beans.Post">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -129,8 +127,12 @@
     from post
   </select>
   <select id="findTreeAll" resultMap="BaseTreeMap">
-select a.id,a.org_id ,b.parent_id,a.name,b.name org_name from post a
-left join organization b on a.org_id=b.id
+			select a.id,a.org_id ,b.parent_id,a.name,b.name org_name 
+			from post a
+			left join organization b on a.org_id=b.id
+			<where>
+			    <if test="parentId!=null"> b.parent_id=#{parentId}</if>
+			</where>
   </select>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id" parameterType="com.safe.core.beans.Post">
     insert into post

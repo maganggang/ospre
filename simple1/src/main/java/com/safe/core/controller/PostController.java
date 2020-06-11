@@ -1,5 +1,6 @@
 package com.safe.core.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,9 +18,11 @@ import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.Position;
 import com.safe.core.beans.Post;
 import com.safe.core.beans.User;
+import com.safe.core.filter.SessionListener;
 import com.safe.core.service.PositionService;
 import com.safe.core.service.PostService;
 import com.safe.core.service.UserService;
+import com.safe.core.utils.BaseUserInfo;
 
 @Controller
 @RequestMapping("/post")
@@ -38,7 +41,7 @@ public class PostController {
 		return b;
 	}
 	/**
-	 * 查询所有的岗位
+	 * 查询我的岗位树
 	* @Title: treeCompanyPost 
 	* @return
 	* @return: List<ListMapVo> 
@@ -47,8 +50,19 @@ public class PostController {
 	 */
 	@RequestMapping("/tree/org")
 	@ResponseBody
-	public List<ListMapVo> treeCompanyPost(){
-		return postService.selectTreeAll();
+	public List<ListMapVo> treeCompanyPost(HttpSession httpSession){
+		if(httpSession.getAttribute("userInfo")!=null){
+			BaseUserInfo userInfo =(BaseUserInfo) httpSession.getAttribute("userInfo");
+			if(userInfo!=null){
+				if(userInfo.getPostId()!=null){
+					Post post=postService.selectByPrimaryKey(userInfo.getPostId());
+					return postService.selectTreeAll(post.getOrgId());
+				}else if(userInfo.getRoleIds().contains(1)){
+					return postService.selectTreeAll(null);
+				}
+			}
+		}
+			return new ArrayList<>();
 	}
 	@RequestMapping("/org/all")
 	@ResponseBody

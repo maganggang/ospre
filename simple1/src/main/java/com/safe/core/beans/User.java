@@ -23,7 +23,6 @@ public class User   extends CreatorBean{
     private Date opreatetime;
 
     private Integer opreatorId;
-    private TimeBean timeBean;
     private Integer postId;
     public Integer getOrgId() {
 		return orgId;
@@ -108,13 +107,4 @@ public class User   extends CreatorBean{
 	public void setPost(Post post) {
 		this.post = post;
 	}
-
-	public TimeBean getTimeBean() {
-		return timeBean;
-	}
-
-	public void setTimeBean(TimeBean timeBean) {
-		this.timeBean = timeBean;
-	}
-
 }

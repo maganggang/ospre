@@ -21,4 +21,6 @@ public interface AccountService {
 
 
 	public List<Integer> getAllRoleIds(Integer accountId);
+
+	public Account selectByUserId(Integer userId);
 }

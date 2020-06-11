@@ -61,5 +61,10 @@ private AccountMapper accountMapper;
 		return list;
 	}
 
+@Override
+public Account selectByUserId(Integer userId) {
+	return accountMapper.selectByUserId(userId);
+}
+
 
 }

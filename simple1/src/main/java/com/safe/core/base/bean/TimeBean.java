@@ -6,8 +6,8 @@ import java.util.Date;
 import com.safe.core.utils.DateFormatUtil;
 
 public class TimeBean {
-	private Date startTime;
-	private Date endTime;
+	protected Date startTime;
+	protected Date endTime;
 	public Date getStartTime() {
 		return startTime;
 	}

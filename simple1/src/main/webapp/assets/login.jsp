@@ -22,25 +22,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="./js/xadmin.js"></script>
 
 </head>
-<body class="login-bg">
-    
+<body class="login-bg layui-layout-body">
     <div class="login layui-anim layui-anim-up">
         <div class="message">x-admin2.0-管理登录</div>
         <div id="darkbannerwrap"></div>
-        
         <form method="post" class="layui-form" >
             <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
-           
             <hr class="hr15">
-            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <input name="vcode"  placeholder="验证码"  type="text" class="layui-input" style="width:100px;display:inline"> 
+            <img style="display:inline" alt="验证码" src="<%=path%>/account/getGifCode">
             <hr class="hr20" >
-            <input name="vcode"  placeholder="验证码"  type="text" class="layui-input"> 
-            <img alt="验证码" src="<%=path%>/account/getGifCode">
+               <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
         </form>
     </div>
-
+  
+  <div class="layui-footer" style="padding:10px">
+  <a >
+  <img alt="二维码"  width=220 src="<%=path%>/account/qrcode?path=d:\\ab.jpg&text=It's belong to you.">
+    © fei2e.com
+    </a>
+  </div>
     <script>
         $(function  () {
             layui.use('form', function(){

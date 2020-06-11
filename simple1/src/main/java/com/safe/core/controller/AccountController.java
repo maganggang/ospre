@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import com.safe.core.service.UserService;
 import com.safe.core.utils.BaseUserInfo;
 import com.safe.core.utils.Captcha;
 import com.safe.core.utils.GifCaptcha;
+import com.safe.core.utils.QRCodeUtil;
 import com.safe.core.utils.SessionUtils;
 
 @Controller
@@ -192,6 +194,40 @@ public class AccountController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("获取验证码异常：" + e.getMessage());
+		}
+	}
+/**
+ * 用户id获取账号
+* @Title: selectByUserId 
+* @param userId
+* @return
+* @return: Account 
+* @author mgg
+* @date 2020年6月10日
+ */
+	@RequestMapping("/user/{userId}")
+	@ResponseBody
+	public Account selectByUserId(@PathVariable Integer userId) {
+		return accountService.selectByUserId(userId);
+	}
+	@RequestMapping("/qrcode")
+	@ResponseBody
+	public void getQRCode(HttpServletResponse response, HttpServletRequest request,String text,String path) {
+		try {
+			if(text==null||StringUtils.isBlank(text)){
+				 text = "https://www.baidu.com/";
+			}
+			if(path==null||StringUtils.isBlank(path)){
+				path=this.getClass().getResource("/").getPath()+"/fei2e.png";
+			}
+			response.setHeader("Pragma", "No-cache");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setDateHeader("Expires", 0);
+			QRCodeUtil.out(response.getOutputStream(), text,path);
+			// 输出
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("获取异常：" + e.getMessage());
 		}
 	}
 }

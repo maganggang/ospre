@@ -10,6 +10,13 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
   </resultMap>
+    <resultMap id="BaseTreeMap" type="com.safe.core.base.bean.ListMapVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, type, value, name, parent_id, createtime, creator_id
   </sql>
@@ -114,10 +121,40 @@
       creator_id = #{creatorId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="findAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="findAll" parameterType="com.safe.core.beans.Organization" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from organization
+    <where>
+         <if test="name!= null and name!=''">
+       			and name like CONCAT('%',#{name},'%') 
+          </if>
+          <if test="startTime!=null and endTime!=null">
+             and  createtime between #{startTime} and #{endTime}
+          </if>
+         <if test="type != null">
+       and  type = #{type,jdbcType=TINYINT}
+      </if>
+      <if test="value != null">
+        and value = #{value,jdbcType=INTEGER}
+      </if>
+      <if test="parentId != null">
+       and  parent_id = #{parentId,jdbcType=INTEGER}
+      </if>
+      <if test="creatorId != null">
+        and creator_id = #{creatorId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="findTreeAll" parameterType="java.lang.Integer" resultMap="BaseTreeMap">
+    select 
+    id,name,type,value,parent_id
+    from organization
+    <where>
+        <if test="parentId!=null">
+            and parent_id=#{parent_id}
+        </if>
+    </where>
   </select>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id"  parameterType="com.safe.core.beans.Organization">
    insert into organization

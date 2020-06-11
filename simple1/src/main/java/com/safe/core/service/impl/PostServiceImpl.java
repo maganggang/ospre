@@ -47,8 +47,8 @@ private PostMapper postMapper;
 	}
 
 	@Override
-	public List<ListMapVo> selectTreeAll() {
-		List<ListMapVo>  list=postMapper.findTreeAll();
+	public List<ListMapVo> selectTreeAll(Integer parentId) {
+		List<ListMapVo>  list=postMapper.findTreeAll(parentId);
 		TreeUtils.toTree(list, "orgId", "orgParentId");
 		for (ListMapVo l:list) {
 			if( l.get("children")!=null&&((List<ListMapVo>) l.get("children")).size()>0){
