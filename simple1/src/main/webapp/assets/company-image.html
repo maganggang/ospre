@@ -2,207 +2,104 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
- <title>贪吃蛇游戏</title>
+ <title>在线生成二维码</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./lib/layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<script type="text/javascript">
-    //定义一个点对象
-    function Point(x,y){
-        this.x=x;
-        this.y=y;
-        this.getX=function(){
-            return x;
-        }
-        this.getY=function(){
-            return y;
-        }
-    }
-    //定义方向变量
-    var startDir=null;//蛇移动方向
-    var food;//定义存储食物节点的数组
-    var snakeloc;//定义一个存储蛇身节点的数组
-    //初始化地图
-    function initMap() {
-        var map = document.getElementById("map");//找到跟节点
-        for (var i = 0; i < 20; i++) {
-            var tr = document.createElement("tr");//创建节点
-            for (var j = 0; j < 20; j++) {
-                var td = document.createElement("td");//创建节点
-                td.setAttribute("id", "td" + i +"_"+ j);//设置id值 方便后续的查找 设置值
-                tr.appendChild(td);//添加节点
-            }
-            map.appendChild(tr);//加入值
-        }
-    }
-    //初始化蛇
-    function initSnake(){
-        snakeloc=[];
-        var x=10;//设置蛇的x节点 中点
-        var y=10;//设置蛇的y节点 中点
-        var dir;//保存蛇运动的方向
-        var tdm=document.getElementById("td"+x+"_"+y);
-        var tdl=document.getElementById("td"+x+"_"+(y-1));
-        var tdr=document.getElementById("td"+x+"_"+(y+1));
-        //设置点的值
-        var point1=new Point(x,y-1);
-        var point2=new Point(x,y);
-        var point3=new Point(x,y+1);
-        //将点对象放入数组中去
-        snakeloc.push(point3);
-        snakeloc.push(point2);
-        snakeloc.push(point1);
-        //设置颜色
-        tdr.style.background="red";//设置节点为红色
-        tdm.style.background="blue";//设置节点颜色
-        tdl.style.background="blue";//设置节点颜色
-    }
-    //初始化食物
-    function initFood(){
-        var foodX;
-        var foodY;
-    var flag=0;//定义次数
-            while(true){
-               foodX = Math.floor(Math.random() * 20);
-                foodY = Math.floor(Math.random() * 20);
-                for(var i=0;i<snakeloc.length;i++){
-                    //如果不和数组中的所有点都不重合，说明这个点可以用
-                    if(snakeloc[i].getX()==foodX&&snakeloc[i].getY()==foodY){
-                        flag++;
-                       break;
-                    }
-                }
-                if(flag==0) break;
-            }
-                food=[ ];
-                food.push(new Point(foodX,foodY));//将食物坐标放入数组中去
-                var td=document.getElementById("td"+foodX+"_"+foodY);
-                td.style.background="black";
-    }
-    //监听蛇的移动
-    function snakeMove(){
-        document.οnkeydοwn=function(e){
-            if(e.keyCode>=37&& e.keyCode<=40){
-                var currentDir= e.keyCode;
-                //看看是否要改变方向 如果没有这一步可能会出现头和身体重合
-                if(startDir-currentDir!=2&&currentDir-startDir!=2){
-                    startDir=currentDir;
-                }
-                switch(startDir){
-                    case 37:moveLeft();break;
-                    case 38:moveUp();break;
-                    case 39:moveRight();break;
-                    case 40:moveDown();break;
-                    default:break;
-                }
-            }
-            if(eatFood()){
-                initFood();//就再创建一个食物
-            }else{
-                clearSnakeEnd();//清除蛇尾
-            }
-            //如果撞墙或者咬到自己
-            if(gameOver()){
-                alert("Game Over!");
-                return;
-            }
-            updateSnake();//调用显示蛇
-        }
-    }
-    //向上移动
-    function moveUp(){
-        var oldHead=snakeloc[0];//旧蛇头位置
-        //更新蛇坐标
-        for (var i = snakeloc.length ; i > 0; i--) {
-            snakeloc[i] = snakeloc[i - 1];
-        }
-        snakeloc[0]=new Point(oldHead.getX()-1,oldHead.getY());
 
-
-    }
-    //向下移动
-    function moveDown(){
-        var oldHead=snakeloc[0];//旧蛇头位置
-        //更新蛇坐标
-        for (var i = snakeloc.length ; i > 0; i--) {
-            snakeloc[i] = snakeloc[i - 1];
-        }
-        snakeloc[0]=new Point(oldHead.getX()+1,oldHead.getY());
-    }
-    //向左移动
-    function moveLeft(){
-        var oldHead=snakeloc[0];//旧蛇头位置
-        //更新蛇
-        for (var i = snakeloc.length ; i > 0; i--) {
-            snakeloc[i] = snakeloc[i - 1];
-        }
-        snakeloc[0]=new Point(oldHead.getX(),oldHead.getY()-1);
-    }
-    //向右移动
-    function moveRight(){
-       var oldHead=snakeloc[0];//旧蛇头位置
-            //更新蛇
-                for (var i = snakeloc.length ; i > 0; i--) {
-                    snakeloc[i] = snakeloc[i - 1];
-                }
-        snakeloc[0]=new Point(oldHead.getX(),oldHead.getY()+1);
-
-
-    }
-    //消除蛇尾 即将它的颜色消掉
-    function clearSnakeEnd(){
-        var end=snakeloc.pop();//清楚蛇尾 返回蛇尾坐标
-        var td=document.getElementById("td"+end.getX()+"_"+end.getY());
-        td.style.background="";//设置为一个字符串 即没有颜色
-    }
-    //更新蛇 显示蛇
-    function updateSnake(){
-        for(var i=1;i<snakeloc.length;i++){
-            var td=document.getElementById("td"+snakeloc[i].getX()+"_"+snakeloc[i].getY());
-            td.style.background="blue";
-        }
-        var th=document.getElementById("td"+snakeloc[0].getX()+"_"+snakeloc[0].getY());
-        th.style.background="red";
-    }
-    //检测蛇是否吃到食物
-    function eatFood(){
-        var foodX=food[0].getX();
-        var foodY=food[0].getY();
-        var headX=snakeloc[0].getX();
-        var headY=snakeloc[0].getY();
-        if(foodX==headX&&foodY==headY){
-            return true;
-        }
-        return false;
-    }
-    //游戏结束情况
-    function gameOver(){
-        //死的第一种情况 撞墙而死
-        var headX=snakeloc[0].getX();
-        var headY=snakeloc[0].getY();
-        if(headY>19||headY<0||headX<0||headX>19){
-            return true;
-        }
-        //死的第二种情况 咬死自己
-        for(var i=1;i<snakeloc.length;i++){
-            var ele=snakeloc[i];
-            if(ele.getX()==snakeloc[0].getX()&&ele.getY()==snakeloc[0].getY()){
-                return true;
-            }
-        }
-        return false;
-    }
-</script>
 <body>
-    <table id="map" border="3" align="center" width="500px" height="500px" style="border-collapse:collapse;">
-<caption style="color: red;font-size: larger;">贪吃蛇游戏</caption>
-</table>
-</body>
+<div class="container">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>常规使用：普通图片上传</legend>
+</fieldset>
+ 
+<div class="layui-upload">
+  <button type="button" class="layui-btn" id="test1">上传图片</button>
+    <input type="text" name="text" id="text"style="display:inline;width:auto" placeholder="请输入内容"class="layui-input">
+  <div class="layui-upload-list">
+    <img class="layui-upload-img" id="demo1">
+     <img class="layui-upload-img" id="demo2">
+    <p id="demoText"></p>
+  </div>
+</div>
+</div>
+<script type="text/javascript"
+	src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script type="text/javascript">
-    snakeMove();//移动方法的调用
-    initMap();//初始化地图
-    initSnake();//初始化蛇
-    initFood();//初始化食物
-    snakeMove();//移动
+layui.use('upload', function(){
+	  var $ = layui.jquery
+	  ,upload = layui.upload;
+	  
+	  //普通图片上传
+	  var uploadInst = upload.render({
+	    elem: '#test1'
+	    ,url: '/simple1/account/QR' //改成您自己的上传接口
+	     ,auto: false
+	    ,choose: function(obj){
+	      //预读本地文件示例，不支持ie8
+	      obj.preview(function(index, file, result){
+	        $('#demo1').attr('src', result); //图片链接（base64）
+	        var text=$("#text").val()
+	        uploadAndDown( '/simple1/account/QR?text='+text,file);
+	      });
+	    }
+	    ,done: function(res){
+	    	console.log(res);
+	      //如果上传失败
+	      if(res.code > 0){
+	        return layer.msg('上传失败');
+	      }
+	      //上传成功
+	    }
+	    ,error: function(){
+	      //演示失败状态，并实现重传
+	      var demoText = $('#demoText');
+	      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+	      demoText.find('.demo-reload').on('click', function(){
+	        uploadInst.upload();
+	      });
+	    }
+	  });
+	  
+	});
+//上传文件
+function uploadAndDown(url,theFormFile) {
+                        var fd = new FormData();
+                        fd.append('file', theFormFile);//上传的文件： 键名，键值
+                        var xhr = new XMLHttpRequest();	
+                        xhr.open("POST", url);
+                           xhr.send(fd);
+                            xhr.responseType = "blob";  // 返回类型blob
+                            xhr.onload = function() {   // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+                                if (this.status===200) {
+                                    var blob = this.response;
+                                    var reader = new FileReader();
+                                    reader.readAsDataURL(blob);  // 转换为base64，可以直接放入a表情href
+                                    reader.onload=function (e) {
+                                        console.log(e);			//查看有没有接收到数据流
+                                        var imgurl= window.URL.createObjectURL(blob);
+            			                $('#demo2').attr('src', imgurl); //图片链接（base64）
+                                        // 转换完成，创建一个a标签用于下载
+                                     /*    var a = document.createElement('a'); // 转换完成，创建一个a标签用于下载
+            			                a.download = theFormFile.name;
+            			                a.href = window.URL.createObjectURL(blob); // 转成本地连接到blob文本
+            			                var evt = document.createEvent("MouseEvents"); 
+            			                evt.initEvent("click",true,true);  
+            			                a.dispatchEvent(evt);  */
+                                    }
+                                }
+                                else{
+                                    alert("出现了未知的错误!");
+                                }
+                            }   
+ };
 
 
 </script>
+</body>
 </html>

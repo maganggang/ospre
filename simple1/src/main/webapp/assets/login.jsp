@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div class="layui-footer" style="padding:10px">
   <a >
-  <img alt="二维码"  width=220 src="<%=path%>/account/qrcode?path=d:\\ab.jpg&text=It's belong to you.">
+  <img alt="二维码"  width=120 src="<%=path%>/account/qrcode?path=d:\\ab.jpg&text=It's belong to you.">
     © fei2e.com
     </a>
   </div>

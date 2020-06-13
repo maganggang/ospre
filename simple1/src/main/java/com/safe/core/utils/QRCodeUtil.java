@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -63,6 +64,25 @@ public class QRCodeUtil {
         QRCodeUtil.insertImage(image, logoPath, needCompress);
         return image;
     }
+    private static BufferedImage createImageStream(String content, Image imageStream, boolean needCompress) throws Exception {
+        Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+        hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
+        hints.put(EncodeHintType.MARGIN, 1);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, QRCODE_SIZE, QRCODE_SIZE,
+                hints);
+        int width = bitMatrix.getWidth();
+        int height = bitMatrix.getHeight();
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                image.setRGB(x, y, bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF);
+            }
+        }
+        // 插入图片
+        QRCodeUtil.insertImageStream(image, imageStream, needCompress);
+        return image;
+    }
 
     /**
      * 插入LOGO
@@ -107,7 +127,38 @@ public class QRCodeUtil {
         graph.draw(shape);
         graph.dispose();
     }
-
+    
+    private static void insertImageStream(BufferedImage source, Image imageStrean, boolean needCompress) throws Exception {
+       if(imageStrean==null){
+    	   throw new Exception("logo image not found.");
+       }
+    	Image src = imageStrean;
+        int width = src.getWidth(null);
+        int height = src.getHeight(null);
+        if (needCompress) { // 压缩LOGO
+            if (width > LOGO_WIDTH) {
+                width = LOGO_WIDTH;
+            }
+            if (height > LOGO_HEIGHT) {
+                height = LOGO_HEIGHT;
+            }
+            Image image = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics g = tag.getGraphics();
+            g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+            g.dispose();
+            src = image;
+        }
+        // 插入LOGO
+        Graphics2D graph = source.createGraphics();
+        int x = (QRCODE_SIZE - width) / 2;
+        int y = (QRCODE_SIZE - height) / 2;
+        graph.drawImage(src, x, y, width, height, null);
+        Shape shape = new RoundRectangle2D.Float(x, y, width, width, 6, 6);
+        graph.setStroke(new BasicStroke(3f));
+        graph.draw(shape);
+        graph.dispose();
+    }
     /**
      * 生成二维码(内嵌LOGO)
      * 二维码文件名随机，文件名可能会有重复
@@ -130,7 +181,7 @@ public class QRCodeUtil {
         return fileName;
     }
     /**
-     * 输出流
+     * 图片地址输出流
     * @Title: out 
     * @param os
     * @param content
@@ -146,7 +197,11 @@ public class QRCodeUtil {
     	BufferedImage image = QRCodeUtil.createImage(content, logoPath, true);
     	ImageIO.write(image, FORMAT, os);
     }
-
+    
+    public  static void outStream(OutputStream os,String content, Image imageStream)throws Exception{
+    	BufferedImage image = QRCodeUtil.createImageStream(content, imageStream, true);
+    	ImageIO.write(image, FORMAT, os);
+    }
     /**
      * 生成二维码(内嵌LOGO)
      * 调用者指定二维码文件名
@@ -305,4 +360,5 @@ public class QRCodeUtil {
         //含Logo，指定二维码图片名
         QRCodeUtil.encode(text, "d:\\fei2e.png", "D:\\", "qrcode", true);
     }
+	
 }

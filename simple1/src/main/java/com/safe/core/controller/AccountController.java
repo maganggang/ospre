@@ -1,7 +1,15 @@
 package com.safe.core.controller;
 
+import java.awt.Image;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -27,6 +37,8 @@ import com.safe.core.utils.Captcha;
 import com.safe.core.utils.GifCaptcha;
 import com.safe.core.utils.QRCodeUtil;
 import com.safe.core.utils.SessionUtils;
+
+
 
 @Controller
 @RequestMapping("/account")
@@ -210,6 +222,17 @@ public class AccountController {
 	public Account selectByUserId(@PathVariable Integer userId) {
 		return accountService.selectByUserId(userId);
 	}
+	/**
+	 * 非权限的生成二维码
+	* @Title: getQRCode 
+	* @param response
+	* @param request
+	* @param text
+	* @param path
+	* @return: void 
+	* @author mgg
+	* @date 2020年6月11日
+	 */
 	@RequestMapping("/qrcode")
 	@ResponseBody
 	public void getQRCode(HttpServletResponse response, HttpServletRequest request,String text,String path) {
@@ -229,5 +252,43 @@ public class AccountController {
 			e.printStackTrace();
 			System.err.println("获取异常：" + e.getMessage());
 		}
+	}
+	/**
+	 * 图片设置二维码， 未开发
+	* @Title: makeQRCode 
+	* @param response
+	* @param request
+	* @param text
+	* @param path
+	* @param files
+	* @throws IOException
+	* @return: void 
+	* @author mgg
+	* @date 2020年6月11日
+	*      //https://www.yiibai.com/spring_mvc/spring-mvc-file-upload-tutorial.html
+	 */
+	@RequestMapping("/QR")
+	@ResponseBody
+	public String  makeQRCode(HttpServletResponse response, HttpServletRequest request,String text,MultipartFile file)  {
+		if(text==null||StringUtils.isBlank(text)){
+			 text = "https://www.baidu.com/";
+		}        
+		try{
+	            	String name = file.getOriginalFilename();
+	            	if(name!=null){
+	            		System.out.println("Client File Name = " + name);
+	            		Image src = ImageIO.read(file.getInputStream());
+	            		response.setHeader("Pragma", "No-cache");
+	        			response.setHeader("Cache-Control", "no-cache");
+	        			response.setDateHeader("Expires", 0);
+		            	QRCodeUtil.outStream(response.getOutputStream(), text,src);
+	            	}else{
+	            		return "error";
+	            	}
+	            
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+	                }
+		return "true";
 	}
 }
