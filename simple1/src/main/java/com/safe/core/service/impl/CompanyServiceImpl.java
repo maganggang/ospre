@@ -44,7 +44,7 @@ private CompanyMapper companyMapper;
 		return null;
 	}
 /**
- * 查询创建的没被挂关系的公司
+ * 查询创建的没被挂关系的公司鹅
  */
 	@Override
 	public List<Company> selectNoOrg(Company company) {
