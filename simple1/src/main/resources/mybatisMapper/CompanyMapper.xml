@@ -18,6 +18,15 @@
     from company
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectNoOrg"  parameterType="com.safe.core.beans.Company"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+ from company where 1=1
+<if test="creatorId!=null">
+    creator_id=#{creatorId}
+</if>
+and id not in (select value from organization where type=0)
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from company
     where id = #{id,jdbcType=INTEGER}

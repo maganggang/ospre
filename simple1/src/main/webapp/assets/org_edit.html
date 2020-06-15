@@ -23,6 +23,36 @@
   <body>
     <div class="x-body">
         <form class="layui-form"  lay-filter="formTest">
+         <div class="layui-form-item">
+		    <label class="layui-form-label">组织现在</label>
+		    <div class="layui-input-inline">
+		      <select name="company" id="company" lay-filter="company">
+		        <option value="">请选择省</option>
+		        <option value="浙江" selected="">浙江省</option>
+		        <option value="你的工号">江西省</option>
+		        <option value="你最喜欢的老师">福建省</option>
+		      </select>
+		    </div>
+		    <div class="layui-input-inline">
+		      <select name="department" id="department" lay-filter="department">
+		        <option value="">请选择市</option>
+		        <option value="杭州">杭州</option>
+		        <option value="宁波" disabled="">宁波</option>
+		        <option value="温州">温州</option>
+		        <option value="温州">台州</option>
+		        <option value="温州">绍兴</option>
+		      </select>
+		    </div>
+		    <div class="layui-input-inline">
+		      <select name="item"  id="item" lay-filter="item">
+		        <option value="">请选择县/区</option>
+		        <option value="西湖区">西湖区</option>
+		        <option value="余杭区">余杭区</option>
+		        <option value="拱墅区">临安市</option>
+		      </select>
+		    </div>
+		    <div class="layui-form-mid layui-word-aux">此处只是演示联动排版，并未做联动交互</div>
+		  </div>
           <div class="layui-form-item">
               <label for="name" class="layui-form-label">
                   <span class="x-red">*</span>组织名
@@ -84,7 +114,7 @@
             $ = layui.jquery;
           var form = layui.form
           ,layer = layui.layer;
-       
+        
 		if(id){
 			$.ajax({
               	url:'/simple1/organization/view/'+id,
@@ -96,6 +126,77 @@
               	}
 			})
 		}
+		//公司加载
+			$.ajax({
+	              	url:'/simple1/company/all',
+	              	type:'get',
+	              	datatype:"json",
+	              	success:function(result){
+	              		console.log(result);
+	              		var html="";
+	              		if (result&&result.data&&result.data.length > 0){
+	              			 $.each(result.data,function (k,v) {
+		                            html += "<option value='"+v.id+"'>"+v.name+"</option>"
+		                        })
+		                        $("#company").empty().append(html);
+	                    }else{
+	                    	  html += "<option value=''>请添加数据</option>";
+		                        $("#company").empty().append(html);
+	                    }
+	                    form.render();
+	              	}
+				})
+				//部门加载
+				$.ajax({
+              	url:'/simple1/department/all',
+              	type:'get',
+              	datatype:"json",
+              	success:function(result){
+              		console.log(result);
+              		var html="";
+              		if (!result||!result.data||result.data.length == 0){
+                        html += "<option value=''>请添加数据</option>";
+                        $("#department").empty().append(html);
+                    }else{
+                        $.each(result.data,function (k,v) {
+                            html += "<option value='"+v.id+"'>"+v.name+"</option>"
+                        })
+                        $("#department").empty().append(html);
+                    }
+                    form.render();
+              	}
+			})
+			//项目加载
+				$.ajax({
+              	url:'/simple1/item/all',
+              	type:'get',
+              	datatype:"json",
+              	success:function(result){
+              		console.log(result);
+              		var html="";
+              		if (!result||!result.data||result.data.length == 0){
+                        html += "<option value=''>请添加数据</option>";
+                        $("#item").empty().append(html);
+                    }else{
+                        $.each(result.data,function (k,v) {
+                            html += "<option value='"+v.id+"'>"+v.name+"</option>"
+                        })
+                        $("#item").empty().append(html);
+                    }
+                    form.render();
+              	}
+			})
+		form.on('select(company)', function(data){
+				console.log("公司");
+		});
+        //部门选择
+      	form.on('select(depart)',function(data){
+        	console.log("bum");
+        });
+        //项目选择
+     	form.on('select(item)',function(data){
+        	console.log("item");
+        });
           //监听提交
           form.on('submit(add)', function(data){
         	  var  url='/simple1/organization/insert';
@@ -117,8 +218,6 @@
             }) 
             return false;
           });
-          
-          
         });
     </script>
     <script>var _hmt = _hmt || []; (function() {

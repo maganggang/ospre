@@ -20,4 +20,6 @@ public interface CompanyMapper {
 	List<Company> findAll();
 
 	int insertSelectiveReturnKey(Company company);
+
+	List<Company> selectNoOrg(Company company);
 }

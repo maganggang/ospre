@@ -43,5 +43,12 @@ private CompanyMapper companyMapper;
 		}
 		return null;
 	}
+/**
+ * 查询创建的没被挂关系的公司
+ */
+	@Override
+	public List<Company> selectNoOrg(Company company) {
+		return companyMapper.selectNoOrg(company);
+	}
 
 }

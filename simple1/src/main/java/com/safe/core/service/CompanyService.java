@@ -16,4 +16,6 @@ public interface CompanyService {
 
 	Company insert(Company company);
 
+	List<Company> selectNoOrg(Company company);
+
 }
