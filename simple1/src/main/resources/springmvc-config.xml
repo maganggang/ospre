@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p"
     xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:task="http://www.springframework.org/schema/task"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd 
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-4.3.xsd 
         http://www.springframework.org/schema/mvc 
@@ -69,7 +74,16 @@
      <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
 <!-- 拦截器 -->
-
+<!-- AOP 注解方式 ；定义Aspect -->
+	<!-- 激活组件扫描功能,在包com.ly.aop.aspect及其子包下面自动扫描通过注解配置的组件-->
+	<context:component-scan base-package="com.safe.core.aop.aspect"/>
+	<!-- 启动AspectJ支持   只对扫描过的bean有效-->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+ 
+	<bean
+			class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+	<bean
+			class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 <!-- 可以同时使用多个拦截器，在这里引入拦截器 JAVA文件 -->
 		 	<mvc:interceptors>
 		 	     <bean class="com.safe.core.filter.SessionInterceptor"/> 

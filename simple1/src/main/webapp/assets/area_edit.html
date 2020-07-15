@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>字典编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5E5EE28a7615536d1ffe2ce2a3667859"></script>
+	<!--加载鼠标绘制工具-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+	<!--加载检索信息窗口-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form"  lay-filter="formTest">
+          <div class="layui-form-item">
+              <label for="code" class="layui-form-label">
+                  <span class="x-red">*</span>区域code
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="code" name="code" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="dictValue" class="layui-form-label">
+                  <span class="x-red">*</span>字典类型值
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="name" name="name" required="" 
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+           <div class="layui-form-item">
+              <label for="level" class="layui-form-label">
+                  <span class="x-red">*</span>等级
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="level" name="level" required="" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+               <div class="layui-form-item">
+              <label for="center" class="layui-form-label">
+                  <span class="x-red">*</span>中心位置
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="center" name="center" required="" 
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="parentId" class="layui-form-label">
+                  <span class="x-red">*</span>父id
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="parentId" name="parentId" required="" 
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+           <div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">文本域</label>
+		    <div class="layui-input-block">
+		      <textarea name="description" placeholder="请输入内容" class="layui-textarea"></textarea>
+		    </div>
+		  </div>
+		  <a  class="layui-btn" onclick="clearAllMap()">清空</a>
+		<!-- <input type="button" onclick="getBoundary('北京市')" value="获取轮廓线"> -->
+		 <div id="map" style="min-height:500px;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;">
+       </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+    var id=request.id;
+    var editType=request.edittype;
+    var drawTool=true;
+    if(id&&editType!=1){
+    	drawTool=false;
+    }
+	// 百度地图API功能
+    var map = new BMap.Map('map');
+    var poi = new BMap.Point(116.307852,40.057031);
+    map.centerAndZoom(poi, 16);
+    map.enableScrollWheelZoom();  
+    var overlays = [];
+	var overlaycomplete = function(e){
+        overlays.push(e.overlay);
+    };
+    var styleOptions = {
+        strokeColor:"red",    //边线颜色。
+        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    }
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        enableDrawingTool: drawTool, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+        },
+        circleOptions: styleOptions, //圆的样式
+        polylineOptions: styleOptions, //线的样式
+        polygonOptions: styleOptions, //多边形的样式
+        rectangleOptions: styleOptions //矩形的样式
+    });  
+	 //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+    function clearAllMap() {
+    	console.log("what happen");
+    	map.clearOverlays();        //清除地图覆盖物 
+	/* 	for(var i = 0; i < overlays.length; i++){
+            map.removeOverlay(overlays[i]);
+        }
+        overlays.length = 0    */
+    }
+    function getBoundary(name){       
+    	 
+        var bdary = new BMap.Boundary();
+        bdary.get(name, function(rs){       //获取行政区域
+            var count = rs.boundaries.length; //行政区域的点有多少个
+     
+            for(var i = 0; i < count; i++){
+     
+                var ply = new BMap.Polygon(rs.boundaries[i], {strokeWeight: 2, strokeColor: "#ff0000"}); //建立多边形覆盖物
+     
+                map.addOverlay(ply);  //添加覆盖物
+     
+                //map.setViewport(ply.getPath());    //调整视野         
+     
+            }                
+     
+        });   
+     
+    }
+    </script>
+    <script>
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+      	if(id){
+			$.ajax({
+              	url:'/simple1/area/view/'+id,
+              	type:'get',
+              	datatype:"json",
+              	success:function(result){
+              		console.log(result);
+              	  //显示中心点
+              	  if(result&&result.center){
+              		var lats=result.center.split(",");
+              	    var point = new BMap.Point(lats[0],lats[1]);
+              	  	map.centerAndZoom(point, 16);
+              	    var marker = new BMap.Marker(point);// 创建标注
+              		map.addOverlay(marker);   
+              	  }
+              	  if(result.level<3){
+              		getBoundary(result.name);
+              	  }
+              	
+              		form.val("formTest",result);
+              	}
+			})
+		}
+          //自定义验证规则
+          form.verify({
+            nikename: function(value){
+              if(value.length < 5){
+                return '昵称至少得5个字符啊';
+              }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
+            }
+          });
+
+          //监听提交
+          form.on('submit(add)', function(data){
+        	  var  url='/simple1/area/insert';
+        	  if(id){
+        		  url='/simple1/area/update';
+        		  data.field.id=id;
+        	  }
+             $.post(url,data.field,function (result) {
+            	console.log(result);
+            	  //发异步，把数据提交给php
+            	  if(result.id){
+            		   layer.alert("增加成功", {icon: 6},function () {
+                           // 获得frame索引
+                           var index = parent.layer.getFrameIndex(window.name);
+                           //关闭当前frame
+                           parent.layer.close(index);
+                       }); 
+            	  }
+            }) 
+            return false;
+          });
+          
+          
+        });
+    </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+  </body>
+
+</html>

@@ -12,8 +12,8 @@ import com.safe.core.service.DictService;
 public class DictServiceImpl implements DictService{
 	@Autowired
 private DictMapper dictMapper;
-	public List<Dict> selectAll() {
-		return dictMapper.findAll();
+	public List<Dict> selectAll(Dict dict) {
+		return dictMapper.findAll(dict);
 	}
 
 	public Dict selectByPrimaryKey(Integer id) {

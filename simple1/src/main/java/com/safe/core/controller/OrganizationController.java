@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,6 +49,20 @@ public class OrganizationController {
 	@ResponseBody
 	public Boolean deleteOne(@PathVariable Integer id){
 		return organizationService.deleteByPrimaryKey(id);
+	}
+	/**
+	 * 批量删除
+	* @Title: deleteOne 
+	* @param ids
+	* @return
+	* @return: Boolean 
+	* @author mgg
+	* @date 2020年6月23日
+	 */
+	@RequestMapping("/deleteList")
+	@ResponseBody
+	public Boolean deleteOne(@RequestBody List<Integer> ids){
+		return organizationService.deleteList(ids);
 	}
 	@RequestMapping("/update")
 	@ResponseBody

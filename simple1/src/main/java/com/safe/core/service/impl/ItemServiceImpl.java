@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safe.core.beans.Company;
 import com.safe.core.beans.Item;
 import com.safe.core.mapper.ItemMapper;
 import com.safe.core.service.ItemService;
@@ -35,7 +36,7 @@ private ItemMapper itemMapper;
 		}
 		return null;
 	}
-
+@Override
 	public Item insert(Item item) {
 		int i=itemMapper.insertSelectiveReturnKey(item);
 		if(i>0){
@@ -43,5 +44,11 @@ private ItemMapper itemMapper;
 		}
 		return null;
 	}
-
+	/**
+	 * 查询创建的没被挂关系的项目
+	 */
+		@Override
+		public List<Item> selectNoOrg(Item item) {
+			return itemMapper.selectNoOrg(item);
+		}
 }

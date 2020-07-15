@@ -58,7 +58,7 @@
                   <span class="x-red">*</span>组织名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="name" name="name" required="" lay-verify="required"
+                  <input type="text" id="name" name="name" disabled required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -70,7 +70,7 @@
                  类型
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="type" name="type"
+                  <input type="text" id="type"  disabled name="type"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -79,7 +79,7 @@
                   <span class="x-red">*</span>类型值
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="value" name="value" required="" lay-verify="phone"
+                  <input type="text" id="value" disabled  name="value" required="" 
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -91,7 +91,7 @@
                   <span class="x-red">*</span>父级
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="parentId" name="parentId" required="" lay-verify="email"
+                  <input type="text" id="parentId" name="parentId" required="" 
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -128,14 +128,14 @@
 		}
 		//公司加载
 			$.ajax({
-	              	url:'/simple1/company/all',
+	              	url:'/simple1/company/creator',
 	              	type:'get',
 	              	datatype:"json",
 	              	success:function(result){
 	              		console.log(result);
 	              		var html="";
-	              		if (result&&result.data&&result.data.length > 0){
-	              			 $.each(result.data,function (k,v) {
+	              		if (result&&result.length > 0){
+	              			 $.each(result,function (k,v) {
 		                            html += "<option value='"+v.id+"'>"+v.name+"</option>"
 		                        })
 		                        $("#company").empty().append(html);
@@ -148,17 +148,17 @@
 				})
 				//部门加载
 				$.ajax({
-              	url:'/simple1/department/all',
+              	url:'/simple1/department/creator',
               	type:'get',
               	datatype:"json",
               	success:function(result){
               		console.log(result);
               		var html="";
-              		if (!result||!result.data||result.data.length == 0){
+              		if (!result||result.length == 0){
                         html += "<option value=''>请添加数据</option>";
                         $("#department").empty().append(html);
                     }else{
-                        $.each(result.data,function (k,v) {
+                        $.each(result,function (k,v) {
                             html += "<option value='"+v.id+"'>"+v.name+"</option>"
                         })
                         $("#department").empty().append(html);
@@ -168,17 +168,17 @@
 			})
 			//项目加载
 				$.ajax({
-              	url:'/simple1/item/all',
+              	url:'/simple1/item/creator',
               	type:'get',
               	datatype:"json",
               	success:function(result){
               		console.log(result);
               		var html="";
-              		if (!result||!result.data||result.data.length == 0){
+              		if (!result||result.length == 0){
                         html += "<option value=''>请添加数据</option>";
                         $("#item").empty().append(html);
                     }else{
-                        $.each(result.data,function (k,v) {
+                        $.each(result,function (k,v) {
                             html += "<option value='"+v.id+"'>"+v.name+"</option>"
                         })
                         $("#item").empty().append(html);
@@ -187,15 +187,24 @@
               	}
 			})
 		form.on('select(company)', function(data){
-				console.log("公司");
+				console.log("公司",data);
+				$("#name").val(data.elem.innerText);
+				$("#value").val(data.value);
+				$("#type").val(0);
 		});
         //部门选择
       	form.on('select(depart)',function(data){
         	console.log("bum");
+        	$("#name").val(data.elem.innerText);
+			$("#value").val(data.value);
+			$("#type").val(1);
         });
         //项目选择
      	form.on('select(item)',function(data){
         	console.log("item");
+        	$("#name").val(data.elem.innerText);
+			$("#value").val(data.value);
+			$("#type").val(2);
         });
           //监听提交
           form.on('submit(add)', function(data){

@@ -114,10 +114,33 @@
       creator_id = #{creatorId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-   <select id="findAll" resultMap="BaseResultMap">
+   <select id="findAll" resultMap="BaseResultMap"  parameterType="com.safe.core.beans.Dict">
     select 
     <include refid="Base_Column_List" />
     from dict
+    <where>
+         <if test="id != null">
+       and  id=#{id}
+      </if>
+      <if test="dictType != null and dictType!=''">
+       and dict_type=#{dictType}
+      </if>
+      <if test="dictValue != null and dictValue!=''">
+        and dict_value=dictValue
+      </if>
+      <if test="parentId != null">
+        and parent_id=parentId
+      </if>
+      <if test="description != null and description!=''">
+        and description like '%${description}%'
+      </if>
+      <if test="creatorId != null">
+        and creator_id =#{creatorId}
+      </if>
+          <if test="startTime!=null and endTime!=null">
+             and  createtime between #{startTime} and #{endTime}
+          </if>
+    </where>
   </select>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true"  keyProperty="id" parameterType="com.safe.core.beans.Dict">
      insert into dict

@@ -14,7 +14,11 @@ public class Dict extends CreatorBean {
 	    private String description;
 
 
-    public Integer getParentId() {
+    public void setDictValue(String dictValue) {
+			this.dictValue = dictValue;
+		}
+
+	public Integer getParentId() {
 			return parentId;
 		}
 

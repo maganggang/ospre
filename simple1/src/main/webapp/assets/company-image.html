@@ -45,7 +45,8 @@ layui.use('upload', function(){
 	      obj.preview(function(index, file, result){
 	        $('#demo1').attr('src', result); //图片链接（base64）
 	        var text=$("#text").val()
-	        uploadAndDown( '/simple1/account/QR?text='+text,file);
+	        console.log(encodeURI(text));
+	        uploadAndDown( '/simple1/account/QR?text='+encodeURI(text),file);
 	      });
 	    }
 	    ,done: function(res){

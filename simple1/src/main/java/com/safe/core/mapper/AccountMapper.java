@@ -19,7 +19,7 @@ public interface AccountMapper {
 
     int updateByPrimaryKey(Account record);
     
-	List<Account> findAll();
+	List<Account> findAll(Account account);
 	
 	int insertSelectiveReturnKey(Account account);
 /**

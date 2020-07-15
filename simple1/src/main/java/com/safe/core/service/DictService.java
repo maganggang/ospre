@@ -6,7 +6,7 @@ import com.safe.core.beans.Dict;
 
 public interface DictService {
 
-	List<Dict> selectAll();
+	List<Dict> selectAll(Dict dict);
 
 	Dict selectByPrimaryKey(Integer id);
 

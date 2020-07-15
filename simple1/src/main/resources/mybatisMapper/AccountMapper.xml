@@ -25,10 +25,39 @@
     from account 
     where username=#{username} and password=#{password}
   </select>
-  <select id="findAll" resultMap="BaseResultMap">
+  <select id="findAll" resultMap="BaseResultMap" parameterType="com.safe.core.beans.Account">
     select 
     <include refid="Base_Column_List" />
     from account
+    <where>
+         <if test="id != null">
+        and id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="username != null">
+        and username like '%${username,jdbcType=VARCHAR}%'
+      </if>
+      <if test="password != null">
+        and password=#{password,jdbcType=VARCHAR}
+      </if>
+      <if test="nickname != null">
+          and username like '%${nickname,jdbcType=VARCHAR}%'
+      </if>
+      <if test="mobile != null">
+        and mobile =#{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null">
+        and email =#{email,jdbcType=VARCHAR}
+      </if>
+     <if test="startTime!=null and endTime!=null">
+             and  createtime between #{startTime} and #{endTime}
+        </if>
+      <if test="userId != null">
+        and userId=#{userId,jdbcType=INTEGER}
+      </if>
+      <if test="creatorId != null">
+        and creatorId=#{creatorId,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id" parameterType="com.safe.core.beans.Account">
     insert into account

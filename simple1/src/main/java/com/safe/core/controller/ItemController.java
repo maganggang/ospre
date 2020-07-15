@@ -2,6 +2,9 @@ package com.safe.core.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +16,9 @@ import com.github.pagehelper.PageHelper;
 import com.safe.core.base.bean.ResultBean;
 import com.safe.core.beans.Department;
 import com.safe.core.beans.Item;
+import com.safe.core.filter.SessionListener;
 import com.safe.core.service.ItemService;
+import com.safe.core.utils.BaseUserInfo;
 
 @Controller
 @RequestMapping("/item")
@@ -34,6 +39,29 @@ public class ItemController {
 	@ResponseBody
 	public Item findOne(@PathVariable Integer id){
 		return itemService.selectByPrimaryKey(id);
+	}
+	/**
+	 * 查询没被使用的项目
+	* @Title: selectNoOrg 
+	* @param req
+	* @param item
+	* @return
+	* @return: List<Item> 
+	* @author mgg
+	* @date 2020年6月19日
+	 */
+	@RequestMapping("/creator")
+	@ResponseBody
+	public List<Item> selectNoOrg(HttpServletRequest req, Item item){
+		HttpSession session = req.getSession();
+		if(item.getCreatorId()==null){
+			BaseUserInfo userInfo =(BaseUserInfo) session.getAttribute("userInfo");
+			// 清除在线用户后，更新map,替换map sessionid
+			SessionListener.sessionContext.getSessionMap().remove(userInfo.getName());
+			item.setCreatorId(userInfo.getId());
+		}
+		List<Item> result = itemService.selectNoOrg(item);
+		return result;
 	}
 	@RequestMapping("/delete/{id}")
 	@ResponseBody

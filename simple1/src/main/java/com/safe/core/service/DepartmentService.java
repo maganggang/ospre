@@ -16,4 +16,6 @@ public interface DepartmentService {
 
 	Department insert(Department dept);
 
+	List<Department> selectNoOrg(Department department);
+
 }

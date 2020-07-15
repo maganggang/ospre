@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMap;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -38,7 +40,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import config.InterceptAnnotation;
 
 /**
- * 主要为新增与修改时填写新增时间,人及修改时间,人
+ * 组织结构的查询 和配置注解
  * 
  * @author Administrator
  * 		————————————————
@@ -77,7 +79,7 @@ public class SqlInterceptor implements Interceptor {
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         //id为执行的mapper方法的全路径名，如com.uv.dao.UserMapper.insertUser
         String id = mappedStatement.getId();
-        System.err.println(id);
+        logger.info(id);
         //sql语句类型 select、delete、insert、update
         String sqlCommandType = mappedStatement.getSqlCommandType().toString();
         BoundSql boundSql = statementHandler.getBoundSql();

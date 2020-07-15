@@ -1,6 +1,7 @@
 package com.safe.core.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Area implements Serializable {
     private Integer id;
@@ -16,7 +17,8 @@ public class Area implements Serializable {
     private String center;
 
     private Integer parentId;
-
+    private String description;
+    private List<Position> positions;
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -74,4 +76,20 @@ public class Area implements Serializable {
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Position> getPositions() {
+		return positions;
+	}
+
+	public void setPositions(List<Position> positions) {
+		this.positions = positions;
+	}
 }

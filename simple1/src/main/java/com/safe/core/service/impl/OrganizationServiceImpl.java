@@ -59,4 +59,13 @@ private OrganizationMapper organizationMapper;
 		return list;
 	}
 
+	@Override
+	public Boolean deleteList(List<Integer> ids) {
+		int i=organizationMapper.deleteList(ids);
+		if(i>0){
+			return true;
+		}
+		return false;
+	}
+
 }

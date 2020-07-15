@@ -17,5 +17,5 @@ public interface AreaMapper {
 
     int updateByPrimaryKey(Area record);
 
-	List<Area> findAll();
+	List<Area> findAll(Area area);
 }

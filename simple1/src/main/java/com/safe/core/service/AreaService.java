@@ -7,7 +7,7 @@ import com.safe.core.beans.Position;
 
 
 public interface AreaService {
-	List<Area> selectAll();
+	List<Area> selectAll(Area area);
 
 	Area selectByPrimaryKey(Integer id);
 

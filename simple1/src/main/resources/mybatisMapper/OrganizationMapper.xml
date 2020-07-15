@@ -30,6 +30,13 @@
     delete from organization
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteList" >
+    delete from organization
+    where id in
+<foreach collection="ids" close=")" index="index" open="(" item="item" separator=",">
+    #{item}
+</foreach>
+  </delete>
   <insert id="insert" parameterType="com.safe.core.beans.Organization">
     insert into organization (id, type, value, 
       name, parent_id, createtime, 

@@ -16,4 +16,6 @@ public interface ItemService {
 
 	Item insert(Item item);
 
+	List<Item> selectNoOrg(Item item);
+
 }

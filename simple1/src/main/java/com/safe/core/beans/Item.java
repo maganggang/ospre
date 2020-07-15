@@ -7,7 +7,7 @@ public class Item extends CreatorBean {
 
 	    private String name;
 
-	    private String desc;
+	    private String description;
 
 	    private Integer areaPositionId;
 
@@ -31,12 +31,13 @@ public class Item extends CreatorBean {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDesc() {
-        return desc;
-    }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

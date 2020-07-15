@@ -23,7 +23,7 @@
     <include refid="Base_Column_List" />
  from company where 1=1
 <if test="creatorId!=null">
-    creator_id=#{creatorId}
+    and creator_id=#{creatorId}
 </if>
 and id not in (select value from organization where type=0)
   </select>

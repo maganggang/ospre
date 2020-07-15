@@ -14,8 +14,8 @@ public class AreaServiceImpl implements AreaService{
 	@Autowired
 	private AreaMapper areaMapper;
 	@Override
-	public List<Area> selectAll() {
-		return areaMapper.findAll();
+	public List<Area> selectAll(Area area) {
+		return areaMapper.findAll(area);
 	}
 
 	@Override

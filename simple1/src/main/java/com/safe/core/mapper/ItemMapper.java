@@ -20,4 +20,6 @@ public interface ItemMapper {
 	int insertSelectiveReturnKey(Item item);
 
 	List<Item> findAll();
+
+	List<Item> selectNoOrg(Item item);
 }

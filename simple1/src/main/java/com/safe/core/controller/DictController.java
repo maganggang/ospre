@@ -25,12 +25,12 @@ public class DictController {
 	public ResultBean<Dict> allDict(Page<Dict> page, Dict dict) {
 		ResultBean<Dict> b = new ResultBean<Dict>();
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Dict> result = dictService.selectAll();
+		List<Dict> result = dictService.selectAll(dict);
 		b.setData(result);
 		b.setCount(page.getTotal());
 		return b;
 	}
-	@RequestMapping("/dict/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Dict findOne(@PathVariable Integer id){
 		return dictService.selectByPrimaryKey(id);

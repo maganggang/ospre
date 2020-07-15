@@ -23,4 +23,6 @@ public interface OrganizationMapper {
 	List<Organization> findAll(Organization organization);
 
 	List<ListMapVo> findTreeAll(Integer parentId);
+
+	int deleteList(List<Integer> ids);
 }

@@ -25,12 +25,12 @@ public class AreaController {
 	public ResultBean<Area> allPosition(Page<Area> page, Area area){
 		ResultBean<Area> b = new ResultBean<Area>();
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Area> result = areaService.selectAll();
+		List<Area> result = areaService.selectAll(area);
 		b.setData(result);
 		b.setCount(page.getTotal());
 		return b;
 	}
-	@RequestMapping("/area/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Area findOne(@PathVariable Integer id){
 		return areaService.selectByPrimaryKey(id);

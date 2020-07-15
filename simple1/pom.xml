@@ -44,7 +44,22 @@
             <version>4.3.5.RELEASE</version>
             <!-- 会自动加载关联的 aop、beans、context、expression、core、commons-logging 这几个jar -->
         </dependency>
-        
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-aop</artifactId>
+           <version>4.3.1.RELEASE</version>
+      </dependency>
+      <!-- aop aspect注解导包-->
+      <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjrt</artifactId>
+          <version>1.8.6</version>
+      </dependency>
+      <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjweaver</artifactId>
+          <version>1.8.9</version>
+      </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>

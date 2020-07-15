@@ -9,9 +9,10 @@
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
     <result column="center" jdbcType="VARCHAR" property="center" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="description" jdbcType="INTEGER" property="description" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, code, name, level, city_code, center, parent_id
+    id, code, name, level, city_code, center, parent_id,description
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -26,10 +27,10 @@
   <insert id="insert" parameterType="com.safe.core.beans.Area">
     insert into area (id, code, name, 
       level, city_code, center, 
-      parent_id)
+      parent_id,description)
     values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{level,jdbcType=TINYINT}, #{cityCode,jdbcType=VARCHAR}, #{center,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=INTEGER})
+      #{parentId,jdbcType=INTEGER},#{description})
   </insert>
   <insert id="insertSelective" parameterType="com.safe.core.beans.Area">
     insert into area
@@ -54,6 +55,9 @@
       </if>
       <if test="parentId != null">
         parent_id,
+      </if>
+      <if test="description != null">
+        description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -101,6 +105,9 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="description != null">
+        description = #{description},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -111,13 +118,37 @@
       level = #{level,jdbcType=TINYINT},
       city_code = #{cityCode,jdbcType=VARCHAR},
       center = #{center,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER}
+      parent_id = #{parentId,jdbcType=INTEGER}.
+      description = #{description}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="findAll" resultMap="BaseResultMap">
+  <select id="findAll" resultMap="BaseResultMap" parameterType="com.safe.core.beans.Area">
     select 
     <include refid="Base_Column_List" />
     from area
+    <where>
+           <if test="id != null">
+       and id= #{id,jdbcType=INTEGER}
+      </if>
+      <if test="code != null">
+       and code= #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name!=''">
+        and name like '%#{name}%'
+      </if>
+      <if test="level != null">
+        and level=#{level,jdbcType=TINYINT}
+      </if>
+      <if test="cityCode != null">
+        and city_code=#{cityCode,jdbcType=VARCHAR}
+      </if>
+      <if test="center != null">
+       and center like  '%${center,jdbcType=VARCHAR}%'
+      </if>
+      <if test="parentId != null">
+        and parentId=#{parentId,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id" parameterType="com.safe.core.beans.Area">
    insert into area
@@ -143,6 +174,9 @@
       <if test="parentId != null">
         parent_id,
       </if>
+      <if test="description != null">
+        description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -165,6 +199,9 @@
       </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description}
       </if>
     </trim>
   </insert>

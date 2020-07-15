@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safe.core.beans.Company;
 import com.safe.core.beans.Department;
 import com.safe.core.mapper.DepartmentMapper;
 import com.safe.core.service.DepartmentService;
@@ -43,5 +44,11 @@ private DepartmentMapper departmentMapper;
 		}
 		return null;
 	}
-
+	/**
+	 * 查询创建的没被挂关系的部门
+	 */
+		@Override
+		public List<Department> selectNoOrg(Department department) {
+			return departmentMapper.selectNoOrg(department);
+		}
 }

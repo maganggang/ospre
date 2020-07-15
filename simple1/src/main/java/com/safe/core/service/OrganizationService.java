@@ -19,4 +19,6 @@ public interface OrganizationService {
 
 	List<ListMapVo> selectTreeAll(Integer parentId);
 
+	Boolean deleteList(List<Integer> ids);
+
 }

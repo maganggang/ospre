@@ -17,7 +17,7 @@ public interface DictMapper {
 
     int updateByPrimaryKey(Dict record);
 
-	List<Dict> findAll();
+	List<Dict> findAll(Dict dict);
 
 	int insertSelectiveReturnKey(Dict dict);
 }

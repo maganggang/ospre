@@ -13,8 +13,8 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 private AccountMapper accountMapper;
 
-	public List<Account> selectAll() {
-		return accountMapper.findAll();
+	public List<Account> selectAll(Account account) {
+		return accountMapper.findAll(account);
 	}
 
 	public Account select(Integer id) {

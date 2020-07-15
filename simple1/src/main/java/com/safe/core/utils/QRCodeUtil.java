@@ -9,6 +9,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -199,6 +201,8 @@ public class QRCodeUtil {
     }
     
     public  static void outStream(OutputStream os,String content, Image imageStream)throws Exception{
+    	content=new String(content.getBytes("ISO-8859-1"), "utf-8");
+    	content= URLDecoder.decode(content, "utf-8");
     	BufferedImage image = QRCodeUtil.createImageStream(content, imageStream, true);
     	ImageIO.write(image, FORMAT, os);
     }
@@ -358,7 +362,9 @@ public class QRCodeUtil {
         //含Logo，不指定二维码图片名
         //QRCodeUtil.encode(text, "e:\\csdn.jpg", "D:\\", true);
         //含Logo，指定二维码图片名
-        QRCodeUtil.encode(text, "d:\\fei2e.png", "D:\\", "qrcode", true);
+        QRCodeUtil.encode("我喜欢你", "d:\\fei2e.png", "D:\\", "qrcode", true);
+       String string= QRCodeUtil.decode("d:\\b420adb453db81bfcd7776fe7c106a3.png");
+       System.out.println(string);
     }
 	
 }

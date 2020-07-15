@@ -48,7 +48,7 @@ public class CompanyController {
 	 */
 	@RequestMapping("/creator")
 	@ResponseBody
-	public List<Company> selectCompany(HttpServletRequest req, Company company){
+	public List<Company> selectNoOrg(HttpServletRequest req, Company company){
 		HttpSession session = req.getSession();
 		if(company.getCreatorId()==null){
 			BaseUserInfo userInfo =(BaseUserInfo) session.getAttribute("userInfo");

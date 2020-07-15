@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +73,7 @@ public class AccountController {
 		ResultBean<Account> b = new ResultBean<Account>();
 		// 设置分页条件，Parameters:pageNum 页码pageSize 每页显示数量count 是否进行count查询
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Account> result = accountService.selectAll();
+		List<Account> result = accountService.selectAll(account);
 		// 使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
 		b.setData(result);
 		b.setCount(page.getTotal());
@@ -243,6 +245,7 @@ public class AccountController {
 			if(path==null||StringUtils.isBlank(path)){
 				path=this.getClass().getResource("/").getPath()+"/fei2e.png";
 			}
+			System.out.println(text);
 			response.setHeader("Pragma", "No-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);
@@ -272,7 +275,7 @@ public class AccountController {
 	public String  makeQRCode(HttpServletResponse response, HttpServletRequest request,String text,MultipartFile file)  {
 		if(text==null||StringUtils.isBlank(text)){
 			 text = "https://www.baidu.com/";
-		}        
+		}
 		try{
 	            	String name = file.getOriginalFilename();
 	            	if(name!=null){

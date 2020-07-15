@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.safe.core.beans.Account;
 
 public interface AccountService {
-	public List<Account> selectAll();
+	public List<Account> selectAll(Account account);
 
 	public Account select(Integer id);
 
