@@ -1,8 +1,9 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 
-public class Position implements Serializable {
+import com.safe.core.base.bean.CreatorBean;
+
+public class Position extends CreatorBean {
 	private Integer id;
 
     private Double lng;

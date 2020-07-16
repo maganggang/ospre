@@ -32,19 +32,16 @@
         <form class="layui-form"  lay-filter="formTest">
           <div class="layui-form-item">
               <label for="code" class="layui-form-label">
-                  <span class="x-red">*</span>区域code
+                 区域code
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="code" name="code" required="" lay-verify="required"
+                  <input type="text" id="code" name="code" 
                   autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>
               </div>
           </div>
           <div class="layui-form-item">
               <label for="dictValue" class="layui-form-label">
-                  <span class="x-red">*</span>字典类型值
+                  <span class="x-red">*</span>名字
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="name" name="name" required="" 
@@ -59,8 +56,16 @@
                   <span class="x-red">*</span>等级
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="level" name="level" required="" 
-                  autocomplete="off" class="layui-input">
+                   <select id="level" name="level" lay-verify="required">
+			        <option value="5">自定义点</option>
+			        <option value="6">自定义线</option>
+			        <option value="7">自定义圆</option>
+			        <option value="8">自定义网格</option>
+			        <option value="1">省份</option>
+			        <option value="2">市</option>
+			        <option value="3">区县</option>
+			        <option value="4">街道</option>
+			      </select>
               </div>
           </div>
                <div class="layui-form-item">
@@ -78,7 +83,7 @@
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="parentId" name="parentId" required="" 
-                  autocomplete="off" class="layui-input">
+                  autocomplete="off" class="layui-input" value="-1">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>
@@ -91,13 +96,14 @@
 		    </div>
 		  </div>
 		  <a  class="layui-btn" onclick="clearAllMap()">清空</a>
+		   <a  class="layui-btn" onclick="inputPosition()">确定</a>
 		<!-- <input type="button" onclick="getBoundary('北京市')" value="获取轮廓线"> -->
 		 <div id="map" style="min-height:500px;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;">
        </div>
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
+              <button  id="submitBtn"class="layui-btn" lay-filter="add" lay-submit="">
                   增加
               </button>
           </div>
@@ -117,7 +123,16 @@
     map.enableScrollWheelZoom();  
     var overlays = [];
 	var overlaycomplete = function(e){
-        overlays.push(e.overlay);
+		console.log(e)
+		if(e.drawingMode=="marker"){
+			
+		}else{
+			e.overlay.disableMassClear();
+			 overlays=[];
+			map.clearOverlays(); 
+			e.overlay.enableMassClear();
+		}
+        overlays.push(e);
     };
     var styleOptions = {
         strokeColor:"red",    //边线颜色。
@@ -149,6 +164,33 @@
             map.removeOverlay(overlays[i]);
         }
         overlays.length = 0    */
+    }
+    //确定位置信息
+    function inputPosition() {
+    	console.log("what happen");//position obj
+ 	for(var i = 0; i < overlays.length; i++){
+            if(overlays[i].drawingMode=="marker"){
+            	//无中心位置
+            	$("input[name='center']").val('');
+            }else{
+            	var points=overlays[i].overlay.getBounds();
+            	/* var points2=overlays[i].overlay.getPath();
+            	console.log(points);
+            	console.log(points2); */
+            	$("input[name='center']").val(points.getCenter().lng+","+points.getCenter().lat);
+            }
+        }
+    }
+    function getPosition(){
+    	var positions=[];
+    	for(var i = 0; i < overlays.length; i++){
+    		  if(overlays[i].drawingMode=="marker"){
+    			  positions.push(overlays[i].overlay.getPosition() );
+    		  }else{
+    			  positions=overlays[i].overlay.getPath(); 
+    		  }
+    	}
+    	return positions;
     }
     function getBoundary(name){       
     	 
@@ -220,16 +262,25 @@
         		  url='/simple1/area/update';
         		  data.field.id=id;
         	  }
-             $.post(url,data.field,function (result) {
-            	console.log(result);
-            	  //发异步，把数据提交给php
-            	  if(result.id){
-            		   layer.alert("增加成功", {icon: 6},function () {
-                           // 获得frame索引
-                           var index = parent.layer.getFrameIndex(window.name);
-                           //关闭当前frame
-                           parent.layer.close(index);
-                       }); 
+        	  var points2=getPosition();
+        	  data.field.positions=points2;
+        	  console.log(data.field);
+             $.ajax({
+            	 url:url,
+            	 type:"post",
+            	 contentType: "application/json; charset=utf-8",
+            	 data:JSON.stringify(data.field),
+            	 success:function (result) {
+                 	console.log(result);
+              	  //发异步，把数据提交给php
+              	  if(result.id){
+              		   layer.alert("增加成功", {icon: 6},function () {
+                             // 获得frame索引
+                             var index = parent.layer.getFrameIndex(window.name);
+                             //关闭当前frame
+                             parent.layer.close(index);
+                         }); 
+            		 }
             	  }
             }) 
             return false;

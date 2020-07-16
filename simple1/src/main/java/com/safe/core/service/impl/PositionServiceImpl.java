@@ -46,4 +46,23 @@ private PositionMapper positionMapper;
 		return null;
 	}
 
+	@Override
+	public Boolean insertWithCheck(List<Position> positions) {
+		// TODO 多个经纬度检查插入
+		for (Position position:positions) {
+			position=insertOrSelect(position);
+		}
+		return true;
+	}
+
+	private Position insertOrSelect(Position position) {
+		Position position2=positionMapper.selectOne(position);
+		if(position2==null||position2.getId()==null){
+			positionMapper.insertSelectiveReturnKey(position);
+		}else{
+			position=position2;
+		}
+		return position;
+	}
+
 }

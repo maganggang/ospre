@@ -1,10 +1,10 @@
 package com.safe.core.beans;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class Area implements Serializable {
-    private Integer id;
+import com.safe.core.base.bean.CreatorBean;
+
+public class Area extends CreatorBean {
 
     private String code;
 
@@ -20,15 +20,6 @@ public class Area implements Serializable {
     private String description;
     private List<Position> positions;
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getCode() {
         return code;
     }

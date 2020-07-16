@@ -16,6 +16,26 @@
     from position
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectOne"  parameterType="com.safe.core.beans.Position" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from position
+    <where>
+        <if test="id != null">
+        and id=#{id}
+      </if>
+      <if test="lng != null">
+        and lng=#{lng}
+      </if>
+      <if test="lat != null">
+        and lat=#{lat}
+      </if>
+      <if test="height != null">
+        and height=#{height}
+      </if>
+    </where>
+    limit 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from position
     where id = #{id,jdbcType=INTEGER}
@@ -107,7 +127,7 @@
       <if test="lng != null">
         #{lng,},
       </if>
-      <if test="name != null">
+      <if test="lat != null">
         #{lat},
       </if>
       <if test="height != null">

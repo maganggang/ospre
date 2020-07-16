@@ -20,4 +20,6 @@ public interface PositionMapper {
 	int insertSelectiveReturnKey(Position position);
 
 	List<Position> findAll();
+
+	Position selectOne(Position position);
 }

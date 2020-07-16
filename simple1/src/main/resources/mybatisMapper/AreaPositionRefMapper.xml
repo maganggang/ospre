@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.safe.core.mapper.GridMapper">
-  <resultMap id="BaseResultMap" type="com.safe.core.beans.Grid">
+<mapper namespace="com.safe.core.mapper.AreaPositionRefMapper">
+  <resultMap id="BaseResultMap" type="com.safe.core.beans.AreaPositionRef">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="position_id" jdbcType="INTEGER" property="positionId" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="radius" jdbcType="VARCHAR" property="radius" />
     <result column="area_id" jdbcType="INTEGER" property="areaId" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, position_id, type, radius, area_id, createtime, creator_id
+  <sql id="Base_Column_List" >
+    id, position_id, area_id, createtime, creator_id, order_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from grid
+    from area_position_ref
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from grid
+    delete from area_position_ref
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.safe.core.beans.Grid">
-    insert into grid (id, position_id, type, 
-      radius, area_id, createtime, 
-      creator_id)
-    values (#{id,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
-      #{radius,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=INTEGER})
+  <delete id="deleteByAreaId" parameterType="java.lang.Integer">
+    delete from area_position_ref
+    where area_id = #{areaId,jdbcType=INTEGER}
+  </delete>
+  <insert  id="insertBatch"  parameterType="com.safe.core.beans.Area">
+       insert into area_position_ref (position_id, area_id, 
+      createtime, creator_id, order_num
+      )values
+      <foreach collection="positions" item="item" separator="," index="index">
+          	(#{item.id},#{id},#{createtime},#{creatorId},#{index})
+      </foreach>
+</insert>
+  <insert id="insert" parameterType="com.safe.core.beans.AreaPositionRef">
+    insert into area_position_ref (id, position_id, area_id, 
+      createtime, creator_id, order_num
+      )
+    values (#{id,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, #{areaId,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.safe.core.beans.Grid">
-    insert into grid
+  <insert id="insertSelective" parameterType="com.safe.core.beans.AreaPositionRef">
+    insert into area_position_ref
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
       <if test="positionId != null">
         position_id,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="radius != null">
-        radius,
       </if>
       <if test="areaId != null">
         area_id,
@@ -55,6 +60,9 @@
       <if test="creatorId != null">
         creator_id,
       </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -62,12 +70,6 @@
       </if>
       <if test="positionId != null">
         #{positionId,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="radius != null">
-        #{radius,jdbcType=VARCHAR},
       </if>
       <if test="areaId != null">
         #{areaId,jdbcType=INTEGER},
@@ -78,19 +80,16 @@
       <if test="creatorId != null">
         #{creatorId,jdbcType=INTEGER},
       </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.Grid">
-    update grid
+  <update id="updateByPrimaryKeySelective" parameterType="com.safe.core.beans.AreaPositionRef">
+    update area_position_ref
     <set>
       <if test="positionId != null">
         position_id = #{positionId,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="radius != null">
-        radius = #{radius,jdbcType=VARCHAR},
       </if>
       <if test="areaId != null">
         area_id = #{areaId,jdbcType=INTEGER},
@@ -101,17 +100,19 @@
       <if test="creatorId != null">
         creator_id = #{creatorId,jdbcType=INTEGER},
       </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.Grid">
-    update grid
+  <update id="updateByPrimaryKey" parameterType="com.safe.core.beans.AreaPositionRef">
+    update area_position_ref
     set position_id = #{positionId,jdbcType=INTEGER},
-      type = #{type,jdbcType=VARCHAR},
-      radius = #{radius,jdbcType=VARCHAR},
       area_id = #{areaId,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP},
-      creator_id = #{creatorId,jdbcType=INTEGER}
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      order_num = #{orderNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

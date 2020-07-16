@@ -10,6 +10,7 @@ public interface AreaMapper {
     int insert(Area record);
 
     int insertSelective(Area record);
+    int insertSelectiveReturnKey(Area record);
 
     Area selectByPrimaryKey(Integer id);
 

@@ -16,4 +16,6 @@ public interface PositionService {
 
 	Position insert(Position position);
 
+	Boolean insertWithCheck(List<Position> positions);
+
 }
