@@ -65,4 +65,9 @@ private PositionMapper positionMapper;
 		return position;
 	}
 
+	@Override
+	public List<Position> selectByAreaId(Integer areaId) {
+		return positionMapper. selectByAreaId(areaId);
+	}
+
 }

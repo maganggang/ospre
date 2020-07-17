@@ -18,4 +18,6 @@ public interface PositionService {
 
 	Boolean insertWithCheck(List<Position> positions);
 
+	List<Position> selectByAreaId(Integer areaId);
+
 }

@@ -143,7 +143,7 @@ public class AccountController {
 			SessionUtils.sessionHandlerByCacheMap(session);
 			return "ok";
 		}
-		return null;
+		return "fail";
 	}
 
 	/**

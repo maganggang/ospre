@@ -19,7 +19,7 @@ public interface DepartmentMapper {
 
 	int insertSelectiveReturnKey(Department depart);
 
-	List<Department> findAll();
+	List<Department> findAll(Department department);
 
 	List<Department> selectNoOrg(Department department);
 }

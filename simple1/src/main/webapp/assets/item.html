@@ -36,33 +36,7 @@
         <form class="layui-form layui-col-md12 x-so">
           <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option>支付状态</option>
-              <option>已支付</option>
-              <option>未支付</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option>支付方式</option>
-              <option>支付宝</option>
-              <option>微信</option>
-              <option>货到付款</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option value="">订单状态</option>
-              <option value="0">待确认</option>
-              <option value="1">已确认</option>
-              <option value="2">已收货</option>
-              <option value="3">已取消</option>
-              <option value="4">已完成</option>
-              <option value="5">已作废</option>
-            </select>
-          </div>
-          <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
+          <input type="text" name="name"  placeholder="请输入项目名" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -87,9 +61,10 @@
       </table>
     </div>
     <script>
-      layui.use(['laydate','table'], function(){
+      layui.use(['laydate','table','form'], function(){
         var laydate = layui.laydate;
         var table = layui.table;
+        var form = layui.form;
         var  param={};
         //执行一个laydate实例
         laydate.render({
@@ -122,6 +97,14 @@
          ,page: true
          ,height: 600
      }); 
+      form.on('submit(sreach)', function(data){
+      	  console.log(data.field); //得到select原始DOM对象
+      	  param=data.field;
+      	  table.reload("testReload", { //此处是上文提到的 初始化标识id
+                where: param
+            });
+      	  return false;
+      	});
       });
     //-1
       function view(obj){

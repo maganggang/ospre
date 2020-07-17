@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       }); 
                   } else {
                 	  layer.msg(JSON.stringify(data.field),function(){
-                          location.href='/'
+                        //  location.href='/'
                       }); 
                   }
               })

@@ -103,6 +103,14 @@ and id not in (select value from organization where type=1)
     select 
     <include refid="Base_Column_List" />
     from department
+     <where>
+           <if test="name!= null and name!=''">
+       			and name like CONCAT('%',#{name},'%') 
+          </if>
+          <if test="startTime!=null and endTime!=null">
+             and  createtime between #{startTime} and #{endTime}
+          </if>
+    </where>
   </select>
   <insert id="insertSelectiveReturnKey" useGeneratedKeys="true" keyProperty="id"  parameterType="com.safe.core.beans.Department">
     insert into department

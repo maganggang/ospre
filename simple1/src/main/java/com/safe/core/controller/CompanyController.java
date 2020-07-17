@@ -32,7 +32,7 @@ public class CompanyController {
 	public ResultBean<Company> allCompany(Page<Company> page, Company company){
 		ResultBean<Company> b = new ResultBean<Company>();
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Company> result = companyService.selectAll();
+		List<Company> result = companyService.selectAll(company);
 		b.setData(result);
 		b.setCount(page.getTotal());
 		return b;

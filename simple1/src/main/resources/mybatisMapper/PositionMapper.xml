@@ -36,6 +36,18 @@
     </where>
     limit 1
   </select>
+  <select id="selectByAreaId"   parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+       a.id, a.lng, a.lat, a.height
+    from position  a
+    right join area_position_ref b on a.id=b.position_id 
+    <where>
+        <if test="areaId != null">
+        and area_id=#{areaId}
+      </if>
+      </where>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from position
     where id = #{id,jdbcType=INTEGER}

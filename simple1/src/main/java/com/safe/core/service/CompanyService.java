@@ -6,7 +6,7 @@ import com.safe.core.beans.Company;
 
 public interface CompanyService {
 
-	List<Company> selectAll();
+	List<Company> selectAll(Company company);
 
 	Company selectByPrimaryKey(Integer id);
 

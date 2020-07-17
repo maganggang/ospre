@@ -17,7 +17,7 @@ public interface CompanyMapper {
 
     int updateByPrimaryKey(Company record);
 
-	List<Company> findAll();
+	List<Company> findAll(Company company);
 
 	int insertSelectiveReturnKey(Company company);
 

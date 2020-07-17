@@ -12,8 +12,8 @@ import com.safe.core.service.CompanyService;
 public class CompanyServiceImpl implements CompanyService{
 	@Autowired
 private CompanyMapper companyMapper;
-	public List<Company> selectAll() {
-		return companyMapper.findAll();
+	public List<Company> selectAll(Company company) {
+		return companyMapper.findAll(company);
 	}
 
 	public Company selectByPrimaryKey(Integer id) {

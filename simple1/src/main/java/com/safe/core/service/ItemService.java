@@ -6,7 +6,7 @@ import com.safe.core.beans.Item;
 
 public interface ItemService {
 
-	List<Item> selectAll();
+	List<Item> selectAll(Item item);
 
 	Item selectByPrimaryKey(Integer id);
 

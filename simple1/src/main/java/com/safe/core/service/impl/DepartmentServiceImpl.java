@@ -13,8 +13,8 @@ import com.safe.core.service.DepartmentService;
 public class DepartmentServiceImpl implements  DepartmentService{
 	@Autowired
 private DepartmentMapper departmentMapper;
-	public List<Department> selectAll() {
-		return departmentMapper.findAll();
+	public List<Department> selectAll(Department department) {
+		return departmentMapper.findAll(department);
 	}
 
 	public Department selectByPrimaryKey(Integer id) {

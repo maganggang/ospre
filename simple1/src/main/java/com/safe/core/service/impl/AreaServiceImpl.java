@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safe.core.beans.Area;
+import com.safe.core.beans.Position;
 import com.safe.core.mapper.AreaMapper;
 import com.safe.core.service.AreaPositionRefService;
 import com.safe.core.service.AreaService;
@@ -25,7 +26,10 @@ public class AreaServiceImpl implements AreaService{
 
 	@Override
 	public Area selectByPrimaryKey(Integer id) {
-		return areaMapper.selectByPrimaryKey(id);
+		Area area=areaMapper.selectByPrimaryKey(id);
+		List<Position> positions=positionService.selectByAreaId(id);
+		area.setPositions(positions);
+		return area;
 	}
 
 	@Override

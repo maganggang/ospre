@@ -31,7 +31,7 @@ public class DepartmentController {
 	public ResultBean<Department> allDepartment(Page<Department> page, Department department){
 		ResultBean<Department> b = new ResultBean<Department>();
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Department> result = departService.selectAll();
+		List<Department> result = departService.selectAll(department);
 		b.setData(result);
 		b.setCount(page.getTotal());
 		return b;

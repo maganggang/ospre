@@ -36,39 +36,13 @@
         <form class="layui-form layui-col-md12 x-so">
           <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option>支付状态</option>
-              <option>已支付</option>
-              <option>未支付</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option>支付方式</option>
-              <option>支付宝</option>
-              <option>微信</option>
-              <option>货到付款</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option value="">订单状态</option>
-              <option value="0">待确认</option>
-              <option value="1">已确认</option>
-              <option value="2">已收货</option>
-              <option value="3">已取消</option>
-              <option value="4">已完成</option>
-              <option value="5">已作废</option>
-            </select>
-          </div>
-          <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
+          <input type="text" name="name"  placeholder="请输入部门名" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','./department_edit.html')"><i class="layui-icon"></i>添加</button>
       </xblock>
            <script type="text/html" id="barDemo">
    <div class="layui-btn-container">
@@ -87,9 +61,10 @@
       </table>
     </div>
     <script>
-      layui.use(['laydate','table'], function(){
+      layui.use(['laydate','table','form'], function(){
         var laydate = layui.laydate;
         var table = layui.table;
+        var form = layui.form;
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -122,22 +97,30 @@
          ,page: true
          ,height: 600
      }); 
+      form.on('submit(sreach)', function(data){
+      	  console.log(data.field); //得到select原始DOM对象
+      	  param=data.field;
+      	  table.reload("testReload", { //此处是上文提到的 初始化标识id
+                where: param
+            });
+      	  return false;
+      	});
       });
     //-1
       function view(obj){
     	  	 var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-    	  	  x_admin_show('查看','./account_edit.html?id='+id,600,400)
+    	  	  x_admin_show('查看','./department_edit.html?id='+id,600,400)
     	    }
     	    //-1
     	    function edit(obj){
     	  	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-    	  	  x_admin_show('编辑','account_edit.html?editType=1&id='+id,600,400)
+    	  	  x_admin_show('编辑','department_edit.html?editType=1&id='+id,600,400)
     	    }
     	      function remove(obj){
     	    	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
     	          layer.confirm('确认要删除吗？',function(index){
     	              //发异步删除数据
-    	              $.get("/simple1/account/delete/"+id,function(data){
+    	              $.get("/simple1/department/delete/"+id,function(data){
     			            if(data){
     			            	 layer.msg('已删除!',{icon:1,time:1000});
     			            	    $(obj).parents("tr").remove();

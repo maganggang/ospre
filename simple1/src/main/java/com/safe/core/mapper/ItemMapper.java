@@ -19,7 +19,7 @@ public interface ItemMapper {
 
 	int insertSelectiveReturnKey(Item item);
 
-	List<Item> findAll();
+	List<Item> findAll(Item item);
 
 	List<Item> selectNoOrg(Item item);
 }

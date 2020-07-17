@@ -123,6 +123,7 @@
     map.enableScrollWheelZoom();  
     var overlays = [];
 	var overlaycomplete = function(e){
+		console.log("what happen");
 		console.log(e)
 		if(e.drawingMode=="marker"){
 			
@@ -158,7 +159,6 @@
 	 //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     function clearAllMap() {
-    	console.log("what happen");
     	map.clearOverlays();        //清除地图覆盖物 
 	/* 	for(var i = 0; i < overlays.length; i++){
             map.removeOverlay(overlays[i]);
@@ -181,16 +181,19 @@
             }
         }
     }
-    function getPosition(){
+    function setPosition(formData){
     	var positions=[];
     	for(var i = 0; i < overlays.length; i++){
+    		console.log(overlays[i].drawingMode);
     		  if(overlays[i].drawingMode=="marker"){
     			  positions.push(overlays[i].overlay.getPosition() );
+    		  }else if(overlays[i].drawingMode=="circle"){
+    			  formData.code=overlays[i].overlay.getRadius();
     		  }else{
     			  positions=overlays[i].overlay.getPath(); 
     		  }
     	}
-    	return positions;
+    	formData.positions=positions;
     }
     function getBoundary(name){       
     	 
@@ -234,6 +237,8 @@
               	  }
               	  if(result.level<3){
               		getBoundary(result.name);
+              	  }else{
+              		  //画网格.......
               	  }
               	
               		form.val("formTest",result);
@@ -262,8 +267,8 @@
         		  url='/simple1/area/update';
         		  data.field.id=id;
         	  }
-        	  var points2=getPosition();
-        	  data.field.positions=points2;
+        	 setPosition(data.field);
+        	//  data.field.positions=points2;
         	  console.log(data.field);
              $.ajax({
             	 url:url,

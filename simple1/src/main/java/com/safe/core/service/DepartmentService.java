@@ -6,7 +6,7 @@ import com.safe.core.beans.Department;
 
 public interface DepartmentService {
 
-	List<Department> selectAll();
+	List<Department> selectAll(Department department);
 
 	Department selectByPrimaryKey(Integer id);
 

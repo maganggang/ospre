@@ -30,7 +30,7 @@ public class ItemController {
 	public ResultBean<Item> allItem(Page<Item> page, Item item){
 		ResultBean<Item> b = new ResultBean<Item>();
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-		List<Item> result = itemService.selectAll();
+		List<Item> result = itemService.selectAll(item);
 		b.setData(result);
 		b.setCount(page.getTotal());
 		return b;

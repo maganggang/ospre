@@ -13,8 +13,8 @@ import com.safe.core.service.ItemService;
 public class ItemServiceImpl implements ItemService{
 	@Autowired
 private ItemMapper itemMapper;
-	public List<Item> selectAll() {
-		return itemMapper.findAll();
+	public List<Item> selectAll(Item item) {
+		return itemMapper.findAll(item);
 	}
 
 	public Item selectByPrimaryKey(Integer id) {
