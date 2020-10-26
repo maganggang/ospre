@@ -5,124 +5,22 @@
     content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
     <meta charset="UTF-8" />
     <title>九宫格</title>
-    
-    <style type="text/css">
-         #square{
-           position:relative;
-           margin: 80px 450px;
-           height: 316px;
-           width: 316px;
-           background-color: #87A2B5;
-        }
-        #square div{
-            float: left;
-            position:relative;
-            background-color: white;
-            border: 2px;
-            border-radius: 2px;
-            height: 100px;
-            width: 100px;
-            margin-top: 4px;
-            margin-left:4px;
-        
-        
-            
-         }
-        .img{
-            position:relative;
-            float:left;
-                 
-        }
-                
-      
-</style>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src = "js/jq-signature.js" ></script > 
   </head>
-
-  <body bgcolor="#D7D1D1"  onload="init();setchess()"> 
-<script  type="text/javascript">
-
-var array = new Array();
-var pAry;
-var i,j,k=0,img_num=1;
-var myname=new Array("images/circle.jpg","images/false.jpg");
-function init() {
-   pAry = document.getElementsByTagName("div");
-        for(i=0;i<3;i++){
-     for(j=0;j<3;j++){  
-          k++;
-          pAry[k].x=i;
-          pAry[k].y=j; 
-          pAry[k].hasimg=0; 
-          pAry[k].onclick = drawfigure;//解决兼容问题        
-     }
-    }
-     for (var i = 0; i < 3; i++) {
-          array[i] = new Array();
-          for (var j = 0; j < 3; j++) {
-            array[i][j] = 0;
-          }
-    }
-}    
- function drawfigure(){
-   if(this.hasimg==0){
-        f=img_num%2+3;
-        this.innerHTML='<img src="'+myname[img_num]+'" width=100/>'; 
-        this.hasimg=1;
-        if(img_num==0){
-          img_num++;
-        }else{img_num--;}
-        array[this.x][this.y]=f;
-
-    }
-    else{alert("此处有棋子了！")}
-    calculate(this.x,this.y);
- }
- function calculate(x,y){    
-    var n=x,m=y,sum=0,sum1=0,sum2=0,sum3=0;
-      for(var i=0;i<3;i++){
-        sum+=array[n][i];
-        judge(sum);
-      } 
-        for(var i=0;i<3;i++){
-        sum1+=array[i][m];
-        judge(sum1);
-      }
-      if(n+m==2){
-      for(var i=0;i<3;i++){
-        sum2+=array[i][2-i];
-        judge(sum2);
-      }
-  }
-      if(n==m){
-      for(var i=0;i<3;i++){
-        sum3+=array[i][i];
-       judge(sum3);
-      }
-   }
- }
- function judge(sum){
-     if(sum==12){
-         alert("X win"); 
-         window.location.reload(); 
-        }
-        else if(sum==9){
-         alert("O win");
-         window.location.reload(); 
-        }
- }
-    
-
-</script>
-    <div id="square">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+  <body bgcolor="#D7D1D1"> 
+  <div class="container">
+    <object id="flashgame" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+		codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0"
+		 width="960" height="540">
+			<param name="allowScriptAccess" value="always">
+			<param name="movie" value="http://sxiao.4399.com/4399swf/upload_swf/ftp20/cwb/20161027/y1.swf"><embed id="flashgame1"
+			 name="flashgame" src="http://sxiao.4399.com/4399swf/upload_swf/ftp20/cwb/20161027/y1.swf" quality="high"
+			 pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="960" height="540"
+			 allowscriptaccess="always" style="width: 1290px; height: 726px;">
+			<param name="quality" value="high"></object> 
+  </div>
   </body>
 </html>

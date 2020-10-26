@@ -6,6 +6,7 @@
     xmlns:aop="http://www.springframework.org/schema/aop"
     xmlns:mvc="http://www.springframework.org/schema/mvc" 
     xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:websocket="http://www.springframework.org/schema/websocket"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
@@ -16,7 +17,9 @@
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd 
         http://www.springframework.org/schema/task 
-        http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+        http://www.springframework.org/schema/task/spring-task-4.3.xsd
+        http://www.springframework.org/schema/websocket
+    	http://www.springframework.org/schema/websocket/spring-websocket-4.1.xsd">
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->  
     <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
         <property name="supportedMediaTypes">  
@@ -73,6 +76,16 @@
         <property name="maxInMemorySize" value="4096" />
      <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
+    <!-- websocket消息处理bean -->
+    <bean id="websocket" class="com.safe.core.filter.WebSocketHandler"/>
+ 
+<websocket:handlers>
+    <websocket:mapping path="/websocket" handler="websocket"/>
+    <websocket:handshake-interceptors>
+    <bean class="com.safe.core.filter.HandshakeInterceptor"/>
+    </websocket:handshake-interceptors>
+</websocket:handlers>
+    
 <!-- 拦截器 -->
 <!-- AOP 注解方式 ；定义Aspect -->
 	<!-- 激活组件扫描功能,在包com.ly.aop.aspect及其子包下面自动扫描通过注解配置的组件-->

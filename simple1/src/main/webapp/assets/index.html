@@ -15,7 +15,92 @@
 <script type="text/javascript"
 	src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+<script>
+/* live2d-widget-model-chitose
+live2d-widget-model-epsilon2_1
+live2d-widget-model-gf
+live2d-widget-model-haru/01 (use npm install --save live2d-widget-model-haru)
+live2d-widget-model-haru/02 (use npm install --save live2d-widget-model-haru)
+live2d-widget-model-haruto
+live2d-widget-model-hibiki
+live2d-widget-model-hijiki
+live2d-widget-model-izumi
+live2d-widget-model-koharu
+live2d-widget-model-miku
+live2d-widget-model-ni-j
+live2d-widget-model-nico
+live2d-widget-model-nietzsche
+live2d-widget-model-nipsilon
+live2d-widget-model-nito
+live2d-widget-model-shizuku
+live2d-widget-model-tororo
+live2d-widget-model-tsumiki
+live2d-widget-model-unitychan
+live2d-widget-model-wanko
+live2d-widget-model-z16 */
+    L2Dwidget.init({
+        "model": {
+        	//https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/mtn/idle_01.mtn
+        	//chitose shizuku
+            jsonPath: "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",
+            "scale": 1
+        },
+        "display": {
+            "position": "left",
+            "width": 150,
+            "height": 300,
+            "hOffset": 0,
+            "vOffset": -20
+        },
+        "mobile": {
+            "show": true,
+            "scale": 0.5
+        },
+        "react": {
+            "opacityDefault": 1,
+            "opacityOnHover": 0.2
+        }
+    });
+    $(document).ready(function() {
+        var linkObject = document.createElement('link');
+        linkObject.rel = "shortcut icon";
+        linkObject.href = "https://pic.cnblogs.com/face/506310/20190111161257.png";
+        document.getElementsByTagName("head")[0].appendChild(linkObject);
 
+        /*$("#navList").html('<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/meowv/">Home</a></li><li><a class="menu" href="https://www.cnblogs.com/meowv/p/">Archives</a></li><li><a class="menu" href="https://www.cnblogs.com/meowv/tag/">Tags</a></li><li><a target="_blank" class="menu" rel="nofollow" href="https://github.com/Meowv/">GitHub</a></li><li><a target="_blank" class="menu" rel="nofollow" href="https://api.meowv.com/">Meowv</a></li><li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">Manage</a></li>');*/
+
+        var a_index = 0;
+        $("body").click(function(e) {
+            let r = Math.random() * 255;
+            let g = Math.random() * 255;
+            let b = Math.random() * 255;
+            var color = "rgb(" + r + "," + g + "," + b + ")";
+            var a = new Array("HTML", "JavaScript", "CSS", "C#", ".NET", 
+            "ASP.NET", ".NET Core", "ASP.NET Core", "SqlServer", "MySQL", "Dapper",  
+            "jQuery", "Python","小哪托", "Github", "WebApi", "ASP.NET MVC", "Vue", 
+            "React", "MVC", "干啥呀","别动啊");
+            var $i = $("<span></span>").text(a[a_index]);
+            a_index = (a_index + 1) % a.length;
+            var x = e.pageX,
+                y = e.pageY;
+            var size = Math.random() * 10 + 8 + "px";
+            $i.css({
+                "z-index": 99999,
+                "top": y - 20,
+                "left": x,
+                "position": "absolute",
+                "font-weight": "800",
+                "font-size": size,
+                "color": color
+            });
+            $("body").append($i);
+            $i.animate({ "top": y - 200, "opacity": 0 }, 1500, function() {
+                $i.remove();
+            });
+        });
+    });
+</script>
 </head>
 <body>
 	<!-- 顶部开始 -->
@@ -31,16 +116,16 @@
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
-						<a onclick="x_admin_show('资讯','./canvas.html')">
+						<a onclick="x_admin_show('资讯','./canvas2.html')">
 						<i class="iconfont">&#xe6a2;</i>资讯</a>
 					</dd>
 					<dd>
-						<a onclick="x_admin_show('图片','./company-image.html')">
-						<i class="iconfont">&#xe6a8;</i>图片</a>
+						<a onclick="x_admin_show('二维码','./company-image.html')">
+						<i class="iconfont">&#xe6a8;</i>二维码</a>
 					</dd>
 					<dd>
-						<a onclick="x_admin_show('我的','./my-info.html')"><i
-							class="iconfont">&#xe6b8;</i>我的</a>
+						<a onclick="x_admin_show('游戏','./company-info.html')"><i
+							class="iconfont">&#xe6b8;</i>小游戏</a>
 					</dd>
 				</dl></li>
 		</ul>
@@ -208,15 +293,32 @@
 	</div>
 	<!-- 底部结束 -->
 	<script>
+	var webSocket ;
     $(function () {
         //加载弹出层
-        layui.use(['form','element'],
-        function() {
+        var layer,element;
+        layui.use(['form','element'],function() {
             layer = layui.layer;
             element = layui.element;
+			webSocket = new WebSocket('ws://localhost:8080/simple1/websocket');
+            webSocket.onerror = function(event) {
+        		layer.alert(event.data);
+        	};
+        	//与WebSocket建立连接
+        	webSocket.onopen = function(event) {
+        		console.log("与服务器端建立连接");
+        		layer.msg('与服务器端建立连接');
+        	};
+        	//处理服务器返回的信息
+        	webSocket.onmessage = function(event) {
+        		layer.tips(event.data, 'canvas', {
+        			  tips: [1, '#3595CC'],
+        			  time: 4000
+        			});
+        	};
         });
+       
         $.get('/simple1/account/myInfo',function(data){
-        	console.log("this is a user",data);
         	if(data&&data.nickname){
         		$("#myInfo").show();
         		$("#username").html(data.nickname);
