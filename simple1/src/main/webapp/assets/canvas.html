@@ -1,175 +1,118 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>签名</title>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src = "js/jq-signature.js" ></script > 
+<style>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>签名</title>
-		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<style>
-			#canvas{
-				border: 1px solid black;
-			}
-		</style>
-		<script>
-
-function getOffset(el) {
-  el = el.getBoundingClientRect();
-  console.log(el)
-  return {
-    left: el.left + window.scrollX,
-    top: el.top+ window.scrollY
-  }
-}
-function clearCTX(){
-	let c=document.getElementById("canvas");
- 	let ctx=c.getContext("2d");
-	ctx.clearRect(0,0,c.width,c.height);
-}
-/**
- * 获取画笔
- * @return 画笔
- */
-function getCTX() {
-	let c=document.getElementById("canvas");
- 	let ctx=c.getContext("2d");
-    ctx.fillStyle = "rgba(0,0,0,0.8)";
-   // ctx.clearRect(0,0,c.width,c.height);
-    return ctx;
-}
-/**
- * 画点
- * @param point  点
- */
-function draw_point(point) {
-    //获取画笔
-    let ctx=getCTX();
-    //绘制成矩形
-    ctx.fillRect(point.x-2,point.y-2,4,4);
-    ctx.fillStyle = "rgba(0,0,0,0.8)";
-    //设置字体样式
-    ctx.font = "16px bold 宋体";
-    //绘制文字 ("+point.x+","+point.y+")
-   // ctx.fillText(".",point.x,point.y);
-}
-/**
- * 画路径
- * @param path 路径
- */
-function draw_path(path){
-    //开始新路径的绘制
-    ctx.beginPath();
-    //设置颜色
-    //如果颜色需要变更，必须先开始新的路径，否则全部的线颜色由最后一次设置的颜色决定
-    ctx.strokeStyle="#000000";
-    for(var i=0;i<path.length-1;i++){
-        draw_line(ctx,points[path[i]],points[path[i+1]]);
-    }
-}
-/**
- * 画线
- */
-function draw_line(ctx,a,b){
-    ctx.moveTo(a.x,a.y);
-    ctx.lineTo(b.x,b.y);
-    ctx.stroke();
-}
-		</script>
-	</head>
-
-	<body>
-		<div class="container">
+</style>
+<script>
+$(document).on('ready', function() {
+	   $('.js-signature').jqSignature();
+	});
+	 
+	function clearCanvas() {
+	   $('#signature').html( '<p><em>您要预览您的签名 请点击 "截图"</em></p>' );
+	   $('.js-signature').jqSignature('clearCanvas');
+	   $('#saveBtn').attr('disabled', true );
+	}
+	 
+	function saveSignature() {
+	   $( '#signature' ).empty();
+	   var dataUrl = $('.js-signature').jqSignature('getDataURL');
+	   var img = $('<img>').attr( 'src' , dataUrl);
+	   $('#signature').append($( '<p>' ).text( "您的签名" ));
+	   $('#signature').append(img);
+	}
+	function dataURItoBlob(base64Data) {
+    	var byteString;
+    	if(base64Data.split(',')[0].indexOf('base64') >= 0)
+	        byteString = atob(base64Data.split(',')[1]);
+	    else
+	        byteString = unescape(base64Data.split(',')[1]);
+	    var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
+	    var ia = new Uint8Array(byteString.length);
+	    for (var i = 0; i < byteString.length; i++) {
+	        ia[i] = byteString.charCodeAt(i);
+	    }
+	    return new Blob([ia], {type: mimeString});
+	};
+	/**
+	 * canvas 生成blob
+	 * @param {Object} canvas
+	 * @param {Object} cb
+	 */
+	function canvas2Blob(){
+		 var base64Data = $('.js-signature').jqSignature('getDataURL')
+	 	var blob = dataURItoBlob(base64Data);
+	 	return blob;
+	}
+	/**
+	 * 构造FormData
+	 * @param {Object} blob
+	 */
+	function createFormData(){
+	   //组装formdata
+	  var fd = new FormData();
+	  fd.append("file", canvas2Blob());//fileData为自定义
+      fd.append("fileName", "sign.jpg");//fileName为自定义，名字随机生成或者写死，看需求
+	  return fd;
+	}
+	/**
+	 * 上传blob
+	 * @param {Object} formData
+	 */
+	function sendFormData(){
+        //ajax上传，ajax的形式随意，JQ的写法也没有问题
+        //需要注意的是服务端需要设定，允许跨域请求。数据接收的方式和<input type="file"/> 上传的文件没有区别
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", "/simple1/upload");
+        //xmlHttp.setRequestHeader("Authorization", 'Bearer ' + localStorage.token);//设置请求header,按需设定，非必须
+        xmlHttp.send(createFormData());
+        //ajax回调
+        xmlHttp.onreadystatechange = function(e) {
+        	console.log(e)
+        };
+        }
+</script>
+   
+</head>
+<body>
+<div class="container">
 			<div class="jumbotron">
 				<h1>欢迎使用！</h1>
 				<p>请在下方签写您的名字。</p>
 				<p>
-					<a class="btn btn-primary btn-lg" role="button" onclick="clearCTX()">
+					<a class="btn btn-primary btn-lg" role="button" id="clearBtn" onclick="clearCanvas()">
 						清除</a>
+						<a class="btn btn-primary btn-lg" role="button" id="saveBtn"  onclick="saveSignature()">
+						截图</a>
 				</p>
+				<div id ="signature"></div > 
 				<div class="panel panel-default">
 					<div class="panel-heading" id="screen">
 						签名板
 					</div>
 					<div class="panel-body">
-						<canvas id="canvas"></canvas><br>
+						<div class = "js-signature"
+						      data-width = "600"
+						      data-height = "200"
+						      data-border = "1px solid #1ABC9C"
+						      data-background = "#16A085"
+						      data-line-color = "#000"
+						      data-auto-fit = "true" >
+						      
+						</div > 
 						<a class="btn btn-danger btn-lg" role="button" onclick="sendFormData()">
 						提交</a>
 					</div>
 				</div>
 			</div>
-		</div>
-		<script>
-			var dom=document.getElementById("canvas")
-			var d= getOffset(dom);
-			console.log(d)
-			document.getElementById("canvas").onmousedown=function(e){
-				console.log(e)
-					document.getElementById("canvas").onmousemove=function(e){
-					var point={};
-					point.x=e.clientX-d.left;
-					point.y=e.clientY-d.top;
-					draw_point(point)
-				}
-			}
-			document.getElementById("canvas").onmouseup =function(e){
-				console.log(e)
-				document.getElementById("canvas").onmousemove=function(e){
-				}
-			}
-			/**
-			 * canvas 生成blob
-			 * @param {Object} canvas
-			 * @param {Object} cb
-			 */
-			function canvas2Blob(){
-				var mycanvas = document.getElementById("canvas");
-        		var base64Data = mycanvas.toDataURL("image/jpeg", 1.0);
-        	 	var blob = dataURItoBlob(base64Data);
-        	 	return blob;
-			}
-			/**
-			 * 构造FormData
-			 * @param {Object} blob
-			 */
-			function createFormData(){
-			   //组装formdata
-        	  var fd = new FormData();
-			  fd.append("file", canvas2Blob());//fileData为自定义
-		      fd.append("fileName", "sign.jpg");//fileName为自定义，名字随机生成或者写死，看需求
-			  return fd;
-			}
-			/**
-			 * 上传blob
-			 * @param {Object} formData
-			 */
-			function sendFormData(){
-		        //ajax上传，ajax的形式随意，JQ的写法也没有问题
-		        //需要注意的是服务端需要设定，允许跨域请求。数据接收的方式和<input type="file"/> 上传的文件没有区别
-		        var xmlHttp = new XMLHttpRequest();
-		        xmlHttp.open("POST", "/simple1/upload");
-		        //xmlHttp.setRequestHeader("Authorization", 'Bearer ' + localStorage.token);//设置请求header,按需设定，非必须
-		        xmlHttp.send(createFormData());
-		        //ajax回调
-		        xmlHttp.onreadystatechange = function(e) {
-		        	console.log(e)
-		        };
-		        }
-
-		        function dataURItoBlob(base64Data) {
-		        	var byteString;
-		        	if(base64Data.split(',')[0].indexOf('base64') >= 0)
-				        byteString = atob(base64Data.split(',')[1]);
-				    else
-				        byteString = unescape(base64Data.split(',')[1]);
-				    var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
-				    var ia = new Uint8Array(byteString.length);
-				    for (var i = 0; i < byteString.length; i++) {
-				        ia[i] = byteString.charCodeAt(i);
-				    }
-				    return new Blob([ia], {type: mimeString});
-				};
-		</script>
-	</body>
-
+</div>
+ 
+</body>
 </html>
