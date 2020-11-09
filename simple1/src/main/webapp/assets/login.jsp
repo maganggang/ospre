@@ -34,7 +34,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <input name="vcode"  placeholder="验证码"  type="text" class="layui-input" style="width:100px;display:inline"> 
             <img style="display:inline" alt="验证码" src="<%=path%>/account/getGifCode">
             <hr class="hr20" >
-               <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr15">
+            <a href="register.html">注册</a>
         </form>
     </div>
   

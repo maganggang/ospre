@@ -15,6 +15,7 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="value" jdbcType="INTEGER" property="value" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -155,7 +156,7 @@
   </select>
   <select id="findTreeAll" parameterType="java.lang.Integer" resultMap="BaseTreeMap">
     select 
-    id,name,type,value,parent_id
+    id,name,name title,type,value,parent_id
     from organization
     <where>
         <if test="parentId!=null">

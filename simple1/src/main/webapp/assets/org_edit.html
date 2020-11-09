@@ -51,7 +51,7 @@
 		        <option value="拱墅区">临安市</option>
 		      </select>
 		    </div>
-		    <div class="layui-form-mid layui-word-aux">此处只是演示联动排版，并未做联动交互</div>
+		    <div class="layui-form-mid layui-word-aux">选择没有关系的组织</div>
 		  </div>
           <div class="layui-form-item">
               <label for="name" class="layui-form-label">
@@ -88,7 +88,7 @@
           </div>
           <div class="layui-form-item">
               <label for="parentId" class="layui-form-label">
-                  <span class="x-red">*</span>父级
+                  <span class="x-red">*</span>父级id
               </label>
               <div class="layui-input-inline">
                   <input type="text" id="parentId" name="parentId" required="" 
@@ -109,7 +109,8 @@
     </div>
     <script>
     var id=request.id;
-    var editType=request.edittype;
+    var parentId=request.parentid;
+    var editType=request.edittype;//编辑和添加子项目
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -125,6 +126,14 @@
               		form.val("formTest",result);
               	}
 			})
+		}
+		if(parentId){
+			$('#parentId').val(parentId).attr('disabled','disabled');
+		}
+		if(editType==1){
+			$('#parentId').attr('disabled',false);
+			$('#value').attr('disabled','disabled');
+			$('#type').attr('disabled','disabled');
 		}
 		//公司加载
 			$.ajax({

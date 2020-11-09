@@ -178,7 +178,7 @@
     function addAccount(obj){
   	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
   	  console.log("添加账号",id);
-  	  x_admin_show('编辑','./account_edit.html?userId='+id,600,400);
+  	  x_admin_show('编辑','./user_account_edit.html?userId='+id,600,400);
     }
       /*用户-删除*/
       function member_del(obj,id){

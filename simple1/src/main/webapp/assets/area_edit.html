@@ -214,8 +214,54 @@
         });   
      
     }
+    var labels=[];
+    function createLabel(point,labelTitle,labelStyle){
+    	if(labelTitle){
+    		var opts = {
+    		    position: point, // 指定文本标注所在的地理位置
+    		};
+    		// 创建文本标注对象
+    		var label = new BMap.Label(labelTitle, opts);
+    		// 自定义文本标注样式
+    		label.setStyle({
+    		    color: 'blue',
+    		    borderRadius: '5px',
+    		    borderColor: '#ccc',
+    		    padding: '10px',
+    		    fontSize: '16px',
+    		    height: '30px',
+    		    lineHeight: '30px',
+    		    fontFamily: '微软雅黑'
+    		});
+    		if(labelStyle){
+    			label.setStyle(labelStyle)
+    		}
+    		map.addOverlay(label);
+    		labels.push(label);
+    	}
+    }
+  //创建多边形
+    function createPolygon(array,callback,labelTitle,labelStyle){
+	  var points=[];
+	  for(var i=0;i<array.length;i++){
+		  var poi = new BMap.Point(array[i].lng,array[i].lat);
+		  points.push(poi)
+	  }
+    	// 创建多边形
+    	var polygon = new BMap.Polygon(points, {
+    	    strokeColor: 'red',
+    	    strokeWeight: 2,
+    	    strokeOpacity: 0.5
+    	});
+    	map.addOverlay(polygon);
+    	if(callback){
+    		polygon.addEventListener("click",callback());
+    	}
+    }
     </script>
     <script>
+    var companyId=request.companyid;
+    var itemId=request.itemid;
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -226,7 +272,7 @@
               	type:'get',
               	datatype:"json",
               	success:function(result){
-              		console.log(result);
+              		console.log('显示中心点',result);
               	  //显示中心点
               	  if(result&&result.center){
               		var lats=result.center.split(",");
@@ -237,8 +283,9 @@
               	  }
               	  if(result.level<3){
               		getBoundary(result.name);
-              	  }else{
+              	  }else if(result.level==8){
               		  //画网格.......
+              		createPolygon(result.positions);
               	  }
               	
               		form.val("formTest",result);
@@ -277,8 +324,29 @@
             	 data:JSON.stringify(data.field),
             	 success:function (result) {
                  	console.log(result);
+                 	
               	  //发异步，把数据提交给php
               	  if(result.id){
+              		if(companyId){
+                 		var company={
+                 				id:companyId,
+                 				areaId:result.id
+                 		}
+                 		//保存公司表
+                 		  $.post('/simple1/company/update',company,function (result) {
+                          	  console.log(result);
+                            }) 
+                 	}
+              		if(itemId){
+              			var item={
+                 				id:itemId,
+                 				areaId:result.id
+                 		}
+              		//保存项目表
+               		  $.post('/simple1/item/update',item,function (result) {
+                        	  console.log(result);
+                          }) 
+              		}
               		   layer.alert("增加成功", {icon: 6},function () {
                              // 获得frame索引
                              var index = parent.layer.getFrameIndex(window.name);

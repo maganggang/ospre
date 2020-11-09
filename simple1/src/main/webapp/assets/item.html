@@ -52,6 +52,9 @@
               <a title="编辑"  onclick="edit(this)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
+			 <a title="区域"  onclick="boundary(this)" href="javascript:;">
+                <i class="layui-icon">&#xe828;</i>
+              </a>
               <a title="删除" onclick="remove(this)" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
@@ -91,7 +94,7 @@
              ,{field:'createtime', title: '日期', width:200}
              ,{field:'creatorId', title: '日期', width:200}
              ,{field:'opreate', title: '操作',width:220,toolbar:"#barDemo"}
-             ,{field:'status', title: '弃用'}
+             ,{field:'areaId', title: '区域'}
          ]]
          ,id: 'testReload'
          ,page: true
@@ -109,18 +112,18 @@
     //-1
       function view(obj){
     	  	 var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-    	  	  x_admin_show('查看','./account_edit.html?id='+id,600,400)
+    	  	  x_admin_show('查看','./item_edit.html?id='+id,600,400)
     	    }
     	    //-1
     	    function edit(obj){
     	  	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-    	  	  x_admin_show('编辑','account_edit.html?editType=1&id='+id,600,400)
+    	  	  x_admin_show('编辑','item_edit.html?editType=1&id='+id,600,400)
     	    }
     	      function remove(obj){
     	    	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
     	          layer.confirm('确认要删除吗？',function(index){
     	              //发异步删除数据
-    	              $.get("/simple1/account/delete/"+id,function(data){
+    	              $.get("/simple1/item/delete/"+id,function(data){
     			            if(data){
     			            	 layer.msg('已删除!',{icon:1,time:1000});
     			            	    $(obj).parents("tr").remove();
@@ -128,7 +131,15 @@
     	              })
     	          });
     	      }
-
+    	      function boundary(obj){
+        	   	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+        	   	 var areaId= $(obj).parents("tr").find("td[data-field='areaId']>div").html();
+        	   	 var baseHref='area_edit.html?&itemId='+id;
+        	   	 if(areaId){
+        	   		baseHref+='&id='+areaId
+        	   	 }
+        	   	 	x_admin_show('添加区域',baseHref,600,400)
+        	     }
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

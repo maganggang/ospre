@@ -52,6 +52,9 @@
               <a title="编辑"  onclick="edit(this)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
+  			 <a title="区域"  onclick="boundary(this)" href="javascript:;">
+                <i class="layui-icon">&#xe828;</i>
+              </a>
               <a title="删除" onclick="remove(this)" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
@@ -129,7 +132,15 @@
     	              })
     	          });
     	      }
-
+    	     function boundary(obj){
+    	   	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+    	   	 var areaId= $(obj).parents("tr").find("td[data-field='areaId']>div").html();
+    	   	 var baseHref='area_edit.html?&companyId='+id;
+    	   	 if(areaId){
+    	   		baseHref+='&id='+areaId
+    	   	 }
+    	   	 	x_admin_show('添加区域',baseHref,600,400)
+    	     }
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");
