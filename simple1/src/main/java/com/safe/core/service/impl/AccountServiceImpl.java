@@ -11,7 +11,7 @@ import com.safe.core.service.AccountService;
 @Service
 public class AccountServiceImpl implements AccountService {
 	@Autowired
-private AccountMapper accountMapper;
+	private AccountMapper accountMapper;
 
 	public List<Account> selectAll(Account account) {
 		return accountMapper.findAll(account);

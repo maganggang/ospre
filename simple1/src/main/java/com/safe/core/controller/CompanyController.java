@@ -59,7 +59,7 @@ public class CompanyController {
 		List<Company> result = companyService.selectNoOrg(company);
 		return result;
 	}
-	@RequestMapping("/company/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Company findOne(@PathVariable Integer id){
 		return companyService.selectByPrimaryKey(id);

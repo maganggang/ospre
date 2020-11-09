@@ -59,7 +59,7 @@ public class DepartmentController {
 		List<Department> result = departService.selectNoOrg(department);
 		return result;
 	}
-	@RequestMapping("/dept/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Department findOne(@PathVariable Integer id){
 		return departService.selectByPrimaryKey(id);

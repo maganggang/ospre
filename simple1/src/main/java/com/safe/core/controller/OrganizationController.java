@@ -1,7 +1,9 @@
 package com.safe.core.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -89,5 +91,16 @@ public class OrganizationController {
 			}
 		}
 			return new ArrayList<>();
+	}
+	@RequestMapping("orgTree")
+	@ResponseBody
+	public Map<String,Object> orgTreeTable(HttpSession httpSession){
+		List<ListMapVo>  result=orgTree(httpSession);
+		Map<String,Object> res=new HashMap();
+		res.put("data", result);
+		res.put("msg","ok");
+		res.put("code","0");
+		res.put("count",result.size());
+		return res;
 	}
 }

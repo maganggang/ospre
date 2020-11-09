@@ -79,7 +79,7 @@ public class PostController {
 		}
 		return b;
 	}
-	@RequestMapping("/post/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Post findOne(@PathVariable Integer id){
 		return postService.selectByPrimaryKey(id);

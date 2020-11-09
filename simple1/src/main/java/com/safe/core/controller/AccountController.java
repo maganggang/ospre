@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -48,13 +49,7 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 	@Autowired
-	private UserService UserService;
-
-	@RequestMapping("/hello")
-	@ResponseBody
-	public String hello() {
-		return "hello";
-	}
+	private UserService userService;
 
 	/**
 	 * 查询所有账号 特殊接口，无过滤
@@ -131,7 +126,7 @@ public class AccountController {
 			List<Integer> roleIds=accountService.getAllRoleIds(account.getId());
 			userInfo.setRoleIds(roleIds);
 			if (account.getUserId() != null) {
-				User user = UserService.select(account.getUserId());
+				User user = userService.select(account.getUserId());
 				if (user != null) {
 					userInfo.setUserId(user.getId());
 					userInfo.setOrgId(user.getOrgId());
@@ -293,5 +288,36 @@ public class AccountController {
 	                    e.printStackTrace();
 	                }
 		return "true";
+	}
+	/**
+	 * 用户注册
+	 * @param account
+	 * @return
+	 */
+	@RequestMapping("/register")
+	@ResponseBody
+	public Account register(Account account) {
+		account.setCreatetime(new Date());
+		
+		//账号注册成功继续
+			if(account.getUser().getPhone()==null) {
+				account.getUser().setPhone(account.getMobile());
+			}
+			if(account.getUser().getEmail()==null) {
+				account.getUser().setEmail(account.getEmail());
+			}
+			if(account.getUser().getName()==null) {
+				account.getUser().setName(account.getNickname());
+			}
+			//默认最低的组织
+			if(account.getUser().getOrgId()==null) {
+				account.getUser().setOrgId(4);
+			}
+			User user1=userService.insert(account.getUser());
+			if(user1!=null) {
+				account.setUserId(user1.getId());
+			}
+		accountService.insert(account);
+		return account;
 	}
 }

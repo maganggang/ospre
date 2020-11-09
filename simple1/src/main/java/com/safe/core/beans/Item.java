@@ -9,15 +9,15 @@ public class Item extends CreatorBean {
 
 	    private String description;
 
-	    private Integer areaPositionId;
+	    private Integer areaId;
 
 
-		public Integer getAreaPositionId() {
-			return areaPositionId;
+		public Integer getareaId() {
+			return areaId;
 		}
 
-		public void setAreaPositionId(Integer areaPositionId) {
-			this.areaPositionId = areaPositionId;
+		public void setareaId(Integer areaId) {
+			this.areaId = areaId;
 		}
 
 	private static final long serialVersionUID = 1L;

@@ -30,7 +30,7 @@ public class PositionController {
 		b.setCount(page.getTotal());
 		return b;
 	}
-	@RequestMapping("/position/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Position findOne(@PathVariable Integer id){
 		return positionService.selectByPrimaryKey(id);

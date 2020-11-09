@@ -35,7 +35,7 @@ public class ItemController {
 		b.setCount(page.getTotal());
 		return b;
 	}
-	@RequestMapping("/item/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Item findOne(@PathVariable Integer id){
 		return itemService.selectByPrimaryKey(id);
