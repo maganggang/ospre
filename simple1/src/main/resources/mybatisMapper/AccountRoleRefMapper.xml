@@ -8,14 +8,30 @@
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
+  <resultMap id="BaseRoleMap" type="com.safe.core.beans.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, account_id, role_id, creator_id, createtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from account_role_ref
+    from account_role_ref 
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccountId" parameterType="java.lang.Integer" resultMap="BaseRoleMap">
+    select 
+    b.id, b.name, b.description, b.createtime, b.creator_id, b.operatetime, b.operator_id
+    from account_role_ref a
+    left join role b on a.role_id=b.id
+    where a.account_id = #{accountId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from account_role_ref

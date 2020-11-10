@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,7 +34,7 @@ public class RoleController {
 		b.setCount(page.getTotal());
 		return b;
 	}
-	@RequestMapping("/role/{id}")
+	@RequestMapping("/view/{id}")
 	@ResponseBody
 	public Role findOne(@PathVariable Integer id){
 		return roleService.selectByPrimaryKey(id);
@@ -53,10 +54,21 @@ public class RoleController {
 	public Role addList(Role role){
 		return roleService.addRole(role);
 	}
+	@RequestMapping("/addAll")
+	@ResponseBody
+	public Role addAll(@RequestBody Role role){
+		return role;
+	}
 	@RequestMapping("/insert")
 	@ResponseBody
 	public Role createOne(Role role){
 		return roleService.insert(role);
+	}
+	
+	@RequestMapping("/selectByAccountId")
+	@ResponseBody
+	public Role selectByAccountId(Integer accountId){
+		return roleService.selectAllByAccountId(accountId);
 	}
 	
 }

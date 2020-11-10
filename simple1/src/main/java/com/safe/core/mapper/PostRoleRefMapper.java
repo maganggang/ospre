@@ -1,6 +1,9 @@
 package com.safe.core.mapper;
 
+import java.util.List;
+
 import com.safe.core.beans.PostRoleRef;
+import com.safe.core.beans.Role;
 
 public interface PostRoleRefMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface PostRoleRefMapper {
     int updateByPrimaryKeySelective(PostRoleRef record);
 
     int updateByPrimaryKey(PostRoleRef record);
+
+	List<Role> selectByPostId(Integer postId);
 }

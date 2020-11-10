@@ -18,4 +18,6 @@ public interface RoleService {
 
 	Role addRole(Role role);
 
+	Role selectAllByAccountId(Integer accountId);
+
 }

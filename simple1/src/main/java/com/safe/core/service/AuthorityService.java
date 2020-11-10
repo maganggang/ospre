@@ -8,7 +8,7 @@ import com.safe.core.beans.Menu;
 
 public interface AuthorityService {
 
-	List<Authority> selectAll();
+	List<Menu> selectAll();
 
 	Authority selectByPrimaryKey(Integer id);
 
@@ -21,5 +21,11 @@ public interface AuthorityService {
 	List<Menu> selectAuthority(Integer accountId);
 
 	List<Menu> selectAuthorityById(Integer i, Integer parentId);
+
+	List<Menu> selectAuthorityByRoleId(Integer roleId);
+
+	List<Integer> selectPermissIds(Integer roleId);
+
+	Authority insertList(Authority authos);
 
 }

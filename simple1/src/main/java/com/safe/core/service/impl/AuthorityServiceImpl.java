@@ -1,5 +1,6 @@
 package com.safe.core.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ public class AuthorityServiceImpl implements AuthorityService{
 	private MenuMapper menuMapper;
 	@Autowired
 	private MenuMapper moduleMapper;
-		public List<Authority> selectAll() {
-			return authorityMapper.findAll();
+		public List<Menu> selectAll() {
+			return authorityMapper.findAll(null);
 		}
 
 		public Authority selectByPrimaryKey(Integer id) {
@@ -70,5 +71,35 @@ public class AuthorityServiceImpl implements AuthorityService{
 		public List<Menu> selectAuthorityById(Integer accountId, Integer parentId) {
 			List<Menu> list=moduleMapper.selectMyMenu(accountId, parentId);
 			return list;
+		}
+
+		@Override
+		public List<Menu> selectAuthorityByRoleId(Integer roleId) {
+			Authority authority=new Authority();
+			authority.setRoleId(roleId);
+			List<Menu> menus=authorityMapper.findAll(authority);
+			if(menus!=null&&menus.size()>0){
+				TreeUtils.MenutoTree(menus);
+			}
+			return menus;
+		}
+
+		@Override
+		public List<Integer> selectPermissIds(Integer roleId) {
+		
+			return authorityMapper.selectPermissIds(roleId);
+		}
+
+		@Override
+		public Authority insertList(Authority authos) {
+			authorityMapper.deleteByRoleId(authos.getRoleId());
+			for(Integer permissionId:authos.getPermissionIds()) {
+				Authority authority=new Authority();
+				authority.setPermissionId(permissionId);
+				authority.setRoleId(authos.getRoleId());
+				authority.setCreatetime(new Date());
+				authorityMapper.insertSelective(authority);
+			}
+			return authos;
 		}
 }

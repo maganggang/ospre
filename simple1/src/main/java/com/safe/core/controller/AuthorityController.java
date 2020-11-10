@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,9 +25,9 @@ public class AuthorityController {
 	private AuthorityService authorityService;
 	@RequestMapping("/all")
 	@ResponseBody
-	public ResultBean<Authority> allAuthority(){
-		ResultBean<Authority> b=new ResultBean<Authority>();
-		List<Authority>  result=authorityService.selectAll();
+	public ResultBean<Menu> allAuthority(){
+		ResultBean<Menu> b=new ResultBean<Menu>();
+		List<Menu>  result=authorityService.selectAll();
 		b.setData(result);
 		return b;
 	}
@@ -50,6 +51,12 @@ public class AuthorityController {
 	public Authority createOne(Authority authority){
 		return authorityService.insert(authority);
 	}
+	@RequestMapping("/add")
+	@ResponseBody
+	public Authority createList(@RequestBody Authority authos){
+		//批量的菜单按钮Id进行插入 默认会删除不在里面的
+		return authorityService.insertList(authos);
+	}
 	@RequestMapping("/selectMyAuth")
 	@ResponseBody
 	public List<Menu> SelectOne(HttpServletRequest req){
@@ -71,5 +78,16 @@ public class AuthorityController {
 		}
 		return null;
 	}
-	
+	@RequestMapping("/selectByRoleId")
+	@ResponseBody
+	public List<Menu> selectAuthByRoleId(Integer roleId){
+		List<Menu> result=authorityService.selectAuthorityByRoleId(roleId);
+		return result;
+	}
+	@RequestMapping("/selectPermissIds")
+	@ResponseBody
+	public List<Integer> selectPermissIds(Integer roleId){
+		List<Integer> result=authorityService.selectPermissIds(roleId);
+		return result;
+	}
 }

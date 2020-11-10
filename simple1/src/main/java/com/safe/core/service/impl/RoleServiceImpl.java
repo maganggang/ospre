@@ -5,9 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safe.core.beans.Account;
+import com.safe.core.beans.Post;
 import com.safe.core.beans.Role;
+import com.safe.core.beans.User;
+import com.safe.core.mapper.AccountMapper;
+import com.safe.core.mapper.AccountRoleRefMapper;
 import com.safe.core.mapper.AuthorityMapper;
+import com.safe.core.mapper.PostMapper;
+import com.safe.core.mapper.PostRoleRefMapper;
 import com.safe.core.mapper.RoleMapper;
+import com.safe.core.mapper.UserMapper;
 import com.safe.core.service.RoleService;
 @Service
 public class RoleServiceImpl implements  RoleService{
@@ -15,6 +23,14 @@ public class RoleServiceImpl implements  RoleService{
 	private RoleMapper roleMapper;
 	@Autowired
 	private AuthorityMapper authorityMapper;
+	@Autowired
+	private AccountRoleRefMapper accountRoleRefMapper;
+	@Autowired
+	private PostRoleRefMapper postRoleRefMapper;
+	@Autowired
+	private UserMapper userMapper;
+	@Autowired
+	private AccountMapper accountMapper;
 	public List<Role> selectAll() {
 		return roleMapper.findAll();
 	}
@@ -54,6 +70,24 @@ public class RoleServiceImpl implements  RoleService{
 			return role;
 		}
 		return null;
+	}
+
+	@Override
+	public Role selectAllByAccountId(Integer accountId) {
+		Role role=new Role();
+		//²éÑ¯ÕËºÅ½ÇÉ«
+		List<Role> accountRoles=accountRoleRefMapper.selectByAccountId(accountId);
+		role.setAccountRoles(accountRoles);
+		//
+		Account account=accountMapper.selectByPrimaryKey(accountId);
+		if(account!=null&&account.getUserId()!=null) {
+			User user=userMapper.selectByPrimaryKey(account.getUserId());
+			if(user!=null&&user.getPostId()!=null) {
+				List<Role> postRoles=postRoleRefMapper.selectByPostId(user.getPostId());
+				role.setPostRoles(postRoles);
+			}
+		}
+		return role;
 	}
 
 

@@ -8,6 +8,15 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
   </resultMap>
+  <resultMap id="BaseRoleMap" type="com.safe.core.beans.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="operatetime" jdbcType="TIMESTAMP" property="operatetime" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, role_id, post_id, createtime, creator_id
   </sql>
@@ -16,6 +25,13 @@
     <include refid="Base_Column_List" />
     from post_role_ref
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPostId" parameterType="java.lang.Integer" resultMap="BaseRoleMap">
+    select 
+      b.id, b.name, b.description, b.createtime, b.creator_id, b.operatetime, b.operator_id
+    from post_role_ref a
+    left join role b on a.role_id=b.id
+    where post_id = #{postId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from post_role_ref
