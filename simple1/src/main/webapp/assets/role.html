@@ -53,6 +53,9 @@
               <a title="编辑"  onclick="edit(this)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
+              <a title="功能授权"  onclick="authorize(this)" href="javascript:;">
+                <i class="layui-icon iconfont">&#xe6f7;</i>
+              </a>
               <a title="删除" onclick="remove(this)" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
@@ -112,7 +115,7 @@
     	    //-1
     	    function edit(obj){
     	  	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
-    	  	  x_admin_show('编辑','./menu_edit.html?editType=1&id='+id,600,400)
+    	  	  x_admin_show('编辑','./role_edit.html?editType=1&id='+id,600,400)
     	    }
     	      function remove(obj){
     	    	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
@@ -125,6 +128,10 @@
     			            }
     	              })
     	          });
+    	      }
+    	      function authorize(obj){
+    	    	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+    	    	  x_admin_show('功能授权','./auth_edit.html?editType=1&roleId='+id,600,400)
     	      }
     </script>
     <script>var _hmt = _hmt || []; (function() {
