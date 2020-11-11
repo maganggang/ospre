@@ -35,6 +35,10 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from account_role_ref
+    where account_id = #{accountId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByAccountId" parameterType="java.lang.Integer">
+    delete from account_role_ref
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.safe.core.beans.AccountRoleRef">

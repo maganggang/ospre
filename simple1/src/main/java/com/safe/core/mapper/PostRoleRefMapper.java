@@ -19,4 +19,7 @@ public interface PostRoleRefMapper {
     int updateByPrimaryKey(PostRoleRef record);
 
 	List<Role> selectByPostId(Integer postId);
+
+	int deleteByAccountId(Integer postId);
+
 }

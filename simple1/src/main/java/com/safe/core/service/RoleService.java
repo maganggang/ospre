@@ -20,4 +20,6 @@ public interface RoleService {
 
 	Role selectAllByAccountId(Integer accountId);
 
+	Role selectByPostId(Integer postId);
+
 }

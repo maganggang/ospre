@@ -1,7 +1,5 @@
 package com.safe.core.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.safe.core.base.bean.ResultBean;
-import com.safe.core.beans.Account;
-import com.safe.core.beans.Permission;
 import com.safe.core.beans.Role;
+import com.safe.core.service.AccountRoleRefService;
+import com.safe.core.service.PostRoleRefService;
 import com.safe.core.service.RoleService;
 
 @Controller
@@ -24,6 +22,10 @@ import com.safe.core.service.RoleService;
 public class RoleController {
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private AccountRoleRefService accountRoleRefService;
+	@Autowired
+	private PostRoleRefService postRoleRefService;
 	@RequestMapping("/all")
 	@ResponseBody
 	public ResultBean<Role> allRole(Page<Role> page,Role role){
@@ -57,6 +59,14 @@ public class RoleController {
 	@RequestMapping("/addAll")
 	@ResponseBody
 	public Role addAll(@RequestBody Role role){
+		if(role.getAccountId()!=null) {
+			//账号关联
+			accountRoleRefService.insertList(role.getAccountId(),role.getAccountRoleIds());
+		}
+		if(role.getPostId()!=null) {
+			//岗位关联
+			postRoleRefService.insertList(role.getPostId(),role.getPostRoleIds());
+		}
 		return role;
 	}
 	@RequestMapping("/insert")
@@ -69,6 +79,11 @@ public class RoleController {
 	@ResponseBody
 	public Role selectByAccountId(Integer accountId){
 		return roleService.selectAllByAccountId(accountId);
+	}
+	@RequestMapping("/selectByPostId")
+	@ResponseBody
+	public Role selectByPostId(Integer postId){
+		return roleService.selectByPostId(postId);
 	}
 	
 }

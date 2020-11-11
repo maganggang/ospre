@@ -90,5 +90,13 @@ public class RoleServiceImpl implements  RoleService{
 		return role;
 	}
 
+	@Override
+	public Role selectByPostId(Integer postId) {
+		Role role=new Role();
+		List<Role> postRoles=postRoleRefMapper.selectByPostId(postId);
+		role.setPostRoles(postRoles);
+		return role;
+	}
+
 
 }

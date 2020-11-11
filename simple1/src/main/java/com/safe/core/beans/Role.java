@@ -13,12 +13,14 @@ public class Role extends CreatorBean{
 
 
     private Date operatetime;
-
+    
     private Integer operatorId;
     private List<Role> accountRoles;
     private List<Role> postRoles;
     private List<Integer> accountRoleIds;
     private List<Integer> postRoleIds;
+    private Integer postId;
+    private Integer accountId;
 	public Date getOperatetime() {
 		return operatetime;
 	}
@@ -111,5 +113,21 @@ public class Role extends CreatorBean{
 
 	public void setPostRoleIds(List<Integer> postRoleIds) {
 		this.postRoleIds = postRoleIds;
+	}
+
+	public Integer getPostId() {
+		return postId;
+	}
+
+	public void setPostId(Integer postId) {
+		this.postId = postId;
+	}
+
+	public Integer getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 }

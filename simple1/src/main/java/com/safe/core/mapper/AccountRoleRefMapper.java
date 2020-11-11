@@ -2,6 +2,8 @@ package com.safe.core.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.safe.core.beans.AccountRoleRef;
 import com.safe.core.beans.Role;
 
@@ -19,4 +21,7 @@ public interface AccountRoleRefMapper {
     int updateByPrimaryKey(AccountRoleRef record);
 
 	List<Role> selectByAccountId(Integer accountId);
+
+	int deleteByAccountId(Integer accountId);
+
 }

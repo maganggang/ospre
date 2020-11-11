@@ -37,6 +37,10 @@
     delete from post_role_ref
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByAccountId" parameterType="java.lang.Integer">
+    delete from post_role_ref
+    where post_id = #{postId,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.safe.core.beans.PostRoleRef">
     insert into post_role_ref (id, role_id, post_id, 
       createtime, creator_id)

@@ -138,6 +138,17 @@
                     		formBoxRen(data,allData)
                     	}
       				})
+        	  	  }else if(postId){
+        	  		$.ajax({
+                    	url:'/simple1/role/selectByPostId',
+                    	type:'get',
+                    	data:{postId:postId},
+                    	datatype:"json",
+                    	success:function(allData){
+                    		console.log(allData)
+                    		formBoxRen(data,allData)
+                    	}
+      				})
         	  	  }else{
         	  		formBoxRen(data) 
         	  	  }
