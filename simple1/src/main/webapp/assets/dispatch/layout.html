@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>指挥调度</title>
+	<link rel="stylesheet" type="text/css" href="../themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+	var itemId;
+	var data=[{
+	    "id":1,
+	    "text":"Folder1",
+	    "iconCls":"icon-save",
+	    "children":[{
+			"text":"File1",
+			"checked":true
+	    },{
+			"text":"Books",
+			"state":"open",
+			"attributes":{
+				"url":"/demo/book/abc",
+				"price":100
+			},
+			"children":[{
+				"text":"PhotoShop",
+				"checked":true
+			},{
+				"id": 8,
+				"text":"Sub Bookds",
+				"state":"closed"
+			}]
+	    }]
+	},{
+	    "text":"Languages",
+	    "state":"closed",
+	    "children":[{
+			"text":"Java"
+	    },{
+			"text":"C#"
+	    }]
+	}];
+	var person={
+			lng:116.384455,
+			lat:39.775457,
+			imgPath:'../images/security_onduty.png',
+			call:function(){
+		console.log('人员')
+	}};
+var polyline={ 
+			array:[{lng:116.399,lat:39.910},{lng:116.405,lat:39.920},{lng:116.425,lat:39.900}],
+			call:function(){
+				console.log('line');
+			}};
+	var circle={
+			lng:116.384455,
+			lat:39.775457,
+			radius:500,
+			call:function(){
+				console.log('circle');
+			}
+	};
+	var polygon={
+			array:[{lng:116.387112,lat:39.920977},
+		        {lng:116.385243, lat:39.913063},
+		        {lng:116.394226, lat:39.917988},
+		        {lng:116.401772, lat:39.921364},
+		        {lng:116.41248, lat:39.927893}],
+		        call:function(){
+					console.log('polygon');
+				}
+	}
+	var alertWindow={
+			 title:"窗口", 
+			 message:"内容 ", 
+			 dom:"简单的结构"
+	}
+	</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true,title:'West'" style="width:150px;">
+		<ul class="easyui-tree" data-options="data:data,method:'get',animate:true,dnd:true"></ul>
+	</div>
+	<div data-options="region:'east',split:true,title:'East'" style="width:300px;">
+		<div class="easyui-tabs" data-options="fit:true,border:false,tabPosition:'left',tabWidth:60,headerWidth:60,">
+					<div title="事件" data-options="">
+						点击进入事件中心
+					</div>
+					<div title="人员" data-options="selected:true" style="padding:10px;">
+						点击进入人员管理
+					</div>
+					<div title="车辆" style="padding:10px">
+						点击进入车辆管理
+					</div>
+					<div title="设备" style="padding:10px">
+						点击进入设备管理
+					</div>
+		</div>
+	</div>
+	<div data-options="region:'south',title:'south'" style="height:100px;">
+	<a  id="person" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">人员</a>
+	<a  id="3dmodel" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">3d模型</a>
+	<a  id="polyline" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">监控</a>
+	<a  id="circle" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">事件</a>
+	<a  id="polygon" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">车辆</a>
+	<a  id="alertWindow" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">网格</a>
+	<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search',group:'iconBtn'">支援中心</a>
+	</div>
+	<div data-options="region:'center',title:'Center'">
+		<iframe id="orgmap" src="map.html"
+				style="width: 99%; height: 99%;"></iframe>
+	</div>
+	<script type="text/javascript">
+	$(function(){
+		var children=$("#orgmap")[0].contentWindow;
+		$('#3dmodel').bind('click', function(){
+			children.initMap(116.374455,39.775457);
+			children.initModel(116.374455,39.775457,'bq.glb');
+	    });
+		var marker;
+		$('#person').bind('click', function(){
+			marker=children.createMarker(person.lng, person.lat,person.imgPath, person.call);
+	    });
+		$('#circle').bind('click', function(){
+			children.createCircle(circle.lng, circle.lat, circle.radius, circle.call);
+	    });
+		$('#polyline').bind('click', function(){
+			children.createPolyLine(polyline.array,polyline.call);
+	    });
+		$('#polygon').bind('click', function(){
+			children.createPolygon(polygon.array, polygon.call);
+	    });
+		$('#alertWindow').bind('click', function(){
+			children.createInfoWindow(marker,person.lng, person.lat, alertWindow.title, alertWindow.message, alertWindow.dom);
+	    });
+		
+	});	
+		
+		
+	</script>
+</body>
+</html>
