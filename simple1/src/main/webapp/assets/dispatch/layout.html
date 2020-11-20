@@ -86,15 +86,19 @@ var polyline={
 		<div class="easyui-tabs" data-options="fit:true,border:false,tabPosition:'left',tabWidth:60,headerWidth:60,">
 					<div title="事件" data-options="">
 						点击进入事件中心
+						<table id="eventTab"></table>
 					</div>
 					<div title="人员" data-options="selected:true" style="padding:10px;">
 						点击进入人员管理
+						<table id="personTab"></table>
 					</div>
 					<div title="车辆" style="padding:10px">
 						点击进入车辆管理
+						<table id="carTab"></table>
 					</div>
 					<div title="设备" style="padding:10px">
 						点击进入设备管理
+						<table id="equipmentTab"></table>
 					</div>
 		</div>
 	</div>
@@ -112,7 +116,9 @@ var polyline={
 				style="width: 99%; height: 99%;"></iframe>
 	</div>
 	<script type="text/javascript">
+	
 	$(function(){
+		//按钮的点击事件
 		var children=$("#orgmap")[0].contentWindow;
 		$('#3dmodel').bind('click', function(){
 			children.initMap(116.374455,39.775457);
@@ -134,7 +140,42 @@ var polyline={
 		$('#alertWindow').bind('click', function(){
 			children.createInfoWindow(marker,person.lng, person.lat, alertWindow.title, alertWindow.message, alertWindow.dom);
 	    });
-		
+		$('#personTab').datagrid({
+		    url:'datagrid_data1.json',
+		    method:'get',
+		    columns:[[
+				{field:'productid',title:'productname',width:100},
+				{field:'productname',title:'Name',width:100},
+				{field:'itemid',title:'Price',width:100,align:'right'}
+		    ]]
+		});
+		$('#eventTab').datagrid({
+		    url:'datagrid_data1.json',
+		    method:'get',
+		    columns:[[
+				{field:'productid',title:'productname',width:100},
+				{field:'productname',title:'Name',width:100},
+				{field:'itemid',title:'Price',width:100,align:'right'}
+		    ]]
+		});
+		$('#carTab').datagrid({
+		    url:'datagrid_data1.json',
+		    method:'get',
+		    columns:[[
+				{field:'productid',title:'productname',width:100},
+				{field:'productname',title:'Name',width:100},
+				{field:'itemid',title:'Price',width:100,align:'right'}
+		    ]]
+		});
+		$('#equipmentTab').datagrid({
+		    url:'datagrid_data1.json',
+		    method:'get',
+		    columns:[[
+				{field:'productid',title:'productname',width:100},
+				{field:'productname',title:'Name',width:100},
+				{field:'itemid',title:'Price',width:100,align:'right'}
+		    ]]
+		});
 	});	
 		
 		
