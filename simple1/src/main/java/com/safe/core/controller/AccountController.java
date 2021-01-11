@@ -309,10 +309,12 @@ public class AccountController {
 			if(account.getUser().getName()==null) {
 				account.getUser().setName(account.getNickname());
 			}
+			
 			//默认最低的组织
 			if(account.getUser().getOrgId()==null) {
 				account.getUser().setOrgId(4);
 			}
+			//手机号已经绑定？邮箱已经绑定用户名已经存在
 			User user1=userService.insert(account.getUser());
 			if(user1!=null) {
 				account.setUserId(user1.getId());
