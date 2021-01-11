@@ -76,6 +76,11 @@
     <artifactId>javase</artifactId>
     <version>3.1.0</version>
 </dependency>
+<dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+</dependency>
 <!--微信支付SDK
 wxpay-sdk
 <dependency>
