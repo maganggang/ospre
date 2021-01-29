@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.safe.core.beans.Account;
 
-import config.InterceptAnnotation;
 public interface AccountMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -23,34 +22,34 @@ public interface AccountMapper {
 	
 	int insertSelectiveReturnKey(Account account);
 /**
- * ÑéÖ¤ÓÃ»§ÃÜÂë
+ * ï¿½ï¿½Ö¤ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 * @Title: selectAccount 
 * @param username
 * @param password
 * @return
 * @return: Account 
 * @author mgg
-* @date 2020Äê5ÔÂ22ÈÕ
+* @date 2020ï¿½ï¿½5ï¿½ï¿½22ï¿½ï¿½
  */
 	Account selectAccount(@Param("username")String username,@Param("password") String password);
 /**
- * ÕËºÅid»ñÈ¡½ÇÉ«ids
+ * ï¿½Ëºï¿½idï¿½ï¿½È¡ï¿½ï¿½É«ids
 * @Title: selectAllRoleId 
 * @param accountId
 * @return
 * @return: List<Integer> 
 * @author mgg
-* @date 2020Äê5ÔÂ22ÈÕ
+* @date 2020ï¿½ï¿½5ï¿½ï¿½22ï¿½ï¿½
  */
 	List<Integer> selectAllRoleId(Integer accountId);
 	/**
-	 * ÓÃ»§id»ñÈ¡ÕËºÅĞÅÏ¢
+	 * ï¿½Ã»ï¿½idï¿½ï¿½È¡ï¿½Ëºï¿½ï¿½ï¿½Ï¢
 	* @Title: selectByUserId 
 	* @param userId
 	* @return
 	* @return: Account 
 	* @author mgg
-	* @date 2020Äê5ÔÂ22ÈÕ
+	* @date 2020ï¿½ï¿½5ï¿½ï¿½22ï¿½ï¿½
 	 */
 	Account selectByUserId(Integer userId);
 }

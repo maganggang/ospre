@@ -7,6 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
          <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    	<script type="text/javascript" src="./js/xadmin.js"></script>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
@@ -16,7 +18,7 @@
         <blockquote class="layui-elem-quote">欢迎管理员：
             <span class="x-red" onclick="downloadTemplateTea()">mgg</span>！当前时间:2018-04-25 20:50:53</blockquote>
         <fieldset class="layui-elem-field">
-            <legend>数据统计</legend>
+            <legend>飞翼沙龙预约</legend>
             <div class="layui-field-box">
                 <div class="layui-col-md12">
                     <div class="layui-card">
@@ -26,21 +28,21 @@
                                     <ul class="layui-row layui-col-space10 layui-this">
                                         <li class="layui-col-xs2">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>文章数</h3>
+                                                <h3>剪发</h3>
                                                 <p>
                                                     <cite>66</cite></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs2">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>会员数</h3>
+                                                <h3>护理</h3>
                                                 <p>
                                                     <cite>12</cite></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs2">
                                             <a href="javascript:;" class="x-admin-backlog-body">
-                                                <h3>回复数</h3>
+                                                <h3>染发</h3>
                                                 <p>
                                                     <cite>99</cite></p>
                                             </a>
@@ -74,23 +76,18 @@
                 </div>
             </div>
         </fieldset>
+        <script type="text/html" id="barDemo">
+   <div class="layui-btn-container">
+              <a title="预约"  onclick="edit(this)" href="javascript:;">
+                <i class="iconfont">&#xe74e;</i>
+              </a>
+  </div>
+	</script>
         <fieldset class="layui-elem-field">
-            <legend>系统通知</legend>
+            <legend>在线预约</legend>
             <div class="layui-field-box">
-                <table class="layui-table" lay-skin="line">
-                    <tbody>
-                        <tr>
-                            <td >
-                                <a class="x-a" href="/" target="_blank">新版x-admin 2.0上线了</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td >
-                                <a class="x-a" href="/" target="_blank">交流qq群:(519492808)</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <table class="layui-table"  id="LAY_table_user" lay-filter="useruv">
+      			</table>
             </div>
         </fieldset>
         <fieldset class="layui-elem-field">
@@ -165,7 +162,38 @@
           var s = document.getElementsByTagName("script")[0]; 
           s.parentNode.insertBefore(hm, s);
         })();
-       
+        layui.use(['laydate','table'], function(){
+            var table = layui.table;
+            var  param={};
+          //方法级渲染
+          table.render({
+             elem: '#LAY_table_user'
+             ,url: '/simple1/welcomeItem/all'
+             ,request: {
+                     pageName: 'pageNum' //页码的参数名称，默认：page
+                      ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+           ,where:param
+             ,cols: [[
+                 {checkbox: true, fixed: true}
+                 ,{field:'id', title: 'ID', width:80}
+                 ,{field:'title', title: '名字', width:100}
+                 ,{field:'content', title: '介绍', width:250}
+                 ,{field:'companyId', title: '公司Id', width:100}
+                 ,{field:'opreate', title: '操作',width:120,toolbar:"#barDemo"}
+                 ,{field:'createTime', title: '日期', width:200}
+                 ,{field:'creatorId', title: '创建人', width:100}
+                
+             ]]
+             ,id: 'testReload'
+             ,page: true
+             
+         }); 
+          });
+        function edit(obj){
+  	  	  var id= $(obj).parents("tr").find("td[data-field='id']>div").html();
+  	  	  x_admin_show('编辑','appointment_edit.html?editType=1&itemId='+id,600,400)
+  	    }
         	//下载文件
         	var download = function(options){
         	    var defaults = {
